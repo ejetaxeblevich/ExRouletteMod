@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<resource>
+	<string
+		id="1"
+		value="Shoot the dealer?"
+		numButtons="2" />
+
+
+<!-- PLAYER -->
+
+	<string
+		id="1001"
+		modelName=""
+		modelSlot="1"
+		value="|What was that? The dealer had every chance to win..."
+		sound=""
+		time="4" />
+	<string
+		id="1002"
+		modelName=""
+		modelSlot="1"
+		value="|He always knew the order in which he loaded the shotgun shells..."
+		sound=""
+		time="6" />
+	<string
+		id="1003"
+		modelName=""
+		modelSlot="1"
+		value="|If he had played dishonestly, would the game have ended differently?"
+		sound=""
+		time="6" />
+	<string
+		id="1004"
+		modelName=""
+		modelSlot="1"
+		value="|It doesn't matter. I just need to accept the fact that for me... It was... success..."
+		sound=""
+		time="8" />
+	<string
+		id="1005"
+		modelName=""
+		modelSlot="1"
+		value="|I was trying to win. I used items. All my actions have led me to... success."
+		sound=""
+		time="8" />
+
+	<string
+		id="1006"
+		modelName=""
+		modelSlot="1"
+		value="|But I want to... Taste luck!"
+		sound=""
+		time="5" />
+	<string
+		id="1007"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000No."
+		sound=""
+		time="5" />
+	<string
+		id="1008"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000I WANT. TASTE. PURE. LUCK."
+		sound=""
+		time="10" />
+
+
+<!-- DEALER -->
+
+	<string
+		id="101"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000HELLO."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="2" />
+	<string
+		id="102"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000DO YOU LIKE GAMBLING?"
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="103"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000THE RULES OF THE GAME ARE SIMPLE."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="104"
+		modelName=""
+		modelSlot="1"
+		value="@ffc10000THE SHOTGUN ON THE TABLE IS REAL. @ffc10000WE TAKE TURNS SHOOTING AT EACH OTHER.|@ffc10000I'VE RUN OUT OF LIVES - WE'RE PLAYING THE NEXT ROUND. @ffc10000YOU'VE RUN OUT OF LIVES - YOU'RE DEAD.|@ffc10000YOU CAN SEE THE INFORMATION AT THE TOP OF YOUR SCREEN."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="10" />
+	<string
+		id="105"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000LET'S START.|@ffc10000THE GAME GETS MORE INTERESTING EVERY ROUND."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+
+	<string
+		id="106"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc100001 LIVE SHELL. 2 BLANKS."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+
+	<string
+		id="107"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000I LOAD THEM IN RANDOM ORDER. REMEMBER, I ALWAYS PLAY FAIR."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="5" />
+	<string
+		id="108"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000THE FIRST MOVE AFTER LOAD ALWAYS YOURS.|@ffc10000YOU SHOOT YOURSELF WITH A BLANK, I MISS MY TURN. CHOOSE."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="6" />
+
+	<string
+		id="109"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc100003 LIVE SHELLS. 2 BLANKS."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="110"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000YOU KNOW THE RULES."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+
+	<string
+		id="111"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000LET'S MAKE THE GAME A LITTLE MORE INTERESTING."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="112"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000THREE ITEMS EACH.|@ffc10000NEW ITEMS BEFORE EVERY LOAD."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="5" />
+
+	<string
+		id="113"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000NOW IS THE LAST ROUND."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="114"
+		modelName=""
+		modelSlot="1"
+		value="@ffc10000NO MORE RESURRECTIONS NOW. IT'S JUST YOU AND I. AT DEATH'S DOOR.| |@ffc10000MONEY FOR THE WINNER AND DEATH AS A REWARD FOR THE LOSER."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="6" />
+
+
+</resource>

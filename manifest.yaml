@@ -1,0 +1,70 @@
+# unique service name
+name: ExRouletteMod
+language: ru
+installment: exmachina
+# required human readable info
+display_name: ExRoulette Mod
+
+version: "0.9"
+build: "250527b"
+
+description: |
+  ExRoulette представляет Вам новый геймплей в игре Ex Machina: где не нашлось места транспорту и городам, диалогам и сюжету. Мод почти полностью копирует игру Buckshot Roulette от Mike Klubnika.
+  
+  «Вы играете за путника, в чьих глазах жизнь утратила все краски и слово "смысл" лишь напоминает о славном прошлом. Теперь мир мёртв. Здесь живут неизвестные сущности, готовые играть с последними выжившими людьми в самые несправедливые игры.»
+  Действия разворачиваются в Мгновении, где властвуют свои правила.
+
+  Посвящается
+  Ex Machina, 20 лет.
+
+authors: E Jet
+
+# optional human readable info
+release_date: "XX.06.2025"
+language: ru
+
+link: https://github.com/ejetaxeblevich/ExRouletteMod
+trailer_url: https://youtu.be/ROcgBR4Sw_U?si=nYGIPrsJ6seLwGYY
+
+logo: assets/release_logo_exroulette.png
+install_banner: assets/release_logo_exroulette.png
+
+tags: [gameplay, audio, ui]
+
+change_log: assets/exroulettemod_changelog.md
+
+screenshots:
+  - img: assets/screenshot1.jpg
+  - img: assets/screenshot2.jpg
+  - img: assets/screenshot3.jpg
+  - img: assets/screenshot4.jpg
+  - img: assets/screenshot5.jpg
+  - img: assets/screenshot6.jpg
+#   text: |
+#      Sample text
+
+# installation configuration
+no_base_content: false
+strict_requirements: true
+compatible_minor_versions: false
+compatible_patch_versions: false
+
+config_options:
+  firstLevel: roulettemap
+  snd_2dVolume: 50
+  snd_3dVolume: 50
+  mus_Volume: 50
+
+# installator compatibility
+patcher_version_requirement: "2.1.1"
+
+translations: [eng]
+
+#community patch requirements
+prerequisites:
+  - name: [community_remaster]
+    versions: 
+     - ">=1.14.1"
+
+incompatible:
+  - name: community_patch

@@ -1,0 +1,83 @@
+# unique service name
+name: ExRouletteMod
+language: eng
+installment: exmachina
+# required human readable info
+display_name: ExRoulette Mod
+
+version: "0.9"
+build: "250527b"
+
+description: |
+  ExRoulette presents you a new gameplay in the game Hard Truck Apocalypse: where there was no place for transport and cities, dialogues and plot. The mod almost completely copies the Buckshot Roulette game by Mike Klubnika.
+  
+  «You play as a traveler, in whose eyes life has lost all colors and the word "meaning" only reminds of the glorious past. Now the world is dead. Unknown entities live here, ready to play the most unfair games with the last surviving people.»
+  The action unfolds in an Instant, where rules prevail.
+
+  Dedicated to
+  Ex Machina, 20 years old.
+
+authors: E Jet
+
+# optional human readable info
+release_date: "XX.06.2025"
+language: eng
+
+link: https://github.com/ejetaxeblevich/ExRouletteMod
+trailer_url: https://youtu.be/ROcgBR4Sw_U?si=nYGIPrsJ6seLwGYY
+
+logo: assets/release_logo_exroulette.png
+install_banner: assets/release_logo_exroulette.png
+
+tags: [gameplay, audio, ui]
+
+change_log: assets/exroulettemod_changelog_eng.md
+
+screenshots:
+  - img: assets/screenshot1.jpg
+  - img: assets/screenshot2.jpg
+  - img: assets/screenshot3.jpg
+  - img: assets/screenshot4.jpg
+  - img: assets/screenshot5.jpg
+  - img: assets/screenshot6.jpg
+#   text: |
+#      Sample text
+
+# installation configuration
+no_base_content: false
+strict_requirements: true
+compatible_minor_versions: false
+compatible_patch_versions: false
+
+config_options:
+  firstLevel: roulettemap
+  snd_2dVolume: 50
+  snd_3dVolume: 50
+  mus_Volume: 50
+
+# installator compatibility
+patcher_version_requirement: "2.1.1"
+
+#community patch requirements
+prerequisites:
+  - name: [community_remaster]
+    versions: 
+     - ">=1.14.1"
+
+incompatible:
+  - name: community_patch
+
+
+
+options_base_dir: options
+
+optional_content:
+  - name: english_localization
+    display_name: English Localization
+    forced_option: True
+    data_dirs: 
+      - "eng_localization"
+    description: |
+      English localization for ExRoulette without English voiceover, via machine translation Google Translate.
+
+      Important! Install this option only on the English version of the game and the community remaster, otherwise there will be errors.
