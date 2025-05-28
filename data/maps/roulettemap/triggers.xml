@@ -1,0 +1,3037 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<triggers>
+<!-- hello there <3 -->
+	<trigger Name="etoBAZA" active="1">
+		<event eventid="GE_GAME_START" ObjName="Player1" />
+		<script>			
+			EnableAutoHelp(false)
+			AllowSave(false)
+			ShowMap()
+
+			IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:UnbindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+			IMPULSES:BindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+			SetWeather(1)
+			g_ObjCont:SetGameTime( 0, 0, 32, 12, 2999 )
+			SetGameTime(0,0)
+
+			AddBook("roulette_b_1")
+			AddHistory("roulette_h_1")
+			AddHistory("roulette_h_2")
+			AddHistory("roulette_h_3")
+			AddQuestItem("roulette_q_gun")
+			
+			GetPlayerVehicle():SetRotation(Quaternion(-0.008, 0.706, -0.008, 0.708) * EulerToQuaternion(0,180,0))
+			GetPlayerVehicle():setImmortalMode(1)
+
+			--by first start player turn
+			local PlayerLives = 200 --(200 = 2 lives, max 99 by interface)
+			local DealerLives = 200 --(200 = 2 lives, max 99 by interface)
+			GL_PlayerLives = PlayerLives
+			GL_DealerLives = DealerLives
+			GetPlayerVehicle():AddModifier("maxhp", "= "..tostring(PlayerLives * 2)) --player max lives
+			GetPlayerVehicle():AddModifier("hp", "= "..tostring(PlayerLives)) --player lives
+			GetPlayerVehicle():GetCabin():SetProperty("Durability", "100") --player turn (0 = not, 1 = defeat, 100 = active turn)
+			GetPlayerVehicle():AddModifier("maxfuel", "= "..tostring(DealerLives * 2)) --dealer max lives
+			GetPlayerVehicle():AddModifier("fuel", "= "..tostring(DealerLives)) --dealer lives 
+			GetPlayerVehicle():GetBasket():SetProperty("Durability", "0") --dealer turn (0 = not, 1 = defeat, 100 = active turn)
+			ER_ReloadShellBanks()
+			ER_GenerateBankShells(nil)
+			ER_LoadShellsInGun(true)
+
+			RuleConsole("snd_2dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("snd_3dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+			--map
+			TActivate("GlobalVar")
+			TActivate("CreateStaticGUN")
+			TActivate("GAME_keepITEMS_NOTbeUse_byCutscene")
+
+			TActivate("IntroMapCutscene")
+			--or
+			--TActivate("GAME_ANALYZER")
+			--or
+			--TActivate("trPlayerCam_DealerHelloDlg")
+		
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="GlobalVar" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			SetVar("GUNstate", 0)
+			SetVar("PlayerTurn", -1)
+			SetVar("LastLiveShell", 0)
+			SetVar("DealerShotSelf", 0)
+			SetVar("DealerTakedGUN", 0)
+
+			SetVar("GameState", 0)
+			SetVar("GameRound", 0)
+
+			GL_tempDealerShotToPlayer = false
+			GL_tempIfNeedToSpawnGunEffect = false
+			GL_tempGameStarObjectPos = nil
+			GL_tempLastMusicIsPlay = false
+			GL_tempDealerNowLoadingShellsToGun = false
+			GL_tempDealerIsKnownFutureShell = nil
+
+			GL_tempNowPlayerPlayAnimationsForUseItems = false
+
+			GL_tempITEMBEERisUsed = nil
+			GL_tempITEMCIGARETTESisUsed = nil
+			GL_tempITEMSHKATULKAisUsed = nil
+			GL_tempITEMRADIOisUsed = nil
+			GL_tempITEMELECTROisUsed = nil
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+	<trigger Name="HOLDPLAYER" active="1">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			GetPlayerVehicle():SetPosition(CVector(883.00, 273.000, 728.901))
+			GetPlayerVehicle():SetRotation(Quaternion(-0.008, 0.706, -0.008, 0.708) * EulerToQuaternion(0,180,0))
+			GetPlayerVehicle():SetCustomLinearVelocity(0)
+		</script>
+	</trigger>
+
+
+	<trigger Name="CreateStaticGUN" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_tempIfNeedToSpawnGunEffect==true then
+				CreateEffectTTLed("ET_PS_SPAWN_OBJECT", CVector(854.011, 268.428, 728.495), Quaternion(0,0,0,1), 10000)
+				GL_tempIfNeedToSpawnGunEffect = false
+			end
+
+			local gun = getObj("rouletteGUN")
+			if gun then gun:Remove() end
+			
+			local gun2 = getObj("rouletteGUN_static")
+			if not gun2 then 
+				CreateNewDummyObject("rouletteGUNmodel", "rouletteGUN_static", -1, -1, CVector(854.011, 268.428, 728.495), Quaternion(0.300, -0.310, -0.635, 0.641), 1)
+			end
+
+			--local GameState = GetVar("GameState").AsInt
+			--if GameState>=4 then
+			--	println("replace items from staticGUN")
+			--	TActivate("GAME_keepITEMS_NOTbeUse")
+			--	TActivate("GAME_spawnNewObjects")
+			--end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="CreateDealer" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			local dealer = getObj("DealerSoul")
+			if dealer then dealer:Remove() end
+
+			local dealer2 = getObj("DealerSoul")
+			if not dealer2 then 
+				CreateNewSgNodeObject(
+					"shell01", "DealerSoul", -1, -1, 
+					CVector(820.000, 240.000, 728.915), 
+					Quaternion(0,0,0,1), 
+					100
+				)
+
+				println("spawn dealer")
+
+				TActivate("CreateDealer_MoverToUp")
+			else
+				dealer2:SetPosition(CVector(820.000, 240.000, 728.915))
+				TActivate("CreateDealer_MoverToUp")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="CreateDealer_MoverToUp" active="0">
+		<event timeout="0.05" eventid="GE_TIME_PERIOD" />
+		<script>
+			local dealer = getObj("DealerSoul")
+			if dealer then 
+				dealer:SetPosition(dealer:GetPosition() + CVector(0,1,0))
+				if (dealer:GetPosition().y) >= (275.000) then
+					println("dealer come")
+					trigger:Deactivate()
+				end
+			end
+		</script>
+	</trigger>
+	<trigger Name="RemoveDealer" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_tempIfNeedToSpawnDealerEffect==true then
+				CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", CVector(820.000, 270.000, 728.915), Quaternion(0,0,0,1), 10000)
+				GL_tempIfNeedToSpawnDealerEffect = false
+			end
+
+			println("remove dealer")
+			TActivate("CreateDealer_Scaler")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="CreateDealer_Scaler" active="0">
+		<event timeout="0.15" eventid="GE_TIME_PERIOD" />
+		<script>
+			local dealer = getObj("DealerSoul")
+			if dealer then 
+				dealer:SetScale(dealer:GetScale() - 5)
+				if (1.000) >= (dealer:GetScale()) then
+					println("respawn dealer")
+					dealer:Remove()
+					TActivate("CreateDealer_Waiter")
+					trigger:Deactivate()
+				end
+			end
+		</script>
+	</trigger>
+	<trigger Name="CreateDealer_Waiter" active="0">
+		<event timeout="1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local GameRound = GetVar("GameRound").AsInt
+			if 3>GameRound then
+				TActivate("CreateDealer")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+<!-- ITEMS -->
+
+	<trigger Name="GAME_spawnNewObjects" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			--TActivate("GAME_spawnNewObjects")
+
+			--E Jet: tut super mnogo pizdeca, avtomaticheskaya hueta ne rabotaet, hz pochemu, ya psihanul i udalil ee, igra idi nahuy
+
+			if (getObj("GAME_dealerLoadingShells_load"):IsActivated()==0) or 
+			(getObj("GAMEWAITER_loadNewBankShells"):IsActivated()==0) or 
+			(getObj("GAMEWAITER_dealerLoadingShells_load"):IsActivated()==0) then
+
+				TDeactivate("ITEMS_holder")
+
+				SetTolerance(1100, 1083, RS_NEUTRAL)
+				ER_DEALERITEMSnames = {}
+				GL_tempNowPlayerPlayAnimationsForUseItems = false
+
+				println("SPAWN_ITEMS")
+
+				--debug
+				--GL_CurItemsCountForSpawn = 2
+
+				local ITEMSCOUNTS = GL_CurItemsCountForSpawn --no more than the number of all items
+
+
+
+				--to dealer
+
+				local Dealer_cigarettes = getObj("rouletteDEALERITEM_cigarettes")
+						if Dealer_cigarettes then
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", Dealer_cigarettes:GetPosition(), Quaternion(0,0,0,1), 10000)
+							Dealer_cigarettes:Remove() 
+							println("====removal Dealer_cigarettes")
+							return
+						end
+				local Dealer_beer = getObj("rouletteDEALERITEM_beer")
+						if Dealer_beer then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", Dealer_beer:GetPosition(), Quaternion(0,0,0,1), 10000)
+							Dealer_beer:Remove() 
+							println("====removal Dealer_beer")
+							return
+						end
+				local Dealer_shkatulka = getObj("rouletteDEALERITEM_shkatulka")
+						if Dealer_shkatulka then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", Dealer_shkatulka:GetPosition(), Quaternion(0,0,0,1), 10000)
+							Dealer_shkatulka:Remove() 
+							println("====removal Dealer_shkatulka")
+							return
+						end
+				local Dealer_radio = getObj("rouletteDEALERITEM_radio")
+						if Dealer_radio then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", Dealer_radio:GetPosition(), Quaternion(0,0,0,1), 10000)
+							Dealer_radio:Remove() 
+							println("====removal Dealer_radio")
+							return
+						end
+				local Dealer_electro = getObj("rouletteDEALERITEM_electro")
+						if Dealer_electro then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", Dealer_electro:GetPosition(), Quaternion(0,0,0,1), 10000)
+							Dealer_electro:Remove() 
+							println("====removal Dealer_electro")
+							return
+						end
+
+
+
+				local DealerItemSlots = {
+					CVector(840, 266.800, 715.500),
+					CVector(840, 266.800, 728.500),
+					CVector(840, 266.800, 741.000)
+				}
+
+				local Dealer_ItemCount = ITEMSCOUNTS --no more than the number of all items
+
+				local Dealer_BEERisSpawned = false
+				local Dealer_CIGARETTESisSpawned = false
+				local Dealer_SHKATULKAisSpawned = false
+				local Dealer_RADIOisSpawned = false
+				local Dealer_ELECTROisSpawned = false
+
+				local Dealer_AnyItem = {}
+
+				local Dealer_ItemSlot = nil
+				local Dealer_DropChance = 0
+				local Dealer_Skoka = Dealer_ItemCount
+				local Dealer_SkokaSpawn = Dealer_ItemCount
+				-- LOG("============d in")
+				for i=1, Dealer_ItemCount do
+					-- LOG("---for in")
+
+					--if 1>Dealer_ItemCount then Dealer_ItemCount = 1 end
+
+					--electro
+					if Dealer_ELECTROisSpawned==false then
+						Dealer_DropChance = math.random(Dealer_ItemCount)
+						GL_Dealer_tempITEMELECTROisUsed = nil
+						if Dealer_DropChance==1 then
+							GL_Dealer_tempITEMELECTROisUsed = false
+							local slot = math.random(getn(DealerItemSlots))
+							local electroPos = DealerItemSlots[slot]
+							if electroPos then
+								-- LOG("electro in")
+								CreateNewDummyObject("rouletteITEMelectromodel", "rouletteDEALERITEM_electro", -1, -1, electroPos + CVector(0,-0.6,0), Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0), 1)								
+								table.remove(DealerItemSlots, slot)
+								table.insert(Dealer_AnyItem, "")
+								table.insert(ER_DEALERITEMSnames, "electro")
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", electroPos, Quaternion(0,0,0,1), 10000)
+								Dealer_ELECTROisSpawned = true
+								Dealer_SkokaSpawn=Dealer_SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>Dealer_SkokaSpawn then break end
+
+					--radio
+					if Dealer_RADIOisSpawned==false then
+						Dealer_DropChance = math.random(Dealer_ItemCount)
+						GL_Dealer_tempITEMRADIOisUsed = nil
+						if Dealer_DropChance==1 then
+							GL_Dealer_tempITEMRADIOisUsed = false
+							local slot = math.random(getn(DealerItemSlots))
+							local radioPos = DealerItemSlots[slot]
+							if radioPos then
+								-- LOG("radio in")
+								CreateNewDummyObject("rouletteITEMradiomodel", "rouletteDEALERITEM_radio", -1, -1, radioPos + CVector(0,1.3,0), Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0), 1)
+								table.remove(DealerItemSlots, slot)
+								table.insert(Dealer_AnyItem, "")
+								table.insert(ER_DEALERITEMSnames, "radio")
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", radioPos, Quaternion(0,0,0,1), 10000)
+								Dealer_RADIOisSpawned = true
+								Dealer_SkokaSpawn=Dealer_SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>Dealer_SkokaSpawn then break end
+
+					--shkatulka
+					if Dealer_SHKATULKAisSpawned==false then
+						Dealer_DropChance = math.random(Dealer_ItemCount)
+						GL_Dealer_tempITEMSHKATULKAisUsed = nil
+						if Dealer_DropChance==1 then
+							GL_Dealer_tempITEMSHKATULKAisUsed = false
+							local slot = math.random(getn(DealerItemSlots))
+							local shkatulkaPos = DealerItemSlots[slot]
+							if shkatulkaPos then
+								-- LOG("shkatulka in")
+								CreateNewDummyObject("rouletteITEMshkatulkamodel", "rouletteDEALERITEM_shkatulka", -1, -1, shkatulkaPos, Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0), 1)
+								table.remove(DealerItemSlots, slot)
+								table.insert(Dealer_AnyItem, "")
+								table.insert(ER_DEALERITEMSnames, "shkatulka")
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", shkatulkaPos, Quaternion(0,0,0,1), 10000)
+								Dealer_SHKATULKAisSpawned = true
+								Dealer_SkokaSpawn=Dealer_SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>Dealer_SkokaSpawn then break end
+
+					--cigarettes
+					if Dealer_CIGARETTESisSpawned==false then
+						Dealer_DropChance = math.random(Dealer_ItemCount)
+						GL_Dealer_tempITEMCIGARETTESisUsed = nil
+						if Dealer_DropChance==1 then
+							GL_Dealer_tempITEMCIGARETTESisUsed = false
+							local slot = math.random(getn(DealerItemSlots))
+							local cigarettesPos = DealerItemSlots[slot]
+							if cigarettesPos then
+								-- LOG("cigarettes in")
+								CreateNewDummyObject("rouletteITEMcigarettesmodel", "rouletteDEALERITEM_cigarettes", -1, -1, cigarettesPos, Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0), 1)
+								table.remove(DealerItemSlots, slot)
+								table.insert(Dealer_AnyItem, "")
+								table.insert(ER_DEALERITEMSnames, "cigarettes")
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", cigarettesPos, Quaternion(0,0,0,1), 10000)
+								Dealer_CIGARETTESisSpawned = true
+								Dealer_SkokaSpawn=Dealer_SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>Dealer_SkokaSpawn then break end
+
+					--beer
+					if Dealer_BEERisSpawned==false then
+						Dealer_DropChance = math.random(Dealer_ItemCount)
+						GL_Dealer_tempITEMBEERisUsed = nil
+						if Dealer_DropChance==1 then
+							GL_Dealer_tempITEMBEERisUsed = false
+							local slot = math.random(getn(DealerItemSlots))
+							local beerPos = DealerItemSlots[slot]
+							if beerPos then
+								-- LOG("beer in")
+								CreateNewDummyObject("rouletteITEMbeermodel", "rouletteDEALERITEM_beer", -1, -1, beerPos, Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0), 1)								
+								table.remove(DealerItemSlots, slot)
+								table.insert(Dealer_AnyItem, "")
+								table.insert(ER_DEALERITEMSnames, "beer")
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", beerPos, Quaternion(0,0,0,1), 10000)
+								Dealer_BEERisSpawned = true
+								Dealer_SkokaSpawn=Dealer_SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>Dealer_SkokaSpawn then break end
+
+					--LOG("---for out")
+				end
+				--LOG("d out", Dealer_SkokaSpawn)
+
+				local Dealer_AnySpawn = getn(Dealer_AnyItem)
+				if not Dealer_AnySpawn then Dealer_AnySpawn = 0 end
+				--println(tostring(AnySpawn).."; "..Skoka)
+				if Dealer_Skoka>Dealer_AnySpawn then
+					-- println("RETURN d")
+					-- for i, value in ipairs(DealerItemSlots) do
+					-- 	LOG("arr "..i.." is "..tostring(value))
+					-- end
+					-- LOG("RETURN d", Dealer_Skoka, Dealer_AnySpawn)
+					return
+				end
+
+
+
+
+
+				-- LOG("mid")
+
+
+
+				--to player
+
+				local cigarettes = getObj("rouletteITEM_cigarettes")
+						if cigarettes then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", cigarettes:GetPosition(), Quaternion(0,0,0,1), 10000)
+							cigarettes:Remove() 
+						end
+						local cigarettes1 = getObj("rouletteITEM_cigarettes_static")
+						if cigarettes1 then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", cigarettes1:GetPosition(), Quaternion(0,0,0,1), 10000)
+							cigarettes1:Remove() 
+						end
+				local beer = getObj("rouletteITEM_beer")
+						if beer then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", beer:GetPosition(), Quaternion(0,0,0,1), 10000)
+							beer:Remove() 
+						end
+						local beer1 = getObj("rouletteITEM_beer_static")
+						if beer1 then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", beer1:GetPosition(), Quaternion(0,0,0,1), 10000)
+							beer1:Remove() 
+						end
+				local shkatulka = getObj("rouletteITEM_shkatulka")
+						if shkatulka then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", shkatulka:GetPosition(), Quaternion(0,0,0,1), 10000)
+							shkatulka:Remove() 
+						end
+						local shkatulka1 = getObj("rouletteITEM_shkatulka_static")
+						if shkatulka1 then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", shkatulka1:GetPosition(), Quaternion(0,0,0,1), 10000)
+							shkatulka1:Remove() 
+						end
+				local radio = getObj("rouletteITEM_radio")
+						if radio then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", radio:GetPosition(), Quaternion(0,0,0,1), 10000)
+							radio:Remove() 
+						end
+						local radio1 = getObj("rouletteITEM_radio_static")
+						if radio1 then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", radio1:GetPosition(), Quaternion(0,0,0,1), 10000)
+							radio1:Remove() 
+						end
+				local electro = getObj("rouletteITEM_electro")
+						if electro then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", electro:GetPosition(), Quaternion(0,0,0,1), 10000)
+							electro:Remove() 
+						end
+						local electro1 = getObj("rouletteITEM_electro_static")
+						if electro1 then 
+							CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", electro1:GetPosition(), Quaternion(0,0,0,1), 10000)
+							electro1:Remove() 
+						end
+
+
+				local PlayerItemSlots = {
+					CVector(865.200, 266.800, 715.500),
+					CVector(865.200, 266.800, 728.500),
+					CVector(865.200, 266.800, 741.000)
+				}
+
+				local BEERisSpawned = false
+				local CIGARETTESisSpawned = false
+				local SHKATULKAisSpawned = false
+				local RADIOisSpawned = false
+				local ELECTROisSpawned = false
+
+				local AnyItem = {}
+
+				local ItemCount = ITEMSCOUNTS --no more than the number of all items
+				local ItemSlot = nil
+				local DropChance = 0
+				local Skoka = ItemCount
+				local SkokaSpawn = ItemCount
+				-- LOG("p in")
+				for i=1, ItemCount do
+					--if 1>ItemCount then ItemCount = 1 end
+
+					--electro
+					if ELECTROisSpawned==false then
+						DropChance = math.random(ItemCount)
+						GL_tempITEMELECTROisUsed = nil
+						if DropChance==1 then
+							GL_tempITEMELECTROisUsed = false
+							
+							local slot = math.random(getn(PlayerItemSlots))
+							local electroPos = PlayerItemSlots[slot]
+							if electroPos then
+								CreateVehicleEx("rouletteITEMelectro","rouletteITEM_electro", electroPos, 1083)
+								table.remove(PlayerItemSlots, slot)
+								table.insert(AnyItem, "")
+								
+								GL_ITEMELECTROPosRot = {}
+								GL_ITEMELECTROPosRot[1] = electroPos + CVector(0,-0.6,0)
+								GL_ITEMELECTROPosRot[2] = Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0)
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", electroPos, Quaternion(0,0,0,1), 10000)
+								--add click event
+								TDeactivate("EVENT_clickOn_ITEMelectro")
+								getObj("EVENT_clickOn_ITEMelectro"):DelEvent("GE_UNDER_ATTACK")
+								getObj("EVENT_clickOn_ITEMelectro"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_electro")
+								TActivate("EVENT_clickOn_ITEMelectro")
+								--journal
+								if not IsQuestItemPresent("roulette_q_electro") then
+									AddQuestItem("roulette_q_electro")
+								end
+								ELECTROisSpawned = true
+								SkokaSpawn=SkokaSpawn-1
+							end
+						end
+					end
+					
+					if 1>SkokaSpawn then break end
+
+					--radio
+					if RADIOisSpawned==false then
+						DropChance = math.random(ItemCount)
+						GL_tempITEMRADIOisUsed = nil
+						if DropChance==1 then
+							GL_tempITEMRADIOisUsed = false
+							
+							local slot = math.random(getn(PlayerItemSlots))
+							local radioPos = PlayerItemSlots[slot]
+							if radioPos then
+								CreateVehicleEx("rouletteITEMradio","rouletteITEM_radio", radioPos, 1083)
+								table.remove(PlayerItemSlots, slot)
+								table.insert(AnyItem, "")
+								
+								GL_ITEMRADIOPosRot = {}
+								GL_ITEMRADIOPosRot[1] = radioPos + CVector(0,1.3,0)
+								GL_ITEMRADIOPosRot[2] = Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0)
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", radioPos, Quaternion(0,0,0,1), 10000)
+								--add click event
+								TDeactivate("EVENT_clickOn_ITEMradio")
+								getObj("EVENT_clickOn_ITEMradio"):DelEvent("GE_UNDER_ATTACK")
+								getObj("EVENT_clickOn_ITEMradio"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_radio")
+								TActivate("EVENT_clickOn_ITEMradio")
+								--journal
+								if not IsQuestItemPresent("roulette_q_radio") then
+									AddQuestItem("roulette_q_radio")
+								end
+								RADIOisSpawned = true
+								SkokaSpawn=SkokaSpawn-1
+							end
+						end
+					end
+					
+					if 1>SkokaSpawn then break end
+
+					--shkatulka
+					if SHKATULKAisSpawned==false then
+						DropChance = math.random(ItemCount)
+						GL_tempITEMSHKATULKAisUsed = nil
+						if DropChance==1 then
+							GL_tempITEMSHKATULKAisUsed = false
+							
+							local slot = math.random(getn(PlayerItemSlots))
+							local shkatulkaPos = PlayerItemSlots[slot]
+							if shkatulkaPos then
+								CreateVehicleEx("rouletteITEMshkatulka","rouletteITEM_shkatulka", shkatulkaPos, 1083)
+								table.remove(PlayerItemSlots, slot)
+								table.insert(AnyItem, "")
+								
+								GL_ITEMSHKATULKAPosRot = {}
+								GL_ITEMSHKATULKAPosRot[1] = shkatulkaPos
+								GL_ITEMSHKATULKAPosRot[2] = Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0)
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", shkatulkaPos, Quaternion(0,0,0,1), 10000)
+								--add click event
+								TDeactivate("EVENT_clickOn_ITEMshkatulka")
+								getObj("EVENT_clickOn_ITEMshkatulka"):DelEvent("GE_UNDER_ATTACK")
+								getObj("EVENT_clickOn_ITEMshkatulka"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_shkatulka")
+								TActivate("EVENT_clickOn_ITEMshkatulka")
+								--journal
+								if not IsQuestItemPresent("roulette_q_shkatulka") then
+									AddQuestItem("roulette_q_shkatulka")
+								end
+								SHKATULKAisSpawned = true
+								SkokaSpawn=SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>SkokaSpawn then break end
+					
+					--cigarettes
+					if CIGARETTESisSpawned==false then
+						DropChance = math.random(ItemCount)
+						GL_tempITEMCIGARETTESisUsed = nil
+						if DropChance==1 then
+							GL_tempITEMCIGARETTESisUsed = false
+							
+							local slot = math.random(getn(PlayerItemSlots))
+							local cigarettesPos = PlayerItemSlots[slot]
+							if cigarettesPos then
+								CreateVehicleEx("rouletteITEMcigarettes","rouletteITEM_cigarettes", cigarettesPos, 1083)
+								table.remove(PlayerItemSlots, slot)
+								table.insert(AnyItem, "")
+								
+								GL_ITEMCIGARETTESPosRot = {}
+								GL_ITEMCIGARETTESPosRot[1] = cigarettesPos
+								GL_ITEMCIGARETTESPosRot[2] = Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0)
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", cigarettesPos, Quaternion(0,0,0,1), 10000)
+								--add click event
+								TDeactivate("EVENT_clickOn_ITEMcigarettes")
+								getObj("EVENT_clickOn_ITEMcigarettes"):DelEvent("GE_UNDER_ATTACK")
+								getObj("EVENT_clickOn_ITEMcigarettes"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_cigarettes")
+								TActivate("EVENT_clickOn_ITEMcigarettes")
+								--journal
+								if not IsQuestItemPresent("roulette_q_cigarettes") then
+									AddQuestItem("roulette_q_cigarettes")
+								end
+								CIGARETTESisSpawned = true
+								SkokaSpawn=SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>SkokaSpawn then break end
+
+					--beer
+					if BEERisSpawned==false then
+						DropChance = math.random(ItemCount)
+						GL_tempITEMBEERisUsed = nil
+						if DropChance==1 then
+							GL_tempITEMBEERisUsed = false
+							
+							local slot = math.random(getn(PlayerItemSlots))
+							local beerPos = PlayerItemSlots[slot]
+							if beerPos then
+								CreateVehicleEx("rouletteITEMbeer","rouletteITEM_beer", beerPos, 1083)
+								table.remove(PlayerItemSlots, slot)
+								table.insert(AnyItem, "")
+								
+								GL_ITEMBEERPosRot = {}
+								GL_ITEMBEERPosRot[1] = beerPos
+								GL_ITEMBEERPosRot[2] = Quaternion(0,0,0,1) * EulerToQuaternion(0,math.random(-90,90),0)
+								CreateEffectTTLed("ET_PS_SPAWN_OBJECT", beerPos, Quaternion(0,0,0,1), 10000)
+								--add click event
+								TDeactivate("EVENT_clickOn_ITEMbeer")
+								getObj("EVENT_clickOn_ITEMbeer"):DelEvent("GE_UNDER_ATTACK")
+								getObj("EVENT_clickOn_ITEMbeer"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_beer")
+								TActivate("EVENT_clickOn_ITEMbeer")
+								--journal
+								if not IsQuestItemPresent("roulette_q_beer") then
+									AddQuestItem("roulette_q_beer")
+								end
+								BEERisSpawned = true
+								SkokaSpawn=SkokaSpawn-1
+							end
+						end
+					end
+
+					if 1>SkokaSpawn then break end
+				end
+
+				-- LOG("p out")
+
+				local AnySpawn = getn(AnyItem)
+				if not AnySpawn then AnySpawn = 0 end
+				--println(tostring(AnySpawn).."; "..Skoka)
+				if Skoka>AnySpawn then
+					-- println("RETURN p")
+					return
+				end
+
+				if (BEERisSpawned==true) or
+					(CIGARETTESisSpawned==true) or
+					(SHKATULKAisSpawned==true) or
+					(RADIOisSpawned==true) or
+					(ELECTROisSpawned==true) then
+					TActivate("ITEMS_holder")
+
+					TActivate("GAME_keepITEMS_NOTbeUse")
+				end
+
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+
+	<trigger Name="GAME_keepITEMS_beUse" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_tempNowPlayerPlayAnimationsForUseItems==false then
+				println("keep player items be used")
+				
+				--beer
+				local beer = getObj("rouletteITEM_beer_static")
+				local beer1 = getObj("rouletteITEM_beer")
+				if beer then 
+					println("beUse remove beer_static")
+					beer:Remove() 
+				end
+				if not beer1 and (GL_tempITEMBEERisUsed == false) then 
+					println("beUse spawn beer_")
+					CreateVehicleEx("rouletteITEMbeer","rouletteITEM_beer", GL_ITEMBEERPosRot[1], 1083)
+					getObj("rouletteITEM_beer"):SetRotation(GL_ITEMBEERPosRot[2])
+					--add click event
+					TDeactivate("EVENT_clickOn_ITEMbeer")
+					getObj("EVENT_clickOn_ITEMbeer"):DelEvent("GE_UNDER_ATTACK")
+					getObj("EVENT_clickOn_ITEMbeer"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_beer")
+					TActivate("EVENT_clickOn_ITEMbeer")
+				end
+				
+				
+				--cigarettes
+				local cigarettes = getObj("rouletteITEM_cigarettes_static")
+				local cigarettes1 = getObj("rouletteITEM_cigarettes")
+				if cigarettes then 
+					println("beUse remove cigarettes_static")
+					cigarettes:Remove() 
+				end
+				if not cigarettes1 and (GL_tempITEMCIGARETTESisUsed == false) then
+					println("beUse spawn cigarettes_")
+					CreateVehicleEx("rouletteITEMcigarettes","rouletteITEM_cigarettes", GL_ITEMCIGARETTESPosRot[1], 1083)
+					getObj("rouletteITEM_cigarettes"):SetRotation(GL_ITEMCIGARETTESPosRot[2])
+					--add click event
+					TDeactivate("EVENT_clickOn_ITEMcigarettes")
+					getObj("EVENT_clickOn_ITEMcigarettes"):DelEvent("GE_UNDER_ATTACK")
+					getObj("EVENT_clickOn_ITEMcigarettes"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_cigarettes")
+					TActivate("EVENT_clickOn_ITEMcigarettes")
+				end
+
+
+				--shkatulka
+				local shkatulka = getObj("rouletteITEM_shkatulka_static")
+				local shkatulka1 = getObj("rouletteITEM_shkatulka")
+				if shkatulka then 
+					println("beUse remove shkatulka_static")
+					shkatulka:Remove() 
+				end
+				if not shkatulka1 and (GL_tempITEMSHKATULKAisUsed == false) then
+					println("beUse spawn shkatulka_")
+					CreateVehicleEx("rouletteITEMshkatulka","rouletteITEM_shkatulka", GL_ITEMSHKATULKAPosRot[1], 1083)
+					getObj("rouletteITEM_shkatulka"):SetRotation(GL_ITEMSHKATULKAPosRot[2])
+					--add click event
+					TDeactivate("EVENT_clickOn_ITEMshkatulka")
+					getObj("EVENT_clickOn_ITEMshkatulka"):DelEvent("GE_UNDER_ATTACK")
+					getObj("EVENT_clickOn_ITEMshkatulka"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_shkatulka")
+					TActivate("EVENT_clickOn_ITEMshkatulka")
+				end
+
+
+				--radio
+				local radio = getObj("rouletteITEM_radio_static")
+				local radio1 = getObj("rouletteITEM_radio")
+				if radio then 
+					println("beUse remove radio_static")
+					radio:Remove() 
+				end
+				if not radio1 and (GL_tempITEMRADIOisUsed == false) then 
+					println("beUse spawn radio_")
+					CreateVehicleEx("rouletteITEMradio","rouletteITEM_radio", GL_ITEMRADIOPosRot[1], 1083)
+					getObj("rouletteITEM_radio"):SetRotation(GL_ITEMRADIOPosRot[2])
+					--add click event
+					TDeactivate("EVENT_clickOn_ITEMradio")
+					getObj("EVENT_clickOn_ITEMradio"):DelEvent("GE_UNDER_ATTACK")
+					getObj("EVENT_clickOn_ITEMradio"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_radio")
+					TActivate("EVENT_clickOn_ITEMradio")
+				end
+
+
+				--electro
+				local electro = getObj("rouletteITEM_electro_static")
+				local electro1 = getObj("rouletteITEM_electro")
+				if electro then 
+					println("beUse remove electro_static")
+					electro:Remove() 
+				end
+				if not electro1 and (GL_tempITEMELECTROisUsed == false) then 
+					println("beUse spawn electro_")
+					CreateVehicleEx("rouletteITEMelectro","rouletteITEM_electro", GL_ITEMELECTROPosRot[1], 1083)
+					getObj("rouletteITEM_electro"):SetRotation(GL_ITEMELECTROPosRot[2])
+					--add click event
+					TDeactivate("EVENT_clickOn_ITEMelectro")
+					getObj("EVENT_clickOn_ITEMelectro"):DelEvent("GE_UNDER_ATTACK")
+					getObj("EVENT_clickOn_ITEMelectro"):AddEvent("GE_UNDER_ATTACK", "rouletteITEM_electro")
+					TActivate("EVENT_clickOn_ITEMelectro")
+				end
+
+				SetTolerance(1100, 1083, RS_NEUTRAL)
+
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="GAME_keepITEMS_NOTbeUse" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("keep player items NOT be used")
+			
+			--beer
+			local beer = getObj("rouletteITEM_beer")
+			if beer then 
+				beer:Remove() 
+				println("NOTbeUse remove beer event")
+			end
+			local beer1 = getObj("rouletteITEM_beer_static")
+			if (not beer1) and (GL_tempITEMBEERisUsed==false) then
+				println("NOTbeUse spawn beer "..tostring(GL_tempITEMBEERisUsed))
+				CreateNewDummyObject("rouletteITEMbeermodel", "rouletteITEM_beer_static", -1, -1, GL_ITEMBEERPosRot[1], GL_ITEMBEERPosRot[2], 1)
+			end
+			
+			--cigarettes
+			local cigarettes = getObj("rouletteITEM_cigarettes")
+			if cigarettes then 
+				cigarettes:Remove() 
+				println("NOTbeUse remove cigarettes event")
+			end
+			local cigarettes1 = getObj("rouletteITEM_cigarettes_static")
+			if (not cigarettes1) and (GL_tempITEMCIGARETTESisUsed==false) then
+				println("NOTbeUse spawn cigarettes "..tostring(GL_tempITEMCIGARETTESisUsed))
+				CreateNewDummyObject("rouletteITEMcigarettesmodel", "rouletteITEM_cigarettes_static", -1, -1, GL_ITEMCIGARETTESPosRot[1], GL_ITEMCIGARETTESPosRot[2], 1)
+			end
+
+			--shkatulka
+			local shkatulka = getObj("rouletteITEM_shkatulka")
+			if shkatulka then 
+				shkatulka:Remove() 
+				println("NOTbeUse remove shkatulka event")
+			end
+			local shkatulka1 = getObj("rouletteITEM_shkatulka_static")
+			if (not shkatulka1) and (GL_tempITEMSHKATULKAisUsed==false) then
+				println("NOTbeUse spawn shkatulka "..tostring(GL_tempITEMSHKATULKAisUsed))
+				CreateNewDummyObject("rouletteITEMshkatulkamodel", "rouletteITEM_shkatulka_static", -1, -1, GL_ITEMSHKATULKAPosRot[1], GL_ITEMSHKATULKAPosRot[2], 1)
+			end
+
+			--radio
+			local radio = getObj("rouletteITEM_radio")
+			if radio then 
+				radio:Remove() 
+				println("NOTbeUse remove radio event")
+			end
+			local radio1 = getObj("rouletteITEM_radio_static")
+			if (not radio1) and (GL_tempITEMRADIOisUsed==false) then
+				println("NOTbeUse spawn radio "..tostring(GL_tempITEMRADIOisUsed))
+				CreateNewDummyObject("rouletteITEMradiomodel", "rouletteITEM_radio_static", -1, -1, GL_ITEMRADIOPosRot[1], GL_ITEMRADIOPosRot[2], 1)
+			end
+
+			--electro
+			local electro = getObj("rouletteITEM_electro")
+			if electro then 
+				electro:Remove() 
+				println("NOTbeUse remove electro event")
+			end
+			local electro1 = getObj("rouletteITEM_electro_static")
+			if (not electro1) and (GL_tempITEMELECTROisUsed==false) then
+				println("NOTbeUse spawn electro "..tostring(GL_tempITEMELECTROisUsed))
+				CreateNewDummyObject("rouletteITEMelectromodel", "rouletteITEM_electro_static", -1, -1, GL_ITEMELECTROPosRot[1], GL_ITEMELECTROPosRot[2], 1)
+			end
+
+			SetTolerance(1100, 1083, RS_NEUTRAL)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="GAME_keepITEMS_NOTbeUse_byCutscene" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("keep player items NOT be used BY CUTSCENE")
+			
+			TActivate("GAME_keepITEMS_NOTbeUse")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+	<trigger Name="EVENT_clickOn_ITEMbeer" active="0">
+		<event eventid="GE_UNDER_ATTACK" ObjName="rouletteITEM_beer" />
+		<script>
+			if GL_tempITEMBEERisUsed==false then
+				SetTolerance(1100, 1083, RS_NEUTRAL)
+				GL_tempITEMBEERisUsed = true
+				GL_tempNowPlayerPlayAnimationsForUseItems = true
+
+				--beer take player
+				TActivate("CreateStaticGUN")
+				TActivate("GAME_keepITEMS_NOTbeUse")
+
+				TActivate("EVENT_clickOn_ITEMbeer_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMbeer_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local beer = getObj("rouletteITEM_beer_static")
+			if beer then beer:Remove() end
+			local beer1 = getObj("rouletteITEM_beer")
+			if beer1 then beer1:Remove() end
+
+			CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", GL_ITEMBEERPosRot[1], GL_ITEMBEERPosRot[2], 10000)
+
+			CreateEffectTTLed( "ET_S_ITEM_BEER", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 3000)
+
+			--item do some
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotPlayerToDealer_release", 2)
+			end
+
+			SetVar("GUNstate", 1)
+			SetTolerance(1100, 1083, RS_NEUTRAL)
+
+			TActivate("EVENTWAITER_ITEMbeer_WasUsed")
+			
+			TActivate("EVENT_GUN_reload")
+			TActivate("EVENT_clickOn_ITEMbeer_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMbeer_release_toplaced" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByPlayer_release", 2)
+			end
+
+			SetVar("GUNstate", 0)
+
+			println("skip shell")
+
+			local Shell = ER_SHOOT()
+			if Shell==true then
+				AddImportantFadingMsgByStrIdFormatted( "fm_player_reload_gun1", "name1")
+			elseif Shell==false then
+				AddImportantFadingMsgByStrIdFormatted( "fm_player_reload_gun0", "name1")
+			else
+				println("empty")
+			end
+
+			TActivate("EVENT_GUN_releasedByPlayer")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENTWAITER_ITEMbeer_WasUsed" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EVENT_clickOn_ITEMbeer_release_toplaced"):IsActivated()==1) or 
+			(getObj("EVENT_GUN_releasedByPlayer"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+				println("H_EVENTWAITER_ITEMbeer_WasUsed")
+			else
+				GL_tempNowPlayerPlayAnimationsForUseItems = false
+				if getObj("GAME_ANALYZER"):IsActivated()==0 then
+					TActivate("GAME_ANALYZER")
+				end
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+
+	<trigger Name="EVENT_clickOn_ITEMcigarettes" active="0">
+		<event eventid="GE_UNDER_ATTACK" ObjName="rouletteITEM_cigarettes" />
+		<script>
+			if GL_tempITEMCIGARETTESisUsed==false then
+				SetTolerance(1100, 1083, RS_NEUTRAL)
+				GL_tempITEMCIGARETTESisUsed = true
+				GL_tempNowPlayerPlayAnimationsForUseItems = true
+
+				--cigarettes take player
+				TActivate("CreateStaticGUN")
+				TActivate("GAME_keepITEMS_NOTbeUse")
+
+				TActivate("EVENT_clickOn_ITEMcigarettes_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMcigarettes_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local cigarettes = getObj("rouletteITEM_cigarettes_static")
+			if cigarettes then cigarettes:Remove() end
+			local cigarettes1 = getObj("rouletteITEM_cigarettes")
+			if cigarettes1 then cigarettes1:Remove() end
+			
+			CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", GL_ITEMCIGARETTESPosRot[1], GL_ITEMCIGARETTESPosRot[2], 10000)
+
+			SetTolerance(1100, 1083, RS_NEUTRAL)
+
+			CreateEffectTTLed( "ET_S_ITEM_CIGARETTES", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 4000)
+			CreateEffectTTLed( "ET_PS_BOSS1_SMOKE", GetPlayerVehicle():GetPosition() + CVector(-2,-5,0), Quaternion(0,0,0,1) * EulerToQuaternion(-90,0,0), 4000)
+
+			TActivate("EVENTWAITER_ITEMcigarettes_WasUsed")
+			TActivate("EVENT_clickOn_ITEMcigarettes_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMcigarettes_release_toplaced" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local hp = GetPlayerHealth()
+			if (GL_PlayerLives>hp) and (GL_PlayerLives~=100) and (hp~=100) then
+				GetPlayerVehicle():AddModifier("hp", "+ 100")
+				CreateEffectTTLed("ET_S_BUG"..tostring(random(2)), GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 1000)
+				println("add hp")
+			else
+				println("full hp")
+			end
+			--println(GL_PlayerLives.." "..hp)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENTWAITER_ITEMcigarettes_WasUsed" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EVENT_clickOn_ITEMcigarettes_release_toplaced"):IsActivated()==1) or 
+			(getObj("EVENT_GUN_releasedByPlayer"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+				println("H_EVENTWAITER_ITEMcigarettes_WasUsed")
+			else
+				GL_tempNowPlayerPlayAnimationsForUseItems = false
+				if getObj("GAME_ANALYZER"):IsActivated()==0 then
+					TActivate("GAME_ANALYZER")
+				end
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+
+	<trigger Name="EVENT_clickOn_ITEMshkatulka" active="0">
+		<event eventid="GE_UNDER_ATTACK" ObjName="rouletteITEM_shkatulka" />
+		<script>
+			if GL_tempITEMSHKATULKAisUsed==false then
+				SetTolerance(1100, 1083, RS_NEUTRAL)
+				GL_tempITEMSHKATULKAisUsed = true
+				GL_tempNowPlayerPlayAnimationsForUseItems = true
+
+				--shkatulka take player
+				TActivate("CreateStaticGUN")
+				TActivate("GAME_keepITEMS_NOTbeUse")
+
+				TActivate("EVENT_clickOn_ITEMshkatulka_waiter")
+
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMshkatulka_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local shkatulka = getObj("rouletteITEM_shkatulka_static")
+			if shkatulka then shkatulka:Remove() end
+			local shkatulka1 = getObj("rouletteITEM_shkatulka")
+			if shkatulka1 then shkatulka1:Remove() end
+
+			CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", GL_ITEMSHKATULKAPosRot[1], GL_ITEMSHKATULKAPosRot[2], 10000)
+
+			CreateEffectTTLed( "ET_S_ITEM_SHKATULKA", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 3000)
+
+			--item do some
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "ITEMGUN_showShellForPlayer", 2)
+			end
+
+			SetTolerance(1100, 1083, RS_NEUTRAL)
+
+			TActivate("EVENTWAITER_ITEMshkatulka_WasUsed")
+			
+			TActivate("EVENT_clickOn_ITEMshkatulka_release")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMshkatulka_release" active="0">
+		<event timeout="2.2" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("show shell for player")
+			CreateEffectTTLed( "ET_S_GUN_RELOAD_HALF_1", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 3000)
+
+			if ER_GENbank[getn(ER_GENbank)] == 0 then
+				CreateNewSgNodeObject(
+					"BlankShell_shell", "showed_shell", -1, -1, 
+					getObj("rouletteGUN_static"):GetPosition() + CVector(2.02,1.07,-0.68), 
+					getObj("rouletteGUN_static"):GetRotation() * EulerToQuaternion(0,90,0), 
+					2.5
+				)
+			elseif ER_GENbank[getn(ER_GENbank)] == 1 then
+				CreateNewSgNodeObject(
+					"LiveShell_shell", "showed_shell", -1, -1, 
+					getObj("rouletteGUN_static"):GetPosition() + CVector(2.02,1.07,-0.68), 
+					getObj("rouletteGUN_static"):GetRotation() * EulerToQuaternion(0,90,0),
+					2.5
+				)
+			end
+
+			TActivate("EVENT_clickOn_ITEMshkatulka_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMshkatulka_release_toplaced" active="0">
+		<event timeout="2" eventid="GE_TIME_PERIOD" />
+		<script>
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "ITEMGUN_showShellForPlayer_release", 1)
+			end
+
+			local shell = getObj("showed_shell")
+			if shell then shell:Remove() end
+
+			CreateEffectTTLed( "ET_S_GUN_RELOAD_HALF_2", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 3000)
+
+			CreateEffectTTLed( "ET_S_PLACE_GUN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENTWAITER_ITEMshkatulka_WasUsed" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EVENT_clickOn_ITEMshkatulka_release_toplaced"):IsActivated()==1) or 
+			(getObj("EVENT_clickOn_ITEMshkatulka_release"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+				println("H_EVENTWAITER_ITEMshkatulka_WasUsed")
+			else
+				GL_tempNowPlayerPlayAnimationsForUseItems = false
+				if getObj("GAME_ANALYZER"):IsActivated()==0 then
+					TActivate("GAME_ANALYZER")
+				end
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+
+	<trigger Name="EVENT_clickOn_ITEMradio" active="0">
+		<event eventid="GE_UNDER_ATTACK" ObjName="rouletteITEM_radio" />
+		<script>
+			if GL_tempITEMRADIOisUsed==false then
+				SetTolerance(1100, 1083, RS_NEUTRAL)
+				GL_tempITEMRADIOisUsed = true
+				GL_tempNowPlayerPlayAnimationsForUseItems = true
+
+				GL_tempAimForItem = getObj("rouletteITEM_radio"):GetPosition()
+
+				--radio take player
+				TActivate("CreateStaticGUN")
+				TActivate("GAME_keepITEMS_NOTbeUse")
+
+				TActivate("EVENT_clickOn_ITEMradio_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMradio_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:UnbindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+			CreateNewDummyObject("rouletteITEMradiomodel", "rouletteITEM_radio_static", -1, -1, GL_ITEMRADIOPosRot[1], GL_ITEMRADIOPosRot[2], 1)
+
+			Fly("ITEM_showPodskazkaForPlayer", CINEMATIC_AIM_TO_POINT, GL_tempAimForItem, 6.5, 0, 0 )
+			Fly("ITEM_showPodskazkaForPlayer_release", CINEMATIC_AIM_TO_POINT, GL_tempAimForItem, 1, 0, 0 )
+			StartCinematic()
+
+			RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+			RuleConsole("g_postEffect cinematic04")
+
+			SetTolerance(1100, 1083, RS_NEUTRAL)
+
+			CreateEffectTTLed( "ET_S_ITEM_RADIO", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 11000)
+
+			TActivate("EVENTWAITER_ITEMradio_WasUsed")
+			TActivate("EVENT_clickOn_ITEMradio_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMradio_release_toplaced" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+			IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:BindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+			local radio = getObj("rouletteITEM_radio_static")
+			if radio then radio:Remove() end
+			local radio1 = getObj("rouletteITEM_radio")
+			if radio1 then radio1:Remove() end
+			
+			CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", GL_ITEMRADIOPosRot[1], GL_ITEMRADIOPosRot[2], 10000)
+
+			RuleConsole("g_postEffect cinematicEnd")
+
+			RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+			local strVal,shell = ER_CalcRandomPodskazka()
+			if shell==1 then
+				AddImportantFadingMsgByStrIdFormatted( "fm_player_random_podskazka_1", strVal)
+			elseif shell==0 then
+				AddImportantFadingMsgByStrIdFormatted( "fm_player_random_podskazka_0", strVal)
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENTWAITER_ITEMradio_WasUsed" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EVENT_clickOn_ITEMradio_release_toplaced"):IsActivated()==1) or 
+			(getObj("EVENT_GUN_releasedByPlayer"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+				println("H_EVENTWAITER_ITEMradio_WasUsed")
+			else
+				GL_tempNowPlayerPlayAnimationsForUseItems = false
+				if getObj("GAME_ANALYZER"):IsActivated()==0 then
+					TActivate("GAME_ANALYZER")
+				end
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+
+	<trigger Name="EVENT_clickOn_ITEMelectro" active="0">
+		<event eventid="GE_UNDER_ATTACK" ObjName="rouletteITEM_electro" />
+		<script>
+			if GL_tempITEMELECTROisUsed==false then
+				SetTolerance(1100, 1083, RS_NEUTRAL)
+				GL_tempITEMELECTROisUsed = true
+				GL_tempNowPlayerPlayAnimationsForUseItems = true
+
+				GL_tempAimForItem = getObj("rouletteITEM_electro"):GetPosition()
+
+				--electro take player
+				TActivate("CreateStaticGUN")
+				TActivate("GAME_keepITEMS_NOTbeUse")
+
+				TActivate("EVENT_clickOn_ITEMelectro_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMelectro_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local electro = getObj("rouletteITEM_electro_static")
+			if electro then electro:Remove() end
+			local electro1 = getObj("rouletteITEM_electro")
+			if electro1 then electro1:Remove() end
+
+			CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", GL_ITEMELECTROPosRot[1], GL_ITEMELECTROPosRot[2], 10000)
+
+			CreateNewDummyObject("rouletteITEMelectromodel", "rouletteITEM_electro_static_1", -1, -1, GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 1)
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteITEM_electro_static_1")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "ITEM_changeShellForPlayer", 3)
+			end
+
+			SetTolerance(1100, 1083, RS_NEUTRAL)
+
+			CreateEffectTTLed( "ET_S_ITEM_ELECTRO", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 5000)
+
+			TActivate("EVENTWAITER_ITEMelectro_WasUsed")
+			TActivate("EVENT_clickOn_ITEMelectro_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMelectro_release_toplaced" active="0">
+		<event timeout="1.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			-- local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			-- local mover = GetEntityByID( moverId ) 
+			-- local controlledObj = getObj("rouletteITEM_electro_static")
+			-- if controlledObj then
+			-- 	mover:SetObjAndPath( controlledObj:GetId(), "ITEM_changeShellForPlayer_release", 2)
+			-- end
+			
+			if ER_GENbank[getn(ER_GENbank)]==1 then ER_GENbank[getn(ER_GENbank)] = 0 end
+			if ER_GENbank[getn(ER_GENbank)]==0 then ER_GENbank[getn(ER_GENbank)] = 1 end
+			
+			TActivate("EVENT_clickOn_ITEMelectro_release_timer")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_clickOn_ITEMelectro_release_timer" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		--[[ <event timeout="2.5" eventid="GE_TIME_PERIOD" /> ]]
+		<script>
+			local electro = getObj("rouletteITEM_electro_static_1")
+			if electro then 
+				CreateEffectTTLed("ET_PS_SPAWN_OBJECT", electro:GetPosition(), Quaternion(0,0,0,1), 10000) 
+				electro:Remove() 
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENTWAITER_ITEMelectro_WasUsed" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EVENT_clickOn_ITEMelectro_release_toplaced"):IsActivated()==1) or 
+			(getObj("EVENT_GUN_releasedByPlayer"):IsActivated()==1) or 
+			(getObj("EVENT_clickOn_ITEMelectro_release_timer"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+				println("H_EVENTWAITER_ITEMelectro_WasUsed")
+			else
+				GL_tempNowPlayerPlayAnimationsForUseItems = false
+				if getObj("GAME_ANALYZER"):IsActivated()==0 then
+					TActivate("GAME_ANALYZER")
+				end
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+	
+	
+
+
+
+
+	<trigger Name="ITEMS_holder" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			--beer
+			local beer = getObj("rouletteITEM_beer")
+			if beer then
+				beer:setImmortalMode(1)
+				beer:SetCustomLinearVelocity(0)
+				beer:SetPosition(GL_ITEMBEERPosRot[1])
+				beer:SetRotation(GL_ITEMBEERPosRot[2])
+			end
+			local beer2 = getObj("rouletteITEM_beer_static")
+			if beer2 then
+				beer2:SetPosition(GL_ITEMBEERPosRot[1])
+				beer2:SetRotation(GL_ITEMBEERPosRot[2])
+			end
+			--cigarettes
+			local cigarettes = getObj("rouletteITEM_cigarettes")
+			if cigarettes then
+				cigarettes:setImmortalMode(1)
+				cigarettes:SetCustomLinearVelocity(0)
+				cigarettes:SetPosition(GL_ITEMCIGARETTESPosRot[1])
+				cigarettes:SetRotation(GL_ITEMCIGARETTESPosRot[2])
+			end
+			local cigarettes2 = getObj("rouletteITEM_cigarettes_static")
+			if cigarettes2 then
+				cigarettes2:SetPosition(GL_ITEMCIGARETTESPosRot[1])
+				cigarettes2:SetRotation(GL_ITEMCIGARETTESPosRot[2])
+			end
+			--shkatulka
+			local shkatulka = getObj("rouletteITEM_shkatulka")
+			if shkatulka then
+				shkatulka:setImmortalMode(1)
+				shkatulka:SetCustomLinearVelocity(0)
+				shkatulka:SetPosition(GL_ITEMSHKATULKAPosRot[1])
+				shkatulka:SetRotation(GL_ITEMSHKATULKAPosRot[2])
+			end
+			local shkatulka2 = getObj("rouletteITEM_shkatulka_static")
+			if shkatulka2 then
+				shkatulka2:SetPosition(GL_ITEMSHKATULKAPosRot[1])
+				shkatulka2:SetRotation(GL_ITEMSHKATULKAPosRot[2])
+			end
+			--radio
+			local radio = getObj("rouletteITEM_radio")
+			if radio then
+				radio:setImmortalMode(1)
+				radio:SetCustomLinearVelocity(0)
+				radio:SetPosition(GL_ITEMRADIOPosRot[1])
+				radio:SetRotation(GL_ITEMRADIOPosRot[2])
+			end
+			local radio2 = getObj("rouletteITEM_radio_static")
+			if radio2 then
+				radio2:SetPosition(GL_ITEMRADIOPosRot[1])
+				radio2:SetRotation(GL_ITEMRADIOPosRot[2])
+			end
+			--electro
+			local electro = getObj("rouletteITEM_electro")
+			if electro then
+				electro:setImmortalMode(1)
+				electro:SetCustomLinearVelocity(0)
+				electro:SetPosition(GL_ITEMELECTROPosRot[1])
+				electro:SetRotation(GL_ITEMELECTROPosRot[2])
+			end
+			local electro2 = getObj("rouletteITEM_electro_static")
+			if electro2 then
+				electro2:SetPosition(GL_ITEMELECTROPosRot[1])
+				electro2:SetRotation(GL_ITEMELECTROPosRot[2])
+			end
+		</script>
+	</trigger>
+
+
+
+
+<!-- GAME CONTROLLING -->
+
+	<trigger Name="GAME_ANALYZER" active="0">
+		<event timeout="2" eventid="GE_TIME_PERIOD" />
+		<script>
+			--TActivate("GAME_ANALYZER")
+			println("trGAME_ANALYZER")
+			local cinematic = GetCinematic()
+			if cinematic:InPlay() then
+				getObj("GAME_ANALYZER"):DelEvent("GE_TIME_PERIOD")
+				getObj("GAME_ANALYZER"):AddEvent("GE_TIME_PERIOD", "0.1")
+				return
+			else
+				getObj("GAME_ANALYZER"):DelEvent("GE_TIME_PERIOD")
+				getObj("GAME_ANALYZER"):AddEvent("GE_TIME_PERIOD", "2")
+			end
+
+			RuleConsole("snd_2dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("snd_3dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+			GetPlayerVehicle():GetCabin():SetProperty("Durability", "0")
+			GetPlayerVehicle():GetBasket():SetProperty("Durability", "0")
+
+			TActivate("CreateStaticGUN")
+
+			--anal yze
+			for i=1, 1 do
+				--if win round
+				local DealerHealth = GetPlayerFuel()
+				local GameRound = GetVar("GameRound").AsInt
+				if DealerHealth==0 then
+					SetVar("PlayerTurn", -1)
+					CreateEffectTTLed( "ET_S_ROUND_WIN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 4000)
+					GameRound = GameRound + 1
+
+					println("new round by dealer death")
+
+					SetVar("GameRound", GameRound)
+					println("game round = "..GameRound)
+
+					--rounds
+					if GameRound==2 then
+						local PlayerLives = 600 --(200 = 2 lives, max 99 by interface)
+						local DealerLives = 600 --(200 = 2 lives, max 99 by interface)
+						GL_PlayerLives = PlayerLives
+						GL_DealerLives = DealerLives
+						GetPlayerVehicle():AddModifier("maxhp", "= "..tostring(PlayerLives + 200)) --player max lives
+						GetPlayerVehicle():AddModifier("hp", "= "..tostring(PlayerLives)) --player lives
+						GetPlayerVehicle():AddModifier("maxfuel", "= "..tostring(DealerLives + 200)) --dealer max lives
+						GetPlayerVehicle():AddModifier("fuel", "= "..tostring(DealerLives)) --dealer lives 
+
+						TActivate("trPlayerCam_showNewGameRound")
+
+						GL_tempLastMusicIsPlay = false
+
+						PlayCustomMusic("Release")
+						break
+					elseif GameRound==3 then
+						local PlayerLives = 100 --(200 = 2 lives, max 99 by interface)
+						local DealerLives = 100 --(200 = 2 lives, max 99 by interface)
+						GL_PlayerLives = PlayerLives
+						GL_DealerLives = DealerLives
+						GetPlayerVehicle():AddModifier("maxhp", "= "..tostring(PlayerLives * 4)) --player max lives
+						GetPlayerVehicle():AddModifier("hp", "= "..tostring(PlayerLives)) --player lives
+						GetPlayerVehicle():AddModifier("maxfuel", "= "..tostring(DealerLives * 4)) --dealer max lives
+						GetPlayerVehicle():AddModifier("fuel", "= "..tostring(DealerLives)) --dealer lives 
+
+						TActivate("trPlayerCam_showNewGameRound")
+
+						GL_tempLastMusicIsPlay = false
+
+						PlayCustomMusic("LastChance")
+						break
+					end
+				end
+			
+				--complete game
+				if GameRound > 3 then
+					println("GAME COMPLETED")
+					LOG("GAME COMPLETED")
+					CreateEffectTTLed( "ET_S_GAME_WIN", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 9000)
+
+					local dealer = getObj("DealerSoul")
+					if dealer then 
+						println("DEALER IS DISAPPEARED_")
+						dealer:Remove() 
+					end
+
+					for i=1, GameRound do
+						local GameStarStatic = getObj("GameStar_static"..i)
+						if GameStarStatic then GameStarStatic:Remove() end
+					end
+
+					TActivate("EndGame_cutscene")
+
+					break
+				end
+				
+
+				--turns
+				if ER_GUNbank[1]==nil then
+					println("chamber empty, need to load new bank shells")
+
+					PlayCustomMusic("Load")
+
+					GL_tempLastMusicIsPlay = false
+
+					TActivate("GAME_showNewBankShells")
+				else
+					local PlayerTurn = GetVar("PlayerTurn").AsInt
+					if PlayerTurn==-1 then
+						if GameRound==0 then
+							println("new game")
+						else
+							println("new round")
+						end
+
+						--debug
+						--TActivate("DEALER_TURN")
+						--TActivate("GAME_showNewBankShells")
+
+						TActivate("trPlayerCam_showNewGameRound")
+						
+					elseif PlayerTurn==1 then
+						println("player turn")
+
+						if GL_tempDealerNowLoadingShellsToGun==false then
+							TActivate("PLAYER_TURN")
+						end
+
+						GL_LastDealerTurn = false
+					elseif PlayerTurn==2 then
+						println("dealer turn")
+
+						TActivate("DEALER_TURN")
+
+						GL_LastDealerTurn = true
+					end
+				end
+
+				if (200>GetPlayerHealth()) and (GL_tempLastMusicIsPlay==false) then
+					PlayCustomMusic("LastChance")
+					GL_tempLastMusicIsPlay = true
+				end
+			end
+				
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="GAME_showNewGameRound" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			TActivate("trPlayerCam_showNewGameRound")
+	
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="GAME_showNewBankShells" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			ER_ReloadShellBanks()
+			ER_GenerateBankShells(nil) --if true = all liverounds, if false = all blankshells, else random
+
+			TActivate("trPlayerCam_showNewBlankShells")
+	
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="GAME_dealerLoadingShells" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("dealer take gun and load shells")
+			TActivate("GAME_keepITEMS_NOTbeUse")
+
+			GL_tempDealerNowLoadingShellsToGun = true
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByDealer", 2)
+			end
+
+			CreateEffectTTLed( "ET_S_GRAB_GUN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			TActivate("GAME_dealerLoadingShells_loadwaiter")
+	
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="GAME_dealerLoadingShells_loadwaiter" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			TActivate("GAME_dealerLoadingShells_load")
+	
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="GAME_dealerLoadingShells_load" active="0">
+		<event timeout="0.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local gun = getObj("rouletteGUN_static")
+			if not gun then 
+				CreateNewDummyObject("rouletteGUNmodel", "rouletteGUN_static", -1, -1, CVector(825.000, 268.428, 728.495), Quaternion(-0.212, -0.184, -0.285, -0.916), 1)
+			end
+
+			if GL_tempNeedLoadShellsCount>0 then
+				local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+				local mover = GetEntityByID( moverId ) 
+				local controlledObj = getObj("rouletteGUN_static")
+				if controlledObj then
+					mover:SetObjAndPath( controlledObj:GetId(), "GUN_DealerLoadShells", 0.5)
+					CreateEffectTTLed( "ET_S_GUN_LOADSHELL", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				end
+				GL_tempNeedLoadShellsCount=GL_tempNeedLoadShellsCount-1
+			else
+				local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+				local mover = GetEntityByID( moverId ) 
+				local controlledObj = getObj("rouletteGUN_static")
+				if controlledObj then
+					mover:SetObjAndPath( controlledObj:GetId(), "GUN_DealerReloadShotgun_andrelease", 2)
+					CreateEffectTTLed( "ET_S_GUN_RELOAD", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+				end
+				trigger:Deactivate()
+			end
+
+			if (getObj("GAME_loadNewBankShells"):IsActivated()==0) and (GL_tempNeedLoadShellsCount>0) then
+				--TActivate("GAME_loadNewBankShells")
+				TActivate("GAMEWAITER_dealerLoadingShells_load")
+			end
+		</script>
+	</trigger>
+	<trigger Name="GAME_loadNewBankShells" active="0">
+		<event timeout="0.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_tempNeedLoadShellsCount>0 then
+				CreateEffectTTLed( "ET_S_GUN_LOADSHELL", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				GL_tempNeedLoadShellsCount=GL_tempNeedLoadShellsCount-1
+			else
+				CreateEffectTTLed( "ET_S_GUN_RELOAD", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="GAMEWAITER_dealerLoadingShells_load" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("GAME_loadNewBankShells"):IsActivated()==0) and 
+			(getObj("GAME_dealerLoadingShells_load"):IsActivated()==0) and 
+			(getObj("PLAYERDEAD_exodus"):IsActivated()==0) then
+				TActivate("GAMEWAITER_loadNewBankShells")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="GAMEWAITER_loadNewBankShells" active="0">
+		<event timeout="0.8" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("gun reloaded")
+
+			GL_tempDealerNowLoadingShellsToGun = false
+
+			SetVar("PlayerTurn", 1)
+			TActivate("GAME_ANALYZER")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+<!-- DEALER TURN -->
+
+	<trigger Name="DEALER_TURN" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			GetPlayerVehicle():GetCabin():SetProperty("Durability", "0")
+			GetPlayerVehicle():GetBasket():SetProperty("Durability", "100")
+
+			println("keep player items NOT be used BY DEALER_TURN")
+			TActivate("GAME_keepITEMS_NOTbeUse")
+
+			local gun = getObj("rouletteGUN")
+			if gun then gun:Remove() end
+			
+			local gun2 = getObj("rouletteGUN_static")
+			if not gun2 then 
+				CreateNewDummyObject("rouletteGUNmodel", "rouletteGUN_static", -1, -1, CVector(854.011, 268.428, 728.495), Quaternion(0.300, -0.310, -0.635, 0.641), 1)
+			end
+
+			SetVar("DealerTakedGUN", 0)
+			SetVar("PlayerTurn", 2)
+
+			TActivate("DEALER_PlayerWaiter")
+
+			TActivate("DEALER_LOGIC")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_PlayerWaiter" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GetVar("PlayerTurn").AsInt==2 then
+				SetCameraBehindPlayerVehicle()
+			else
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+	<trigger Name="DEALER_LOGIC" active="0">
+		<event timeout="1" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("dealer think...")
+			local DealerTakedGUN = GetVar("DealerTakedGUN").AsInt
+			if DealerTakedGUN==0 then
+				for i=1, 1 do
+					local CurrentShellInChamber = ER_GUNbank[getn(ER_GUNbank)]
+					local AllShellsAmount = getn(ER_GUNbank)
+					local HavedItems = ER_DEALERITEMSnames
+					GL_tempDealerShotToPlayer = nil
+					GL_tempDealerUseItem = nil
+
+					--dealer known current shell?
+					if GL_tempDealerUsedLupa==true then
+						println("dealer know current shell...")
+						--shot yourself or/and use other items
+						local rnd = math.random(2)
+						if rnd==1 then
+							return
+						else
+							TActivate("DEALER_TakeGun")
+						end
+						break
+					else
+						--check zalupoy shell if item exists
+						for i, item in ipairs(HavedItems) do
+							if (item=="shkatulka") and (ER_GetAnyLiveRoundsInGUNbank()==true) and (getn(ER_GUNbank)>1) then
+								println("dealer used shkatulka")
+								GL_tempDealerUsedLupa = true
+								--TActivate, return DEALER_LOGIC
+								GL_tempDealerUseItem = item
+								break
+							end
+						end
+					end
+
+					--dealer use other items
+					for i, item in ipairs(HavedItems) do
+						if item then
+							--use beer
+							if (item=="beer") and (GL_LastLiveShell==true) and (math.random(2)==1) then
+								println("dealer choose beer")
+								GL_tempDealerUseItem = item
+								break
+							end
+							--use cigarettes
+							if (item=="cigarettes") and (GL_DealerLives>GetPlayerFuel()) and (GetPlayerFuel()~=100) and (math.random(2)==1) then
+								println("dealer choose cigarettes")
+								GL_tempDealerUseItem = item
+								break
+							end
+							--use radio
+							if (item=="radio") and (math.random(2)==1) then
+								println("dealer choose radio")
+								--GL_tempDealerIsKnownFutureShell
+								GL_tempDealerUseItem = item
+								break
+							end
+							--use invertor
+							if (item=="electro") and (GL_LastLiveShell==true) then
+								println("dealer choose electro")
+								GL_tempDealerShotToPlayer = true
+								GL_tempDealerUseItem = item
+								break
+							end
+						end
+					end
+					if GL_tempDealerUseItem then
+						break
+					end
+
+					--if vashe hz
+					if GL_tempDealerShotToPlayer==nil then
+						local TupoyRandom = math.random(2)
+						if TupoyRandom==1 then
+							GL_tempDealerShotToPlayer = true
+						else
+							GL_tempDealerShotToPlayer = false
+						end
+						println("dealer not use any items")
+						TActivate("DEALER_TakeGun")
+					end
+				end
+			else
+				--debug
+				--GL_tempDealerShotToPlayer = true
+				if GL_tempDealerUsedLupa==true then
+					if ER_GUNbank[getn(ER_GUNbank)] == 0 then
+						GL_tempDealerShotToPlayer = false
+						TActivate("DEALER_ShotToYourself")
+					elseif ER_GUNbank[getn(ER_GUNbank)] == 1 then
+						GL_tempDealerShotToPlayer = true
+						TActivate("DEALER_ShotToPlayer")
+					end
+					GL_tempDealerUsedLupa = nil
+				else
+					--dealer calculate in his mind whether there were more bullets or not
+					local AnyLiveRoundsInGUNbank = ER_GetAnyLiveRoundsInGUNbank()
+					if AnyLiveRoundsInGUNbank==false then
+						GL_tempDealerShotToPlayer = false
+					else
+						if (GL_LastLiveShell==false) and (GL_LastDealerTurn==true) then
+							GL_tempDealerShotToPlayer = true
+						end
+
+						local LiveShellsInGun = ER_GetAmountLiveRoundsInGUNbank()
+						local RndChoose = math.random(0.0,LiveShellsInGun)
+						if RndChoose==0.0 then
+							GL_tempDealerShotToPlayer = false
+						end
+
+						local ChanceLiveShell = ER_ChanceLiveShell()
+						if ChanceLiveShell>50 then
+							GL_tempDealerShotToPlayer = true
+						else
+							GL_tempDealerShotToPlayer = false
+						end
+
+						local futureShell = GL_tempDealerIsKnownFutureShell
+						if futureShell~=nil then
+							if (ER_GUNbank[getn(ER_GUNbank)]==1) and (ER_GUNbank[futureShell]==1) then
+								GL_tempDealerShotToPlayer = true
+							elseif (ER_GUNbank[getn(ER_GUNbank)]==0) and (ER_GUNbank[futureShell]==0) then
+								GL_tempDealerShotToPlayer = false
+							end
+							GL_tempDealerIsKnownFutureShell = nil
+						end
+						
+						if (getn(ER_GUNbank)==1) and (AnyLiveRoundsInGUNbank==true) then
+							GL_tempDealerShotToPlayer = true
+						end
+					end
+
+					--dealer shot choose
+					if GL_tempDealerShotToPlayer == true then
+						TActivate("DEALER_ShotToPlayer")
+					elseif GL_tempDealerShotToPlayer == false then
+						TActivate("DEALER_ShotToYourself")
+					end
+				end
+			end
+
+			if GL_tempDealerUseItem then
+				local item = GL_tempDealerUseItem
+				println("dealer use item: "..item) --, return LOGIC
+				local ItemTriggerEffect = getObj("DEALER_USEITEM_"..item)
+				if ItemTriggerEffect then
+					TActivate("DEALER_USEITEM_"..item)
+				else
+					println("dealer error item")
+				end
+			end
+
+			println("dealer thinks to shot player = "..tostring(GL_tempDealerShotToPlayer))
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+	<trigger Name="DEALER_USEITEM_beer" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_Dealer_tempITEMBEERisUsed==false then
+				println("dealer use beer")
+				GL_Dealer_tempITEMBEERisUsed = true
+
+				for i, item in ipairs(ER_DEALERITEMSnames) do
+					if item=="beer" then
+						table.remove(ER_DEALERITEMSnames, i)
+						break
+					end
+				end
+
+				--beer take dealer
+				TActivate("CreateStaticGUN")
+				TActivate("DEALER_USEITEM_beer_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_beer_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local item = getObj("rouletteDEALERITEM_beer")
+			if item then 
+				CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+				CreateEffectTTLed( "ET_S_ITEM_BEER", item:GetPosition(), Quaternion(0,0,0,1), 3000)
+				item:Remove() 
+			end
+
+			--item do some
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotDealerToPlayer_release", 2)
+			end
+
+			SetVar("GUNstate", 1)
+			
+			TActivate("EVENT_GUN_reload")
+			TActivate("DEALER_USEITEM_beer_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_beer_release_toplaced" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			-- local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			-- local mover = GetEntityByID( moverId ) 
+			-- local controlledObj = getObj("rouletteGUN_static")
+			-- if controlledObj then
+			-- 	mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotDealerToPlayer_release", 2)
+			-- end
+
+			SetVar("GUNstate", 0)
+
+			println("skip shell")
+
+			local Shell = ER_SHOOT()
+			if Shell==true then
+				AddImportantFadingMsgByStrIdFormatted( "fm_player_reload_gun1", "name1")
+			elseif Shell==false then
+				AddImportantFadingMsgByStrIdFormatted( "fm_player_reload_gun0", "name1")
+			else
+				println("empty")
+			end
+
+			TActivate("DEALER_Shot_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALER_USEITEM_cigarettes" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_Dealer_tempITEMCIGARETTESisUsed==false then
+				println("dealer use cigarettes")
+				GL_Dealer_tempITEMCIGARETTESisUsed = true
+
+				for i, item in ipairs(ER_DEALERITEMSnames) do
+					if item=="cigarettes" then
+						table.remove(ER_DEALERITEMSnames, i)
+						break
+					end
+				end
+
+				--cigarettes take dealer
+				TActivate("CreateStaticGUN")
+				TActivate("DEALER_USEITEM_cigarettes_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_cigarettes_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local item = getObj("rouletteDEALERITEM_cigarettes")
+			if item then 
+				CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+				CreateEffectTTLed( "ET_S_ITEM_CIGARETTES", item:GetPosition(), Quaternion(0,0,0,1), 3000)
+				item:Remove()
+			end
+
+			--item do some
+			
+			TActivate("DEALER_USEITEM_cigarettes_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_cigarettes_release_toplaced" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local hp = GetPlayerFuel()
+			if (GL_DealerLives>hp) and (GL_DealerLives~=100) and (hp~=100) then
+				GetPlayerVehicle():AddModifier("fuel", "+ 100")
+				CreateEffectTTLed("ET_S_BUG"..tostring(random(2)), GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 1000)
+				println("add hp")
+			else
+				println("full hp")
+			end
+			--println(GL_DealerLives.." "..hp)
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALER_USEITEM_shkatulka" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_Dealer_tempITEMSHKATULKAisUsed==false then
+				println("dealer use shkatulka")
+				GL_Dealer_tempITEMSHKATULKAisUsed = true
+
+				for i, item in ipairs(ER_DEALERITEMSnames) do
+					if item=="shkatulka" then
+						table.remove(ER_DEALERITEMSnames, i)
+						break
+					end
+				end
+
+				--shkatulka take dealer
+				TActivate("CreateStaticGUN")
+				TActivate("DEALER_USEITEM_shkatulka_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_shkatulka_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local item = getObj("rouletteDEALERITEM_shkatulka")
+			if item then 
+				CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+				CreateEffectTTLed( "ET_S_DEALERITEM_SHKATULKA", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+				item:Remove() 
+			end
+
+			--item do some
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByDealer", 2)
+			end
+
+			SetVar("GUNstate", 1)
+			
+			TActivate("DEALER_USEITEM_shkatulka_release")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_shkatulka_release" active="0">
+		<event timeout="2.2" eventid="GE_TIME_PERIOD" />
+		<script>
+			AddImportantFadingMsgByStrIdFormatted( "fm_dealer_use_shkatulka", "name1")
+
+			GL_tempDealerUsedLupa = true
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByDealer_release", 2)
+			end
+
+			TActivate("DEALER_USEITEM_shkatulka_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_shkatulka_release_toplaced" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			SetVar("GUNstate", 0)
+
+			CreateEffectTTLed( "ET_S_PLACE_GUN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALER_USEITEM_radio" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_Dealer_tempITEMRADIOisUsed==false then
+				println("dealer use radio")
+				GL_Dealer_tempITEMRADIOisUsed = true
+
+				for i, item in ipairs(ER_DEALERITEMSnames) do
+					if item=="radio" then
+						table.remove(ER_DEALERITEMSnames, i)
+						break
+					end
+				end
+
+				--radio take dealer
+				TActivate("CreateStaticGUN")
+				TActivate("DEALER_USEITEM_radio_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_radio_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local item = getObj("rouletteDEALERITEM_radio")
+			if item then 
+				CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+				CreateEffectTTLed( "ET_S_DEALERITEM_RADIO", item:GetPosition(), Quaternion(0,0,0,1), 5000)
+				item:Remove()
+			end
+
+			--item do some
+			local _,shell = ER_CalcRandomPodskazka()
+			GL_tempDealerIsKnownFutureShell = shell
+			
+			TActivate("DEALER_USEITEM_radio_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_radio_release_toplaced" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			AddImportantFadingMsgByStrIdFormatted( "fm_dealer_use_shkatulka", "name1")
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALER_USEITEM_electro" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_Dealer_tempITEMELECTROisUsed==false then
+				println("dealer use electro")
+				GL_Dealer_tempITEMELECTROisUsed = true
+
+				for i, item in ipairs(ER_DEALERITEMSnames) do
+					if item=="electro" then
+						table.remove(ER_DEALERITEMSnames, i)
+						break
+					end
+				end
+
+				--electro take dealer
+				TActivate("CreateStaticGUN")
+				TActivate("DEALER_USEITEM_electro_waiter")
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_electro_waiter" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local item = getObj("rouletteDEALERITEM_electro")
+			if item then 
+				CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+				CreateEffectTTLed( "ET_S_ITEM_ELECTRO", item:GetPosition(), Quaternion(0,0,0,1), 5000)
+				item:Remove()
+			end
+
+			--item do some
+			CreateNewDummyObject("rouletteITEMelectromodel", "rouletteITEM_electro_static_1", -1, -1, CVector(825.000, 265.200, 728.901), Quaternion(0,0,0,1), 1)
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteITEM_electro_static_1")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "ITEM_changeShellForDealer", 3)
+			end
+			
+			TActivate("DEALER_USEITEM_electro_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_USEITEM_electro_release_toplaced" active="0">
+		<event timeout="3.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local item = getObj("rouletteDEALERITEM_electro_1")
+			if item then
+				CreateEffectTTLed("ET_PS_SPAWN_OBJECT", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+				item:Remove()
+			end
+
+			if ER_GENbank[getn(ER_GENbank)]==1 then ER_GENbank[getn(ER_GENbank)] = 0 end
+			if ER_GENbank[getn(ER_GENbank)]==0 then ER_GENbank[getn(ER_GENbank)] = 1 end
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<trigger Name="DEALER_TakeGun" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("dealer take gun")
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByDealer", 2)
+			end
+
+			SetVar("GUNstate", 1)
+
+			CreateEffectTTLed( "ET_S_GRAB_GUN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			TActivate("DEALER_TakeGun_waiter")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_TakeGun_waiter" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			SetVar("DealerTakedGUN", 1)
+			TActivate("DEALER_LOGIC")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+	<trigger Name="DEALER_ShotToYourself" active="0">
+		<event timeout="1" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("dealer shot to yourself")
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotDealerToDealer", 2)
+			end
+
+			SetVar("GUNstate", 3)
+
+			TActivate("DEALER_ShotDealerToYourself_waiter")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_ShotDealerToYourself_waiter" active="0">
+		<event timeout="3.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local shell = ER_SHOOT()
+
+			local LastLiveShell = shell
+			if LastLiveShell==false then SetVar("LastLiveShell", 0) end
+			if LastLiveShell==true then SetVar("LastLiveShell", 1) end
+
+			if shell==true then
+				CreateNewSgNodeObject(
+					"ET_PS_FLAG01_FIRE", "gunShoot", -1, -1, 
+					getObj("rouletteGUN_static"):GetPosition() + CVector(3,5.3,0), 
+					getObj("rouletteGUN_static"):GetRotation() * EulerToQuaternion(0,0,0), 
+					3
+				)
+
+				local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+				local mover = GetEntityByID( moverId ) 
+				local controlledObj = getObj("rouletteGUN_static")
+				if controlledObj then
+					mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotDealerToDealer_fucked_release", 0.2)
+				end
+
+				GL_tempIfNeedToSpawnGunEffect = true
+
+				SetVar("DealerShotSelf", 1)
+
+				TActivate("DEALERDEAD")
+				println("lucky")
+			elseif shell==false then
+				CreateEffectTTLed( "ET_S_GUN_BLANKSHELL", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				SetVar("PlayerTurn", 2)
+
+				TActivate("DEALER_Shot_release")
+				println("fuck!")
+			else
+				println("empty")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALER_ShotToPlayer" active="0">
+		<event timeout="1" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("dealer shot to player")
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotDealerToPlayer", 2)
+			end
+
+			SetVar("GUNstate", 2)
+
+			TActivate("DEALER_ShotDealerToPlayer_waiter")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_ShotDealerToPlayer_waiter" active="0">
+		<event timeout="3.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local shell = ER_SHOOT()
+
+			local LastLiveShell = shell
+			if LastLiveShell==false then SetVar("LastLiveShell", 0) end
+			if LastLiveShell==true then SetVar("LastLiveShell", 1) end
+
+			if shell==true then
+				CreateNewSgNodeObject(
+					"ET_PS_FLAG01_FIRE", "gunShoot", -1, -1, 
+					getObj("rouletteGUN_static"):GetPosition() + CVector(6.76,0,0.07), 
+					getObj("rouletteGUN_static"):GetRotation() * EulerToQuaternion(90,0,0), 
+					3
+				)
+
+				TActivate("PLAYERDEAD")
+			elseif shell==false then
+				CreateEffectTTLed( "ET_S_GUN_BLANKSHELL", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				SetVar("PlayerTurn", 1)
+
+				TActivate("DEALER_Shot_release")
+				println("lucky")
+			else
+				println("empty")
+			end
+
+			SetVar("DealerTakedGUN", 0)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALER_Shot_release" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			local GUNpathReleaseName = ""
+			if GetVar("GUNstate").AsInt == 2 then
+				GUNpathReleaseName = "GUN_ShotDealerToPlayer_release"
+			elseif GetVar("GUNstate").AsInt == 3 then
+				GUNpathReleaseName = "GUN_ShotDealerToDealer_release"
+			end
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), GUNpathReleaseName, 2)
+			end
+
+			CreateEffectTTLed( "ET_S_GUN_RELOAD", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			local rndSFXdropshell = math.random(7)
+			CreateEffectTTLed( "ET_S_DROP_BLANKSHELL_"..rndSFXdropshell, getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			TActivate("DEALER_Shot_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_Shot_release_toplaced" active="0">
+		<event timeout="2.0" eventid="GE_TIME_PERIOD" />
+		<script>
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByDealer_release", 2)
+			end
+
+			TActivate("DEALER_GUN_releasedByDealer")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALER_GUN_releasedByDealer" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			CreateEffectTTLed( "ET_S_PLACE_GUN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+
+<!-- PLAYER TURN -->
+
+	<trigger Name="PLAYER_TURN" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			GetPlayerVehicle():GetCabin():SetProperty("Durability", "100")
+			GetPlayerVehicle():GetBasket():SetProperty("Durability", "0")
+
+			if 100>=GetPlayerHealth() then
+				local ProfileName = "Machinist"
+				local LOGs = io.open("exmachina.log","r+")
+				for logLine in LOGs:lines() do
+					local ProfileFND = string.find(logLine, 'Profile ')
+					if ProfileFND then
+						local ProfileFNDot = string.find(logLine, 'Profile "')
+						local ProfileFNDdo = string.find(logLine, '" set')
+						ProfileName = string.sub(logLine, ProfileFNDot+9, ProfileFNDdo-1)
+						ProfileName = tostring(ProfileName)
+						ProfileName = t_upper(ProfileName)
+					end
+				end
+				LOGs:close()
+				println("be careful, {"..ProfileName.."}")
+				--LOG("be careful, {"..ProfileName.."}")
+				AddImportantFadingMsgByStrIdFormatted( "fm_dealer_careful", ProfileName)
+			end
+
+			--other items
+			local GameState = GetVar("GameState").AsInt
+			if GameState>=4 then
+                TActivate("GAME_keepITEMS_beUse")
+            end
+
+			--gun
+			TActivate("GUN_create")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="GUN_create" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			local gun = getObj("rouletteGUN_static")
+			if gun then gun:Remove() end
+
+			CreateVehicleEx("rouletteGUN","rouletteGUN",CVector(854.011, 268.428, 728.495), 1081)
+			
+			TActivate("GUN_holder")
+
+			--add click event
+			TDeactivate("EVENT_clickOn_GUN")
+			getObj("EVENT_clickOn_GUN"):DelEvent("GE_UNDER_ATTACK")
+			getObj("EVENT_clickOn_GUN"):AddEvent("GE_UNDER_ATTACK", "rouletteGUN")
+			TActivate("EVENT_clickOn_GUN")
+
+			GL_GUNPosRot_Placed = {}
+			GL_GUNPosRot_TakedByPlayer = {}
+			GL_GUNPosRot_ShotPlayerToPlayer = {}
+			GL_GUNPosRot_ShotPlayerToDealer = {}
+
+			SetVar("GUNstate", 0)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="GUN_holder" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			local gun = getObj("rouletteGUN")
+			if gun then
+				gun:setImmortalMode(1)
+				--gun:AddModifier("maxhp", "= "..tostring(getn(ER_GUNbank)))
+				--gun:AddModifier("hp", "= "..tostring(getn(ER_GUNbank)))
+
+				--change pos n rot in camera_paths if you change this
+				
+				--placed
+				if GetVar("GUNstate").AsInt == 0 then
+					GL_GUNPosRot_Placed[1] = CVector(854.011, 268.428, 728.495)
+					GL_GUNPosRot_Placed[2] = Quaternion(0.300, -0.310, -0.635, 0.641)
+					gun:SetPosition(GL_GUNPosRot_Placed[1])
+					gun:SetRotation(GL_GUNPosRot_Placed[2])
+				end
+
+				--taked by player
+				if GetVar("GUNstate").AsInt == 1 then
+					GL_GUNPosRot_TakedByPlayer[1] = CVector(877.198, 267.198, 728.290)
+					GL_GUNPosRot_TakedByPlayer[2] = Quaternion(-0.285, 0.916, 0.212, -0.184)
+					gun:SetPosition(GL_GUNPosRot_TakedByPlayer[1])
+					gun:SetRotation(GL_GUNPosRot_TakedByPlayer[2])
+				end
+
+				--shot player to player
+				if GetVar("GUNstate").AsInt == 2 then
+					GL_GUNPosRot_ShotPlayerToPlayer[1] = CVector(875.000, 269.198, 728.800)
+					GL_GUNPosRot_ShotPlayerToPlayer[2] = Quaternion(-0.170, 0.684, 0.208, 0.677)
+					gun:SetPosition(GL_GUNPosRot_ShotPlayerToPlayer[1])
+					gun:SetRotation(GL_GUNPosRot_ShotPlayerToPlayer[2])
+				end
+
+				--shot player to dealer
+				if GetVar("GUNstate").AsInt == 3 then
+					GL_GUNPosRot_ShotPlayerToDealer[1] = CVector(880.000, 272.000, 732.000)
+					GL_GUNPosRot_ShotPlayerToDealer[2] = Quaternion(0.000, -0.707, 0.000, 0.707)
+					gun:SetPosition(GL_GUNPosRot_ShotPlayerToDealer[1])
+					gun:SetRotation(GL_GUNPosRot_ShotPlayerToDealer[2])
+				end
+			else
+				trigger:Deactivate()
+			end
+
+			--DEBUG
+			-- gun = getObj("rouletteGUN_static")
+			-- GL_GUNPosRot_ShotPlayerToDealer[1] = CVector(880.000, 273.000, 729.500)
+			-- GL_GUNPosRot_ShotPlayerToDealer[2] = Quaternion(0.116, -0.458, 0.060, 0.879)
+			-- gun:SetPosition(GL_GUNPosRot_ShotPlayerToDealer[1])
+			-- gun:SetRotation(GL_GUNPosRot_ShotPlayerToDealer[2])
+		</script>
+	</trigger>
+
+
+
+
+
+
+
+
+
+	<trigger Name="EVENT_clickOn_GUN" active="0">
+		<event eventid="GE_UNDER_ATTACK" ObjName="rouletteGUN" />
+		<script>
+			TDeactivate("GUN_holder")
+
+			local GameState = GetVar("GameState").AsInt
+			if GameState>=4 then
+				println("keep player items NOT be used BY EVENT_clickOn_GUN")
+				TActivate("GAME_keepITEMS_NOTbeUse")
+			end
+
+			--gun take player
+			if GetVar("GUNstate").AsInt == 0 then
+				local gun = getObj("rouletteGUN")
+				if gun then gun:Remove() end
+				
+				CreateNewDummyObject("rouletteGUNmodel", "rouletteGUN_static", -1, -1, GL_GUNPosRot_Placed[1], GL_GUNPosRot_Placed[2], 1)
+				
+				local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+				local mover = GetEntityByID( moverId ) 
+				local controlledObj = getObj("rouletteGUN_static")
+				if controlledObj then
+					mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByPlayer", 2)
+				end
+
+				CreateEffectTTLed( "ET_S_GRAB_GUN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+				TActivate("EVENT_qShootat")
+				TActivate("EVENTWAITER_qShootat")
+
+				SetVar("GUNstate", 1)
+			end
+		</script>
+	</trigger>
+
+
+
+
+	<trigger Name="EVENTWAITER_qShootat" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if getObj("EVENT_qShootat"):IsActivated()==1 then
+				SetCameraBehindPlayerVehicle()
+			else
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_qShootat" active="0">
+		<event timeout="2.6" eventid="GE_TIME_PERIOD" />
+		<script>
+			local Shootat = SpawnMessageBox("1")
+			if Shootat==1 then
+				println("shot to dealer")
+				local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+				local mover = GetEntityByID( moverId ) 
+				local controlledObj = getObj("rouletteGUN_static")
+				if controlledObj then
+					mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotPlayerToDealer", 2)
+				end
+				TActivate("EVENT_ShootPlayerToDealer")
+				TActivate("EVENTWAITER_ShootPlayerToDealer")
+				SetVar("GUNstate", 3)
+			else
+				println("shot to yourself")
+				local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+				local mover = GetEntityByID( moverId ) 
+				local controlledObj = getObj("rouletteGUN_static")
+				if controlledObj then
+					mover:SetObjAndPath( controlledObj:GetId(), "GUN_ShotPlayerToPlayer", 2)
+				end
+				TActivate("EVENT_ShootPlayerToPlayer")
+				TActivate("EVENTWAITER_ShootPlayerToPlayer")
+				SetVar("GUNstate", 2)
+			end
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="EVENTWAITER_ShootPlayerToPlayer" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EVENT_ShootPlayerToPlayer"):IsActivated()==1) or 
+			(getObj("PLAYERDEAD"):IsActivated()==1) or 
+			(getObj("PLAYERDEAD_exodus"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+			else
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_ShootPlayerToPlayer" active="0">
+		<event timeout="3" eventid="GE_TIME_PERIOD" />
+		<script>
+			local shell = ER_SHOOT()
+			if shell==true then
+				CreateNewSgNodeObject(
+					"ET_PS_FLAG01_FIRE", "gunShoot", -1, -1, 
+					getObj("rouletteGUN_static"):GetPosition() + CVector(6.76,3.72,0.07), 
+					getObj("rouletteGUN_static"):GetRotation() * EulerToQuaternion(90,0,0), 
+					3
+				)
+
+				TActivate("PLAYERDEAD")
+			elseif shell==false then
+				CreateEffectTTLed( "ET_S_GUN_BLANKSHELL", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				TActivate("EVENT_ShootPlayer_release")
+				println("lucky")
+			else
+				println("empty")
+			end
+
+			local LastLiveShell = shell
+			if LastLiveShell==false then SetVar("LastLiveShell", 0) end
+			if LastLiveShell==true then SetVar("LastLiveShell", 1) end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="EVENTWAITER_ShootPlayerToDealer" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EVENT_ShootPlayerToDealer"):IsActivated()==1) or 
+			(getObj("EVENT_ShootPlayer_release"):IsActivated()==1) or 
+			(getObj("EVENT_ShootPlayer_release_toplaced"):IsActivated()==1) or
+			(getObj("EVENT_GUN_releasedByPlayer"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+			else
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+	<trigger Name="EVENT_ShootPlayerToDealer" active="0">
+		<event timeout="3" eventid="GE_TIME_PERIOD" />
+		<script>
+			local shell = ER_SHOOT()
+			if shell==true then
+				CreateNewSgNodeObject(
+					"ET_PS_FLAG01_FIRE", "gunShoot", -1, -1, 
+					getObj("rouletteGUN_static"):GetPosition() + CVector(-7,0.25,-0.1), 
+					getObj("rouletteGUN_static"):GetRotation() * EulerToQuaternion(90,0,0), 
+					3
+				)
+
+				SetVar("DealerShotSelf", 0)
+
+				TActivate("DEALERDEAD")
+			elseif shell==false then
+				CreateEffectTTLed( "ET_S_GUN_BLANKSHELL", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				println("fuck!")
+			else
+				CreateEffectTTLed( "ET_S_GUN_BLANKSHELL", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				println("empty")
+			end
+
+			TActivate("EVENT_ShootPlayer_release")
+
+			SetVar("PlayerTurn", 2)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_ShootPlayer_release" active="0">
+		<event timeout="1" eventid="GE_TIME_PERIOD" />
+		<script>
+			local GUNpathReleaseName = ""
+			if GetVar("GUNstate").AsInt == 2 then
+				GUNpathReleaseName = "GUN_ShotPlayerToPlayer_release"
+			elseif GetVar("GUNstate").AsInt == 3 then
+				GUNpathReleaseName = "GUN_ShotPlayerToDealer_release"
+			end
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), GUNpathReleaseName, 2)
+			end
+
+			TActivate("EVENT_GUN_reload")
+			TActivate("EVENT_ShootPlayer_release_toplaced")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_ShootPlayer_release_toplaced" active="0">
+		<event timeout="2.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local shootEffect = getObj("gunShoot")
+			if shootEffect then shootEffect:Remove() end
+
+			local moverId = CreateNewObject { prototypeName	= "cinematicMover", objName  = "" }
+			local mover = GetEntityByID( moverId ) 
+			local controlledObj = getObj("rouletteGUN_static")
+			if controlledObj then
+				mover:SetObjAndPath( controlledObj:GetId(), "GUN_TakedByPlayer_release", 2)
+			end
+
+			TActivate("EVENT_GUN_releasedByPlayer")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="EVENT_GUN_releasedByPlayer" active="0">
+		<event timeout="1.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			CreateEffectTTLed( "ET_S_PLACE_GUN", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+	<trigger Name="EVENT_GUN_reload" active="0">
+		<event timeout="1" eventid="GE_TIME_PERIOD" />
+		<script>
+			CreateEffectTTLed( "ET_S_GUN_RELOAD", getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+
+			local rndSFXdropshell = math.random(7)
+			CreateEffectTTLed( "ET_S_DROP_BLANKSHELL_"..rndSFXdropshell, getObj("rouletteGUN_static"):GetPosition(), Quaternion(0,0,0,1), 2000)
+			
+			local shootEffect = getObj("gunShoot")
+			if shootEffect then shootEffect:Remove() end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+<!-- DEATH -->
+
+	<trigger Name="DEALERDEAD" active="0">
+		<event timeout="0.2" eventid="GE_TIME_PERIOD" />
+		<script>
+			RuleConsole("snd_2dVolume "..tostring(ER_MinSoundVol))
+			RuleConsole("snd_3dVolume "..tostring(ER_MinSoundVol))
+			RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+			GetPlayerVehicle():GetBasket():SetProperty("Durability", "1")
+
+			GL_tempIfNeedToSpawnDealerEffect = true
+			
+			TActivate("RemoveDealer")
+			TActivate("GunShotRemove")
+
+			TActivate("DEALERDEAD_exodus")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="GunShotRemove" active="0">
+		<event timeout="1.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			local shootEffect = getObj("gunShoot")
+			if shootEffect then shootEffect:Remove() end
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="DEALERDEAD_exodus" active="0">
+		<event timeout="4" eventid="GE_TIME_PERIOD" />
+		<script>
+			GetPlayerVehicle():AddModifier("fuel", "- 100")
+			if GetPlayerFuel()>100 then
+				println("dealer alive!")
+	
+				TActivate("DEALERDEAD_changeTurn")
+			else
+				println("dealer died!")
+
+				TActivate("DEALERDEAD_reloadgame")
+			end
+
+			RuleConsole("snd_2dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("snd_3dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALERDEAD_reloadgame" active="0">
+		<event timeout="0.2" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("DEALERDEAD turn end")
+			SetVar("PlayerTurn", 1)
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="DEALERDEAD_changeTurn" active="0">
+		<event timeout="0.2" eventid="GE_TIME_PERIOD" />
+		<script>
+			println("DEALERDEAD turn changed")
+
+			local DealerShotSelf = GetVar("DealerShotSelf").AsInt
+			if DealerShotSelf==0 then SetVar("PlayerTurn", 2) end
+			if DealerShotSelf==1 then SetVar("PlayerTurn", 1) end
+
+			if getObj("GAME_ANALYZER"):IsActivated()==0 then
+				TActivate("GAME_ANALYZER")
+			end
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+	
+	<trigger Name="PLAYERDEAD" active="0">
+		<event timeout="0.2" eventid="GE_TIME_PERIOD" />
+		<script>
+			local gun = getObj("rouletteGUN_static")
+			if gun then gun:Remove() end
+			local shootEffect = getObj("gunShoot")
+			if shootEffect then shootEffect:Remove() end
+
+			GetPlayerVehicle():GetCabin():SetProperty("Durability", "1")
+
+			RuleConsole("snd_2dVolume 0")
+			RuleConsole("snd_3dVolume 0")
+			RuleConsole("mus_Volume 0")
+
+			if GetPlayerHealth()>=200 then
+				PlayCustomMusic("Alarm")
+			end
+
+			if 100>=GetPlayerHealth() then
+				GetPlayerVehicle():AddModifier("hp", "- 100")
+				RuleConsole("snd_3dVolume 100")
+				CreateEffectTTLed( "ET_S_PLAYERDEATH", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 4000)
+			end
+
+			GL_tempIfNeedToSpawnGunEffect = true
+			
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen1", -1, -1, GetPlayerVehicle():GetPosition() + CVector(-2,0,0), EulerToQuaternion(0,0,-90), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen2", -1, -1, GetPlayerVehicle():GetPosition() + CVector(2,0,0), EulerToQuaternion(0,0,90), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen3", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,0,-2), EulerToQuaternion(90,0,0), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen4", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,0,2), EulerToQuaternion(-90,0,0), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen5", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,-2,0), EulerToQuaternion(0,0,0), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen6", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,2,0), EulerToQuaternion(0,180,0), 20)
+
+			TActivate("PLAYERDEAD_exodus")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+	<trigger Name="PLAYERDEAD_exodus" active="0">
+		<event timeout="4" eventid="GE_TIME_PERIOD" />
+		<script>
+			GetPlayerVehicle():AddModifier("hp", "- 100")
+			if GetPlayerHealth()>100 then
+				println("you alive!")
+
+				RuleConsole("snd_2dVolume "..tostring(ER_MaxSoundVol))
+				RuleConsole("snd_3dVolume "..tostring(ER_MaxSoundVol))
+				RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+				RuleConsole("g_postEffect cinematic01")
+
+				CreateEffectTTLed( "ET_S_DEFIB", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 2000)
+				TActivate("PLAYERDEAD_posteffect_remove")
+
+				local WhosTurn = GetVar("PlayerTurn").AsInt
+				local LastLiveShell = GetVar("LastLiveShell").AsInt
+				--println(WhosTurn.." "..LastLiveShell)
+				if WhosTurn==2 and LastLiveShell==1 then 
+					SetVar("PlayerTurn", 1) 
+				else
+					SetVar("PlayerTurn", 2)
+				end
+				
+				if getObj("GAME_ANALYZER"):IsActivated()==0 then
+					TActivate("GAME_ANALYZER")
+				end
+			else
+				LOG("GAMEOVER")
+				exit()
+			end
+
+			for i=1, 6 do
+				local DeahScreen = getObj("DeathScreen"..i)
+				if DeahScreen then DeahScreen:Remove() end
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="PLAYERDEAD_posteffect_remove" active="0">
+		<event timeout="2" eventid="GE_TIME_PERIOD" />
+		<script>
+			RuleConsole("g_postEffect cinematicEnd")
+			CreateEffectTTLed( "ET_S_REMOVEDEFIB", GetPlayerVehicle():GetPosition(), Quaternion(0,0,0,1), 6000)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+</triggers>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<!--
+‘ва®Є®ўлҐ Є®­бв ­¤л ¤«п ўлў®¤  б®®ЎйҐ­Ё Ё ®аЈ ­Ё§ жЁЁ а®«ЁЄ®ў.
+ЏаЁ¬Ґа:
+‘ г­ЁЄ «м­®© ¬ бЄ®©:
+	<string
+		id="1"
+		modelName="mask_hero"
+		value="|џ ЇҐаҐбҐЄ Їгбвл­о б¬ҐавЁ! € ¤ ¦Ґ §¤Ґбм - б«Ґ¤л зҐ«®ўҐЄ . ѓ¤Ґ в®«мЄ® «о¤Ё ­Ґ бҐ«пвбп!"
+		sound="data\sounds\Speech\r4m1\r4m1_1_hero.ogg"
+		time="1" />
+
+‘ Є®­дЁЈга жЁҐ© ¬ бЄЁ:
+	<string
+		id="15"
+		modelName="r4_man"
+		modelSkin="0"
+		modelCfg="135"
+		modelSlot="1"
+		value="‘’Ђђ€Љ|‘­ з «  п ­Ґ е®вҐ« вҐЎҐ нв®Ј® Ј®ў®аЁвм, ­® в®в зҐ«®ўҐЄ, ® Є®в®а®¬ вл бЇа иЁў «, ¤Ґ©бвўЁвҐ«м­® Ўл« ў ­ иҐ© ¤ҐаҐў­Ґ. Ћ­ ®вЇа ўЁ«бп ¤ «миҐ ­  ў®бв®Є. ‡ Є«Ё­ о вҐЎп - ­Ґ б«Ґ¤г© §  ­Ё¬! ’ ¬ вҐЎп ¦¤Ґв в®«мЄ® б¬Ґавм. €«Ё в®, зв® ег¦Ґ б¬ҐавЁ."
+		sound="data\sounds\Speech\r4m1\r4m1_15_oldman.ogg"
+		time="5" />
+
+-->
+<resource>
+	<string
+		id="1"
+		value="Выстрелить в дилера?"
+		numButtons="2" />
+
+
+<!-- PLAYER -->
+
+	<string
+		id="1001"
+		modelName=""
+		modelSlot="1"
+		value="|Что это было? У дилера были все шансы выиграть..."
+		sound=""
+		time="4" />
+	<string
+		id="1002"
+		modelName=""
+		modelSlot="1"
+		value="|Он всегда знал, в каком порядке заряжает патроны в дробовик..."
+		sound=""
+		time="6" />
+	<string
+		id="1003"
+		modelName=""
+		modelSlot="1"
+		value="|Если бы он играл нечестно, игра бы завершилась по-другому?"
+		sound=""
+		time="6" />
+	<string
+		id="1004"
+		modelName=""
+		modelSlot="1"
+		value="|Это неважно. Мне нужно просто принять тот факт, что для меня... это был... успех..."
+		sound=""
+		time="8" />
+	<string
+		id="1005"
+		modelName=""
+		modelSlot="1"
+		value="|Я пытался выиграть. Я использовал предметы. Все мои действия привели меня к... успеху."
+		sound=""
+		time="8" />
+
+	<string
+		id="1006"
+		modelName=""
+		modelSlot="1"
+		value="|А я хотел... Испытать удачу!"
+		sound=""
+		time="5" />
+	<string
+		id="1007"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000Нет."
+		sound=""
+		time="5" />
+	<string
+		id="1008"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000Я ХОТЕЛ. ВКУСИТЬ. ЧИСТУЮ. УДАЧУ."
+		sound=""
+		time="10" />
+
+
+<!-- DEALER -->
+
+	<string
+		id="101"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ЗДРАВСТВУЙ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="2" />
+	<string
+		id="102"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ЛЮБИШЬ АЗАРТНЫЕ ИГРЫ?"
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="103"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ПРАВИЛА ИГРЫ ПРОСТЫ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="104"
+		modelName=""
+		modelSlot="1"
+		value="@ffc10000ДРОБОВИК НА СТОЛЕ - НАСТОЯЩИЙ. @ffc10000СТРЕЛЯЕМ ДРУГ В ДРУГА ПО ОЧЕРЕДИ.|@ffc10000ЗАКОНЧИЛИСЬ ЖИЗНИ У МЕНЯ - ИГРАЕМ СЛЕДУЮЩИЙ РАУНД. @ffc10000У ТЕБЯ - ТЫ ПРОИГРАЛ.|@ffc10000ТЫ МОЖЕШЬ ВИДЕТЬ ИНФОРМАЦИЮ ВВЕРХУ СВОЕГО ЭКРАНА."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="10" />
+	<string
+		id="105"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ДАВАЙ НАЧНЁМ.|@ffc10000КАЖДЫЙ РАУНД ИГРА СТАНОВИТСЯ ИНТЕРЕСНЕЕ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+
+	<string
+		id="106"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc100001 БОЕВОЙ ПАТРОН. 2 ХОЛОСТЫХ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+
+	<string
+		id="107"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ЗАРЯЖАЮ ИХ В СЛУЧАЙНОМ ПОРЯДКЕ. ЗАПОМНИ - Я ВСЕГДА ИГРАЮ ЧЕСТНО."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="5" />
+	<string
+		id="108"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ПЕРВЫЙ ХОД ПОСЛЕ ЗАРЯДКИ ВСЕГДА ТВОЙ.|@ffc10000ВЫСТРЕЛИШЬ В СЕБЯ ХОЛОСТЫМ - Я ПРОПУСКАЮ СВОЙ ХОД. ВЫБИРАЙ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="6" />
+
+	<string
+		id="109"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc100003 БОЕВЫХ. 2 ХОЛОСТЫХ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="110"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ПРАВИЛА ТЫ ЗНАЕШЬ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+
+	<string
+		id="111"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ДАВАЙ СДЕЛАЕМ ИГРУ ЧУТЬ ИНТЕРЕСНЕЕ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="112"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000ТРИ ПРЕДМЕТА КАЖДОМУ.|@ffc10000НОВЫЕ ПРЕДМЕТЫ ПЕРЕД КАЖДОЙ ЗАРЯДКОЙ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="5" />
+
+	<string
+		id="113"
+		modelName=""
+		modelSlot="1"
+		value="|@ffc10000СЕЙЧАС РЕШАЮЩИЙ РАУНД."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="3" />
+	<string
+		id="114"
+		modelName=""
+		modelSlot="1"
+		value="@ffc10000ТЕПЕРЬ НИКАКИХ ВОСКРЕШЕНИЙ. ТОЛЬКО ТЫ И Я. НА ПОРОГЕ СМЕРТИ.| |@ffc10000ДЕНЬГИ ПОБЕДИТЕЛЮ И СМЕРТЬ В НАГРАДУ ПРОИГРАВШЕМУ."
+		sound="data\sounds\Speech\roulette_dealer\sfx_dealertalk_0.ogg"
+		time="6" />
+
+
+</resource>

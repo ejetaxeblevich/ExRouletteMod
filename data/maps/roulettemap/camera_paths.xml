@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes"?>
+<!--
+‚ нв®¬ д ©«Ґ б®¤Ґа¦ вбп ЇгвЁ Є ¬Ґа ¤«п а®«ЁЄ®ў
+ЏаЁ¬Ґа:
+
+	<Path Name = "Primer_cam01">                         
+		<Point  coord="1266.468 213.171 1519.520" rotation="0.008 -0.468 -0.004 0.884"/>
+		<Point  coord="1250.052 213.171 1554.609" rotation="-0.000 -0.632 0.000 0.775"/>
+	</Path>
+-->
+<Paths>
+	<Path Name = "IntroMap_cam1">                         
+		<Point  coord="814.836 290.326 1198.775" rotation="0.190 0.297 0.061 0.934" speed="0.6" zoom="2.000" />
+		<Point  coord="841.090 282.384 1191.913" rotation="0.220 0.157 0.164 0.948" speed="2.0" zoom="1.000" />
+		<Point  coord="843.709 260.156 1184.999" rotation="0.240 0.252 -0.060 0.936" speed="0.8" zoom="0.800" />
+		<Point  coord="836.766 256.521 1182.105" rotation="0.030 0.333 0.010 0.942" speed="1.2" zoom="1.100" />
+		<Point  coord="821.999 256.521 1182.828" rotation="0.027 -0.419 -0.013 0.907" speed="1.5" zoom="1.000" />
+		<Point  coord="817.452 261.788 1207.286" rotation="-0.040 -0.042 0.132 0.989" speed="1.8" zoom="0.800" />
+		<Point  coord="818.481 256.773 1218.000" rotation="-0.321 -0.024 0.008 0.947" speed="2.2" zoom="1.200" />
+	</Path>
+	<Path Name = "IntroMap_cam2">                         
+		<Point  coord="1055.000 386.822 731.925" rotation="-0.103 0.697 -0.102 0.703" speed="0.8" zoom="1.200" />
+		<Point  coord="1021.651 375.014 732.265" rotation="-0.028 0.707 -0.028 0.706" speed="1.5" zoom="0.700" />
+		<Point  coord="967.050 370.249 732.032" rotation="-0.274 0.658 -0.281 0.642" speed="1.0" zoom="1.200" />
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.5" zoom="1.000" />
+	</Path>
+
+	<Path Name = "PlayerCamMove_showNewBlankShell0">                         
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.8" zoom="1.000" />
+		<Point  coord="859.102 274.500 722.791" rotation="-0.100 0.898 -0.270 0.333" speed="1.2" zoom="1.100" />
+	</Path>
+	<Path Name = "PlayerCamMove_showNewBlankShell1">                         
+		<Point  coord="859.102 274.500 722.791" rotation="-0.100 0.898 -0.270 0.333" speed="1" zoom="1.100" />
+	</Path>
+	<Path Name = "PlayerCamMove_showNewBlankShell2">                         
+		<Point  coord="859.102 274.500 722.791" rotation="-0.100 0.898 -0.270 0.333" speed="1.2" zoom="1.100" />
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.8" zoom="1.000" />
+	</Path>
+
+	<Path Name = "PlayerCamMove_showNewGameRound0">                         
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.8" zoom="1.000" />
+		<Point  coord="853.319 274.512 733.895" rotation="-0.307 -0.002 0.001 0.952" speed="1.2" zoom="1.100" />
+	</Path>
+	<Path Name = "PlayerCamMove_showNewGameRound1">                         
+		<Point  coord="853.319 274.512 733.895" rotation="-0.307 -0.002 0.001 0.952" speed="1" zoom="1.100" />
+	</Path>
+	<Path Name = "PlayerCamMove_showNewGameRound2">                         
+		<Point  coord="853.319 274.512 733.895" rotation="-0.307 -0.002 0.001 0.952" speed="1.2" zoom="1.100" />
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.8" zoom="1.000" />
+	</Path>
+
+
+	<Path Name = "PlayerCamMove_DealerHelloDlg0">                         
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="1.0" zoom="1.000" />
+		<Point  coord="887.977 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.8" zoom="1.300" />
+	</Path>
+	<Path Name = "PlayerCamMove_DealerHelloDlg1">                         
+		<Point  coord="887.977 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" zoom="1.300" />
+	</Path>
+	<Path Name = "PlayerCamMove_DealerHelloDlg2">                         
+		<Point  coord="887.977 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.8" zoom="1.300" />
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="1.0" zoom="1.000" />
+	</Path>
+
+
+
+	<Path Name = "GUN_TakedByPlayer">                         
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="1.2" />
+		<Point  coord="876.198 269.198 727.290" rotation="-0.285 0.916 0.212 -0.184" speed="1.0" />
+		<Point  coord="877.198 267.198 728.290" rotation="-0.285 0.916 0.212 -0.184" speed="0.8" />
+	</Path>
+	<Path Name = "GUN_TakedByPlayer_release">                         
+		<Point  coord="877.198 267.198 728.290" rotation="-0.285 0.916 0.212 -0.184" speed="1.2" />
+		<Point  coord="877.000 268.428 728.000" rotation="-0.285 0.916 0.212 -0.184" speed="0.8" />
+		<Point  coord="855.000 268.428 727.900" rotation="0.300 -0.310 -0.635 0.641" speed="0.8" />
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="0.4" />
+	</Path>
+
+	<Path Name = "GUN_ShotPlayerToPlayer">                         
+		<Point  coord="877.198 267.198 728.290" rotation="-0.285 0.916 0.212 -0.184" speed="1.2" />
+		<Point  coord="875.000 268.198 727.800" rotation="-0.170 0.684 0.208 0.677" speed="1.0" />
+		<Point  coord="875.000 269.198 728.800" rotation="-0.170 0.684 0.208 0.677" speed="0.8" />
+	</Path>
+	<Path Name = "GUN_ShotPlayerToPlayer_release">                         
+		<Point  coord="875.000 269.198 728.800" rotation="-0.170 0.684 0.208 0.677" speed="1.2" />
+		<Point  coord="877.197 267.000 729.290" rotation="-0.285 0.916 0.212 -0.184" speed="0.8" />
+		<Point  coord="877.197 267.000 731.290" rotation="-0.285 0.916 0.212 -0.184" speed="0.2" />
+		<Point  coord="877.198 267.198 728.290" rotation="-0.285 0.916 0.212 -0.184" speed="1.0" />
+	</Path>
+
+	<Path Name = "GUN_ShotPlayerToDealer">                         
+		<Point  coord="877.198 267.198 728.290" rotation="-0.285 0.916 0.212 -0.184" speed="1.2" />
+		<Point  coord="881.000 271.000 731.000" rotation="0.000 -0.707 0.000 0.707" speed="1.0" />
+		<Point  coord="880.000 272.000 732.000" rotation="0.000 -0.707 0.000 0.707" speed="0.8" />
+	</Path>
+	<Path Name = "GUN_ShotPlayerToDealer_release">                         
+		<Point  coord="880.000 272.000 732.000" rotation="0.000 -0.707 0.000 0.707" speed="1.2" />
+		<Point  coord="877.198 267.000 729.290" rotation="-0.285 0.916 0.212 -0.184" speed="0.8" />
+		<Point  coord="877.198 267.000 731.290" rotation="-0.285 0.916 0.212 -0.184" speed="0.2" />
+		<Point  coord="877.198 267.198 728.290" rotation="-0.285 0.916 0.212 -0.184" speed="1.0" />
+	</Path>
+
+
+
+
+	<Path Name = "GUN_DealerLoadShells">                         
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="0.8" />
+		<Point  coord="825.000 269.000 727.900" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.6" />
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="0.8" />
+	</Path>
+	<Path Name = "GUN_DealerReloadShotgun_andrelease">                         
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="2.2" />
+		<Point  coord="825.000 267.428 723.495" rotation="-0.050 -0.132 -0.313 -0.939" speed="0.8" />
+		<Point  coord="825.000 268.428 730.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="2.2" />
+		<Point  coord="826.000 271.600 727.500" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.0" />
+		<Point  coord="854.011 270.428 730.495" rotation="0.383 -0.320 -0.525 0.690" speed="0.8" />
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="0.4" />
+	</Path>
+
+	<Path Name = "GUN_TakedByDealer">                         
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="1.2" />
+		<Point  coord="854.011 270.428 730.495" rotation="0.383 -0.320 -0.525 0.690" speed="1.0" />
+		<Point  coord="826.000 271.600 727.500" rotation="-0.212 -0.184 -0.285 -0.916" speed="0.8" />
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="0.4" />
+	</Path>
+	<Path Name = "GUN_TakedByDealer_release">                         
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.2" />
+		<Point  coord="826.000 271.600 727.500" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.0" />
+		<Point  coord="854.011 270.428 730.495" rotation="0.383 -0.320 -0.525 0.690" speed="0.8" />
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="0.4" />
+	</Path>
+
+	<Path Name = "GUN_ShotDealerToPlayer">                         
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.2" />
+		<Point  coord="825.000 267.800 729.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.0" />
+		<Point  coord="828.000 269.198 724.000" rotation="-0.034 0.685 0.032 0.727" speed="0.8" />
+	</Path>
+	<Path Name = "GUN_ShotDealerToPlayer_release">                         
+		<Point  coord="828.000 269.198 724.000" rotation="-0.034 0.685 0.032 0.727" speed="1.8" />
+		<Point  coord="820.000 270.000 724.000" rotation="-0.034 0.685 0.032 0.727" speed="3.2" />
+		<Point  coord="828.000 269.198 724.000" rotation="-0.034 0.685 0.032 0.727" speed="1.0" />
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="0.4" />
+	</Path>
+
+	<Path Name = "GUN_ShotDealerToDealer">                         
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.2" />
+		<Point  coord="826.000 269.428 729.495" rotation="-0.032 0.727 -0.034 -0.685" speed="1.0" />
+		<Point  coord="825.000 265.198 728.800" rotation="-0.277 -0.622 -0.307 0.663" speed="0.8" />
+	</Path>
+	<Path Name = "GUN_ShotDealerToDealer_release">    
+		<!-- <Point  coord="825.000 265.198 728.800" rotation="-0.277 -0.622 -0.307 0.663" speed="0.8" />     -->
+		<!-- <Point  coord="825.000 265.198 728.800" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.5" /> -->
+		<!-- <Point  coord="825.000 265.198 728.800" rotation="-0.212 -0.184 -0.285 -0.916" speed="0.2" /> -->
+		<!-- <Point  coord="825.000 265.198 728.800" rotation="-0.277 -0.622 -0.307 0.663" speed="0.2" /> -->
+		<Point  coord="826.000 268.428 726.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="2.2" />
+		<Point  coord="825.000 267.428 723.495" rotation="-0.050 -0.132 -0.313 -0.939" speed="0.8" />
+		<Point  coord="825.000 268.428 730.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="2.2" />
+		<Point  coord="826.000 271.600 727.500" rotation="-0.212 -0.184 -0.285 -0.916" speed="1.0" />
+		<Point  coord="825.000 268.428 728.495" rotation="-0.212 -0.184 -0.285 -0.916" speed="0.4" />
+	</Path>
+	<Path Name = "GUN_ShotDealerToDealer_fucked_release">                         
+		<Point  coord="825.000 265.198 728.800" rotation="-0.277 -0.622 -0.307 0.663" speed="0.5" />
+		<Point  coord="826.000 269.428 735.495" rotation="0.300 -0.310 -0.635 0.641" speed="1.5" />
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="1.8" />
+	</Path>
+
+
+
+
+
+
+	<Path Name = "ITEMGUN_showShellForPlayer">                         
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="1.2" />
+		<Point  coord="856.011 270.428 729.495" rotation="0.000 -0.707 0.000 0.707" speed="1.0" />
+		<Point  coord="879.000 273.000 729.500" rotation="0.116 -0.458 0.060 0.879" speed="0.8" />
+		<Point  coord="879.100 273.000 729.400" rotation="0.116 -0.458 0.060 0.879" speed="1.8" />
+	</Path>
+	<Path Name = "ITEMGUN_showShellForPlayer_release">
+		<Point  coord="879.100 273.000 729.400" rotation="0.116 -0.458 0.060 0.879" speed="1.8" />
+		<Point  coord="879.000 273.000 729.500" rotation="0.116 -0.458 0.060 0.879" speed="0.8" />
+		<Point  coord="856.011 270.428 729.495" rotation="0.000 -0.707 0.000 0.707" speed="1.0" />
+		<Point  coord="854.011 268.428 728.495" rotation="0.300 -0.310 -0.635 0.641" speed="1.2" />
+	</Path>
+
+	<Path Name = "ITEM_showPodskazkaForPlayer">                         
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.2" zoom="1.000" />
+		<Point  coord="887.978 274.976 728.915" rotation="0.211 0.676 0.210 0.674" speed="4.8" zoom="2.200" />
+	</Path>
+	<Path Name = "ITEM_showPodskazkaForPlayer_release">                         
+		<Point  coord="887.978 274.976 728.915" rotation="0.211 0.676 0.210 0.674" speed="4.8" zoom="2.200" />
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.2" zoom="1.000" />
+	</Path>
+
+	<Path Name = "ITEM_changeShellForPlayer">                         
+		<Point  coord="883.000 272.200 728.901" rotation="-0.033 0.707 -0.033 0.705" speed="3.0" />
+		<Point  coord="883.000 273.500 728.901" rotation="0.001 0.739 0.673 -0.001" speed="2.5" />
+		<Point  coord="883.200 274.000 728.801" rotation="0.001 0.739 0.673 -0.001" speed="0.5" />
+		<Point  coord="883.000 260.000 728.901" rotation="-0.033 0.707 -0.033 0.705" speed="0.5" />
+	</Path>
+	<Path Name = "ITEM_changeShellForPlayer_release">                         
+		<Point  coord="887.968 274.956 728.500" rotation="-0.033 0.707 -0.033 0.705" speed="0.5" />
+		<Point  coord="887.978 274.966 728.500" rotation="-0.033 0.707 -0.033 0.705" speed="0.5" />
+		<Point  coord="887.978 270.000 728.500" rotation="-0.033 0.707 -0.033 0.705" speed="3.5" />
+	</Path>
+	<Path Name = "ITEM_changeShellForDealer">                         
+		<Point  coord="825.000 272.200 728.901" rotation="-0.033 0.707 -0.033 0.705" speed="3.0" />
+		<Point  coord="825.000 273.500 728.901" rotation="0.001 0.739 0.673 -0.001" speed="2.5" />
+		<Point  coord="825.200 274.000 728.801" rotation="0.001 0.739 0.673 -0.001" speed="0.5" />
+		<Point  coord="825.000 260.000 728.901" rotation="-0.033 0.707 -0.033 0.705" speed="0.5" />
+	</Path>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<Path Name = "PlayerCamMove_EndGame0">                         
+		<Point  coord="887.978 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="1.0" zoom="1.000" />
+		<Point  coord="887.977 274.966 728.915" rotation="-0.033 0.707 -0.033 0.705" speed="0.8" zoom="2.300" />
+	</Path>
+	<Path Name = "PlayerCamMove_EndGame1">                         
+		<Point  coord="492.626 260.505 1312.606" rotation="0.574 0.364 0.316 0.662"/>
+		<Point  coord="528.484 260.360 1283.221" rotation="0.516 0.386 0.280 0.712"/>
+		<Point  coord="571.434 260.152 1255.700" rotation="0.569 0.377 0.329 0.653"/>
+		<Point  coord="611.351 260.619 1233.905" rotation="0.575 0.395 0.370 0.613"/>
+	</Path>
+	<Path Name = "PlayerCamMove_EndGame2">                         
+		<Point  coord="450.537 257.102 1269.946" rotation="0.010 -0.065 -0.001 0.998" zoom="2.000" />
+		<Point  coord="548.045 260.081 1225.296" rotation="-0.049 -0.158 0.008 0.986" zoom="2.000" />
+		<Point  coord="607.902 260.081 1195.212" rotation="-0.042 -0.215 0.009 0.976" zoom="2.000" />
+		<Point  coord="645.996 290.828 1187.184" rotation="-0.387 -0.219 0.095 0.891" zoom="1.800" />
+		<Point  coord="677.415 259.664 1165.115" rotation="-0.085 -0.222 0.019 0.971" zoom="1.600" />
+		<Point  coord="713.433 260.897 1129.236" rotation="-0.042 -0.173 0.007 0.984" zoom="1.800" />
+		<Point  coord="805.105 260.897 1101.339" rotation="-0.029 -0.131 0.004 0.991" zoom="2.000" />
+		<Point  coord="859.454 259.540 1103.257" rotation="-0.025 -0.661 0.022 0.750" zoom="1.800" />
+		<Point  coord="914.169 256.944 1109.922" rotation="-0.000 -0.704 0.000 0.710" zoom="1.500" />
+	</Path>
+	<Path Name = "PlayerCamMove_EndGame3">                         
+		<Point  coord="910.271 262.719 1203.732" rotation="0.303 0.086 0.027 0.949" zoom="1.400" />
+		<Point  coord="910.271 262.718 1203.732" rotation="0.303 0.086 0.027 0.949" zoom="1.200" />
+	</Path>
+	<Path Name = "PlayerCamMove_EndGame4">                         
+		<Point  coord="935.504 261.798 1166.060" rotation="0.000 0.999 -0.049 -0.006" zoom="1.000" />
+		<Point  coord="935.504 261.797 1166.060" rotation="0.000 0.999 -0.049 -0.006" zoom="2.200" />
+	</Path>
+
+
+</Paths>

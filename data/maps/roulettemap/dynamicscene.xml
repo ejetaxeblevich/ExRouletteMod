@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<DynamicScene
+	LastId="4386">
+	<TargetNamesForDestroy
+		Names="u1 u2 u3 u4 u5 u6 u7 u8 u9" />
+
+	<Object
+		Name="Player1"
+		Belong="1100"
+		Prototype="player">
+		<Object
+			Name="PlayerVehicle_0_0"
+			Belong="1100"
+			Prototype="Chooser"
+			Pos="819.040 255.753 1178.959">
+			<Parts />
+
+			<Repository />
+		</Object>
+	</Object>
+
+	<Object
+		Belong="-1"
+		Prototype="LightObject"
+		Pos="838.645 265.188 1207.606"
+		Rot="0.001 -0.629 0.002 0.777" />
+
+	<Object
+		Name="PlayerCar"
+		Belong="1100"
+		Prototype="PlayerCar"
+		Pos="829.040 255.753 1188.959"
+		Rot="0.000 -0.202 0.000 0.979">
+		<Parts />
+
+		<Repository />
+	</Object>
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="1094.633 265.192 1150.730"
+		Rot="0.000 0.995 0.000 0.105" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="1047.125 265.192 1137.906"
+		Rot="0.000 0.986 0.000 0.165" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="1010.274 265.192 1130.559"
+		Rot="0.000 0.999 0.000 0.048" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="975.744 265.192 1124.708"
+		Rot="0.000 1.000 0.000 0.011" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="942.963 265.192 1123.639"
+		Rot="0.000 0.999 0.000 -0.039" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="909.960 265.192 1127.253"
+		Rot="0.000 0.992 0.000 -0.124" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="876.609 265.192 1135.013"
+		Rot="0.000 0.992 0.000 -0.124" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="683.669 265.192 1197.448"
+		Rot="0.000 0.968 0.000 -0.252" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="650.305 265.192 1215.173"
+		Rot="0.000 0.992 0.000 -0.124" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="611.624 265.192 1235.637"
+		Rot="0.000 0.975 0.000 -0.221" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="571.731 265.192 1257.794"
+		Rot="0.000 0.962 0.000 -0.274" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="528.001 265.192 1285.460"
+		Rot="0.000 0.951 0.000 -0.309" />
+
+	<Object
+		Belong="-1"
+		Prototype="Light_Yellow_Lens"
+		Pos="492.781 265.128 1313.960"
+		Rot="0.001 0.935 -0.011 -0.354" />
+
+	<Object
+		Belong="1100"
+		Prototype="someRecollection" />
+</DynamicScene>

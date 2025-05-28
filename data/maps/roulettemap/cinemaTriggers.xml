@@ -1,0 +1,1062 @@
+<?xml version="1.0" encoding="windows-1251" standalone="yes" ?>
+<!--
+‡¤Ґбм б®¤Ґа¦ вбп бЄаЁЇвл бЄаЁЇв®ўле а®«ЁЄ®ў =)
+-->
+
+<triggers>
+    <trigger Name="IntroMapCutscene" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			Fly("IntroMap_cam1", CINEMATIC_NO_AIM, 0, 30, 0, 0 )
+            Fly("IntroMap_cam2", CINEMATIC_NO_AIM, 0, 10, 0, 0 )
+			StartCinematic()
+
+            TActivate("IntroMapCutscene_music")
+            TActivate("IntroMapCutsceneEnd")
+            TActivate("IntroMapCutscene_changescene")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="IntroMapCutscene_music" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+            PlayCustomMusic("Bearing")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="IntroMapCutscene_changescene" active="0">
+        <event flypath="IntroMap_cam2" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+			StopPlayingCustomMusic()
+           
+            CreateNewSgNodeObject(
+                "ET_SM_CLUB_REVERB", "music_ClubReverb", -1, -1, 
+                CVector(818.481, 256.774, 1217.998), 
+                Quaternion(0,0,0,1), 
+                1
+            )
+
+            TActivate("IntroMapCutscene_musVolume")
+            TActivate("DISKOTEKA_STOP")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="IntroMapCutscene_musVolume" active="0">
+		<event timeout="2" eventid="GE_TIME_PERIOD" />
+		<script>
+            RuleConsole("mus_Volume 0")
+            PlayCustomMusic("Load")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+	<trigger Name="IntroMapCutsceneEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            TDeactivate("IntroMapCutscene_changescene")
+
+            local objmusic_ClubReverb = getObj("music_ClubReverb")
+            if objmusic_ClubReverb then 
+                objmusic_ClubReverb:Remove() 
+                --objmusic_ClubReverb:SetPosition(CVector(0,0,0))
+            end
+
+            SetCameraBehindPlayerVehicle()
+
+            TActivate("trPlayerCam_DealerHelloDlg")
+            TActivate("DISKOTEKA_STOP")
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+            --PlayCustomMusic("Load")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+    <trigger Name="trPlayerCam_DealerHelloDlg" active="0">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+			Fly("PlayerCamMove_DealerHelloDlg0", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg1", CINEMATIC_NO_AIM, 0, 20.0, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+			StartCinematic()
+
+            RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+            TActivate("CreateDealer")
+
+            TActivate("trPlayerCam_DealerHelloDlg_fly")
+            TActivate("trPlayerCam_DealerHelloDlgEnd")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerHelloDlg_fly" active="0">
+        <event flypath="PlayerCamMove_DealerHelloDlg1" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            AddCinematicMessage(101,0.2)
+            AddCinematicMessage(102,0.2)
+            AddCinematicMessage(103,0.2)
+            AddCinematicMessage(104,0.2)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerHelloDlgEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            TDeactivate("trPlayerCam_DealerHelloDlg_fly")
+           
+            SetCameraBehindPlayerVehicle()
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+            TActivate("GAME_showNewGameRound")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="trPlayerCam_DealerFirstRules" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+			Fly("PlayerCamMove_DealerHelloDlg0", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg1", CINEMATIC_NO_AIM, 0, 11.4, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+			StartCinematic()
+
+            RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+            TActivate("trPlayerCam_DealerFirstRules_fly")
+            TActivate("trPlayerCam_DealerFirstRulesEnd")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerFirstRules_fly" active="0">
+        <event flypath="PlayerCamMove_DealerHelloDlg1" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            AddCinematicMessage(107,0.2)
+            AddCinematicMessage(108,0.2)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerFirstRulesEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            TDeactivate("trPlayerCam_DealerFirstRules_fly")
+           
+            SetCameraBehindPlayerVehicle()
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="trPlayerCam_DealerPostRules" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:UnbindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+			Fly("PlayerCamMove_DealerHelloDlg0", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg1", CINEMATIC_NO_AIM, 0, 3.2, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+			StartCinematic()
+
+            RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+            TActivate("trPlayerCam_DealerPostRules_fly")
+            TActivate("trPlayerCam_DealerPostRulesEnd")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerPostRules_fly" active="0">
+        <event flypath="PlayerCamMove_DealerHelloDlg1" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            AddCinematicMessage(110,0.2)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerPostRulesEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:BindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+            TDeactivate("trPlayerCam_DealerPostRules_fly")
+           
+            SetCameraBehindPlayerVehicle()
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="trPlayerCam_DealerMidRules" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:UnbindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+        
+			Fly("PlayerCamMove_DealerHelloDlg0", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg1", CINEMATIC_NO_AIM, 0, 5.2, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+			StartCinematic()
+
+            RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+            TActivate("trPlayerCam_DealerMidRules_fly")
+            TActivate("trPlayerCam_DealerMidRulesEnd")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerMidRules_fly" active="0">
+        <event flypath="PlayerCamMove_DealerHelloDlg1" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            AddCinematicMessage(112,0.2)
+
+            GL_CurItemsCountForSpawn = 3
+            TActivate("GAME_spawnNewObjects")
+            --TActivate("GAME_keepITEMS_NOTbeUse_byCutscene")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerMidRulesEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:BindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+            TDeactivate("trPlayerCam_DealerMidRules_fly")
+
+            TActivate("GAME_keepITEMS_NOTbeUse_byCutscene")
+            --TActivate("GAME_spawnNewObjects")
+           
+            SetCameraBehindPlayerVehicle()
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="trPlayerCam_DealerLastRules" active="0">
+		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:UnbindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+			Fly("PlayerCamMove_DealerHelloDlg0", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg1", CINEMATIC_NO_AIM, 0, 6.2, 0, 0 )
+            Fly("PlayerCamMove_DealerHelloDlg2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+			StartCinematic()
+
+            RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+            TActivate("trPlayerCam_DealerLastRules_fly")
+            TActivate("trPlayerCam_DealerLastRulesEnd")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerLastRules_fly" active="0">
+        <event flypath="PlayerCamMove_DealerHelloDlg1" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            AddCinematicMessage(114,0.2)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_DealerLastRulesEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:BindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+            TDeactivate("trPlayerCam_DealerLastRules_fly")
+           
+            SetCameraBehindPlayerVehicle()
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+
+
+    <trigger Name="trPlayerCam_showNewBlankShells" active="0">
+		<event timeout="0.01" eventid="GE_TIME_PERIOD" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:UnbindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+			Fly("PlayerCamMove_showNewBlankShell0", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+            Fly("PlayerCamMove_showNewBlankShell1", CINEMATIC_NO_AIM, 0, 3.0, 0, 0 )
+            Fly("PlayerCamMove_showNewBlankShell2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+			StartCinematic()
+
+            TActivate("trPlayerCam_showNewBlankShells_SpawnShells")
+            TActivate("trPlayerCam_showNewBlankShells_DespawnShells")
+            TActivate("trPlayerCam_showNewBlankShellsEnd")
+
+            local GameState = GetVar("GameState").AsInt
+            local GameRound = GetVar("GameRound").AsInt
+            if GameState==0 then
+                ER_GENbank = {0,0,1}
+                println('edit bank shells by GameState: {"0","0","1"}')
+            elseif GameState==1 then
+                ER_GENbank = {0,1,0,1,1}
+                println('edit bank shells by GameState: {"0","1","0","1","1"}')
+            elseif GameRound>=3 then
+                ER_GENbank = {0,0,1}
+                println('edit bank shells by GameRound: {"0","0","1"}')
+            end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_showNewBlankShells_SpawnShells" active="0">
+        <event flypath="PlayerCamMove_showNewBlankShell1" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            local GameState = GetVar("GameState").AsInt
+            if GameState==0 then
+                AddCinematicMessage(106, 0)
+            elseif GameState==1 then
+                AddCinematicMessage(109, 0)
+            end
+
+            local CreatePos = CVector(851.500, 268.200, 716.000)
+            local curPos = CreatePos
+            GL_tempShellsObjectList = {}
+            GL_tempBulletObjectList = {}
+			for i=1, getn(ER_GENbank) do
+                local ShellName = "newGUN_Shell_"..i
+                local BulletName = "newGUN_Bullet_"..i
+                curPos.x = curPos.x + 0.5
+                if ER_GENbank[i] == 0 then
+                    CreateNewSgNodeObject(
+                        "BlankShell_shell", ShellName, -1, -1, 
+                        CVector(curPos), 
+                        EulerToQuaternion(math.random(-10,10),0,-90), 
+                        3
+                    )
+                    CreateNewSgNodeObject(
+                        "BlankShell_bullet", BulletName, -1, -1, 
+                        CVector(curPos) + CVector(0,1.8,0), 
+                        EulerToQuaternion(-90,math.random(-10,10),0), 
+                        0.6
+                    )
+                elseif ER_GENbank[i] == 1 then
+                    CreateNewSgNodeObject(
+                        "LiveShell_shell", ShellName, -1, -1, 
+                        CVector(curPos), 
+                        EulerToQuaternion(math.random(-10,10),0,-90), 
+                        3
+                    )
+                    CreateNewSgNodeObject(
+                        "LiveShell_bullet", BulletName, -1, -1, 
+                        CVector(curPos) + CVector(0,1.8,0), 
+                        EulerToQuaternion(-90,math.random(-10,10),0), 
+                        0.6
+                    )
+                end
+
+                curPos = getObj(ShellName):GetPosition()
+
+                table.insert(GL_tempShellsObjectList, ShellName)
+                table.insert(GL_tempBulletObjectList, BulletName)
+            end
+            local midPos = GetAverageArithmeticCVectorBy(nil, GL_tempShellsObjectList, nil)
+            GL_tempMidPosShellsForEffect = midPos
+
+            CreateEffectTTLed("ET_PS_SPAWN_OBJECT", midPos + CVector(0,15,0), Quaternion(0, 0, 0, 1), 10000)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_showNewBlankShells_DespawnShells" active="0">
+        <event flypath="PlayerCamMove_showNewBlankShell2" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+			for i=1, getn(GL_tempShellsObjectList) do
+                local Shell = getObj(GL_tempShellsObjectList[i])
+                if Shell then Shell:Remove() end
+            end
+            for i=1, getn(GL_tempBulletObjectList) do
+                local Bullet = getObj(GL_tempBulletObjectList[i])
+                if Bullet then Bullet:Remove() end
+            end
+
+            if GL_tempMidPosShellsForEffect ~= nil then
+                local midPos = GL_tempMidPosShellsForEffect
+                GL_tempMidPosShellsForEffect = nil
+                CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", midPos + CVector(0,12,0), Quaternion(0, 0, 0, 1), 10000)
+            end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_showNewBlankShellsEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:BindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+            TDeactivate("trPlayerCam_showNewBlankShells_SpawnShells")
+            TDeactivate("trPlayerCam_showNewBlankShells_DespawnShells")   
+            for i=1, getn(GL_tempShellsObjectList) do
+                local Shell = getObj(GL_tempShellsObjectList[i])
+                if Shell then Shell:Remove() end
+            end
+            for i=1, getn(GL_tempBulletObjectList) do
+                local Bullet = getObj(GL_tempBulletObjectList[i])
+                if Bullet then Bullet:Remove() end
+            end 
+
+            if GL_tempMidPosShellsForEffect ~= nil then
+                local midPos = GL_tempMidPosShellsForEffect
+
+                CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", midPos + CVector(0,12,0), Quaternion(0, 0, 0, 1), 10000)
+            end
+
+            ER_LoadShellsInGun(true)
+            GL_tempNeedLoadShellsCount = getn(ER_GUNbank)
+
+            TActivate("GAME_dealerLoadingShells")
+
+            SetCameraBehindPlayerVehicle()
+
+            local GameRound = GetVar("GameRound").AsInt
+            local GameState = GetVar("GameState").AsInt
+            if GameState==0 then
+                SetVar("GameState", 1)
+                TActivate("trPlayerCam_DealerFirstRules")
+            elseif GameState==1 then
+                SetVar("GameState", 2)
+                TActivate("trPlayerCam_DealerPostRules")
+            elseif GameState==3 then
+                SetVar("GameState", 4)
+                TActivate("trPlayerCam_DealerMidRules")
+            elseif GameState==5 then
+                SetVar("GameState", 6)
+                TActivate("trPlayerCam_DealerLastRules")
+            end
+
+            if GameState>=4 then
+                GL_CurItemsCountForSpawn = 3
+                TActivate("GAME_spawnNewObjects")
+            end
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+    <trigger Name="trPlayerCam_showNewGameRound" active="0">
+		<event timeout="0.01" eventid="GE_TIME_PERIOD" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:UnbindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+			Fly("PlayerCamMove_showNewGameRound0", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+            Fly("PlayerCamMove_showNewGameRound1", CINEMATIC_NO_AIM, 0, 3.2, 0, 0 )
+            Fly("PlayerCamMove_showNewGameRound2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
+			StartCinematic()
+
+            TActivate("trPlayerCam_showNewGameRound_AddState")
+            TActivate("trPlayerCam_showNewGameRound_PlaySfx")
+            TActivate("trPlayerCam_showNewGameRoundEnd")
+
+            RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
+
+            local GameRound = GetVar("GameRound").AsInt
+            if (GameRound==-1) or (GameRound==0) then SetVar("GameRound", 1) end
+
+            local GameState = GetVar("GameState").AsInt
+            if GameState==2 then
+                SetVar("GameState", 3)
+            end
+            if GameState==4 then
+                SetVar("GameState", 5)
+            end
+
+            --spawn stars
+            GL_tempStartSpawnPosGameStars = CVector(849.000, 270.100, 740.200)
+
+            CreateEffectTTLed("ET_S_NEWROUND0", curPos, Quaternion(0, 0, 0, 1), 3000)
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_showNewGameRound_AddState" active="0">
+        <event flypath="PlayerCamMove_showNewGameRound1" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            local GameRound = GetVar("GameRound").AsInt
+            local GameState = GetVar("GameState").AsInt
+            if GameState==0 then
+                AddCinematicMessage(105, 0.2)
+            elseif GameState==3 then
+                AddCinematicMessage(111, 0.2)
+            elseif GameRound>=3 then
+                AddCinematicMessage(113, 0.2)
+            end
+
+            local CreatePos = GL_tempStartSpawnPosGameStars
+            local curPos = CreatePos
+            if GL_tempGameStarObjectPos ~= nil then
+                curPos = GL_tempGameStarObjectPos
+            end
+            curPos.x = curPos.x + 2
+
+            CreateNewSgNodeObject(
+                "ET_PS_LENS_S1", "GameStar_static"..GameRound, -1, -1, 
+                CVector(curPos), 
+                Quaternion(0,0,0,1), 
+                0.5
+            )
+            CreateNewSgNodeObject(
+                "ET_PS_LENS_D3", "GameStar"..GameRound, -1, -1, 
+                CVector(curPos), 
+                Quaternion(0,0,0,1), 
+                0.5
+            )
+
+            GL_tempGameStarObjectPos = curPos
+
+            SetVar("GameRound", GameRound)
+
+            getObj("trPlayerCam_showNewGameRound_PlaySfxRounder"):DelEvent("GE_TIME_PERIOD")
+            getObj("trPlayerCam_showNewGameRound_PlaySfxRounder"):AddEvent("GE_TIME_PERIOD", "0")
+            TActivate("trPlayerCam_showNewGameRound_PlaySfxRounder")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_showNewGameRound_PlaySfxRounder" active="0">
+        <event timeout="1.0" eventid="GE_TIME_PERIOD" />
+        <script>
+            getObj("trPlayerCam_showNewGameRound_PlaySfxRounder"):DelEvent("GE_TIME_PERIOD")
+            getObj("trPlayerCam_showNewGameRound_PlaySfxRounder"):AddEvent("GE_TIME_PERIOD", "1")
+
+            if getObj("trPlayerCam_showNewGameRound_PlaySfx"):IsActivated()==1 then
+                if GL_tempGameStarObjectPos ~= nil then
+                    local midPos = GL_tempGameStarObjectPos
+                    CreateEffectTTLed("ET_S_NEWROUND1", midPos, Quaternion(0, 0, 0, 1), 2000)
+                end
+            else
+                trigger:Deactivate()
+            end
+        </script>
+    </trigger>
+    <trigger Name="trPlayerCam_showNewGameRound_PlaySfx" active="0">
+        <event flypath="PlayerCamMove_showNewGameRound2" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            if GL_tempGameStarObjectPos ~= nil then
+                local midPos = GL_tempGameStarObjectPos
+                CreateEffectTTLed("ET_S_NEWROUND2", midPos, Quaternion(0, 0, 0, 1), 1000)
+            end
+
+            local GameRound = GetVar("GameRound").AsInt
+            local GameStar = getObj("GameStar"..GameRound)
+            if GameStar then GameStar:Remove() end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="trPlayerCam_showNewGameRoundEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            IMPULSES = GET_GLOBAL_OBJECT "IMPULSES"
+            IMPULSES:BindKey1("GS_CINEMATIC","KEY_ESCAPE","IM_CINEMATIC_SKIP")
+
+            TDeactivate("trPlayerCam_showNewGameRound_AddState")
+            TDeactivate("trPlayerCam_showNewGameRound_PlaySfx")   
+
+            if GL_tempGameStarObjectPos ~= nil then
+                local midPos = GL_tempGameStarObjectPos
+                CreateEffectTTLed("ET_S_BUG"..tostring(random(2)), midPos, Quaternion(0,0,0,1), 1000)
+            end
+            
+            local GameRound = GetVar("GameRound").AsInt
+            local GameStar = getObj("GameStar"..GameRound)
+            if GameStar then GameStar:Remove() end
+
+            SetCameraBehindPlayerVehicle()
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+            TActivate("GAME_showNewBankShells")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+
+
+
+
+
+    <trigger Name="PlayerMoneyBag_MoverToUp" active="0">
+		<event timeout="0.01" eventid="GE_TIME_PERIOD" />
+		<script>
+			local money = getObj("PlayerMoneyBag")
+			if money then 
+				money:SetPosition(money:GetPosition() + CVector(0,0.1,0))
+				if (money:GetPosition().y) >= (268.000) then
+                    CreateEffectTTLed("ET_PS_SPAWN_OBJECT", money:GetPosition(), Quaternion(0,0,0,1), 10000)
+                    CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", money:GetPosition(), Quaternion(0,0,0,1), 10000)
+					trigger:Deactivate()
+				end
+			end
+		</script>
+	</trigger>
+
+
+
+    <trigger Name="EndGame_cutscene" active="0">
+		<event timeout="4" eventid="GE_TIME_PERIOD" />
+		<script>
+            --TActivate("EndGame_cutscene")
+
+            TActivate("CreateStaticGUN")
+			TActivate("GAME_keepITEMS_NOTbeUse_byCutscene")
+
+
+            PlayCustomMusic("70K")
+
+            TActivate("DISKOTEKA_STOP")
+
+			Fly("PlayerCamMove_EndGame0", CINEMATIC_NO_AIM, 0, 13, 0, 1 )
+			StartCinematic()
+
+            RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+            TActivate("EndGame_cutsceneEnd_fly")
+
+            local dealer = getObj("DealerSoul")
+					if dealer then 
+						dealer:Remove() 
+					end
+
+            local money = getObj("PlayerMoneyBag")
+			if not money then 
+				CreateNewSgNodeObject(
+					"potatoe", "PlayerMoneyBag", -1, -1, 
+					CVector(820.000, 240.000, 728.000), 
+					Quaternion(0,0,0,1) * EulerToQuaternion(0,90,0), 
+					5
+				)
+                CreateEffectTTLed("ET_PS_SPAWN_OBJECT", CVector(820.000, 240.000, 728.915), Quaternion(0,0,0,1), 10000)
+                CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", CVector(820.000, 240.000, 728.915), Quaternion(0,0,0,1), 10000)
+
+				println("spawn money")
+
+				TActivate("PlayerMoneyBag_MoverToUp")
+			else
+				money:SetPosition(CVector(820.000, 240.000, 728.915))
+				TActivate("PlayerMoneyBag_MoverToUp")
+			end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="EndGame_cutsceneEnd_fly" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            TActivate("EndGame_cutscene_fly_0")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="EndGame_cutscene_fly_0" active="0">
+        <event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+            Fly("PlayerCamMove_EndGame1", CINEMATIC_NO_AIM, 0, 5, 0, 0 )
+            StartCinematic()
+
+            TActivate("EndGame_cutscene_fly_1")
+
+            --RuleConsole("snd_2dVolume 0")
+			--RuleConsole("snd_3dVolume 0")
+			--RuleConsole("mus_Volume 0")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="EndGame_cutscene_fly_1" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            local car = getObj("PlayerCar")
+            if car then car:Remove() end
+
+            RuleConsole("cinematic_spring_coeff 1.7")
+
+            TeamCreate("PlayerCarTeam", 1100, CVector(483.050, 257.169, 1305.284), {"PlayerCar"})
+            local car = getObj("PlayerCarTeam_vehicle_0")
+            local carId = 0
+            if car then
+                car:setGodMode(1)
+                car:SetRotation(Quaternion(-0.006, 0.903, 0.012, -0.430) * EulerToQuaternion(0,-90,0))
+                car:SetGamePositionOnGround(CVector(483.050, 257.169, 1305.284))
+                car:SetExternalPathByName("PlayerCar_moveEndGame")
+                car:SetCruisingSpeed(9)
+                car:SetCustomLinearVelocity(5)
+                car:SetThrottle(1)
+                car:SetSkin(0)
+
+                carId = car:GetId()
+            end
+
+            Fly("PlayerCamMove_EndGame2", CINEMATIC_AIM_TO_ID, carId, 60, 0, 0 )
+           -- FlyLinked("PlayerCamMove_EndGame2", carId, 60, 0, 0, nil, false, true, true, nil )
+            
+            StartCinematic()
+
+            AddCinematicMessage(1001, 1)
+            AddCinematicMessage(1002, 2)
+            AddCinematicMessage(1003, 3)
+            AddCinematicMessage(1004, 2)
+            AddCinematicMessage(1005, 3)
+            AddCinematicMessage(1006, 4)
+
+            TActivate("EndGame_cutscene_fly_1End")
+            TActivate("EndGame_cutscene_fly_1_music")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="EndGame_cutscene_fly_1_music" active="0">
+        <event msgid="1004" eventid="GE_START_CINEMATIC_MSG" ObjName="Player1" />
+        <script>
+            PlayCustomMusic("Angel")
+                    
+            trigger:Deactivate()
+        </script>
+    </trigger>
+    <trigger Name="EndGame_cutscene_fly_1End" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            TActivate("EndGame_cutscene_fly_2")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="EndGame_cutscene_fly_2" active="0">
+        <event timeout="0" eventid="GE_TIME_PERIOD" />
+        <script>
+            Fly("PlayerCamMove_EndGame3", CINEMATIC_NO_AIM, 0, 10, 0, 0 )
+            Fly("PlayerCamMove_EndGame4", CINEMATIC_AIM_TO_ID, getObj("PlayerCarTeam_vehicle_0"):GetId(), 36, 0, 1 )
+            StartCinematic()
+
+            TActivate("EndGame_cutscene_fly_2_1")
+            TActivate("EndGame_cutsceneEnd")
+
+            AddCinematicMessage(1007, 4)
+                    
+            trigger:Deactivate()
+        </script>
+    </trigger>
+    <trigger Name="EndGame_cutscene_fly_2_1" active="0">
+        <event flypath="PlayerCamMove_EndGame4" eventid="GE_START_CINEMATIC_FLY" ObjName="Player1" />
+		<script>
+            AddCinematicMessage(1008, 25)
+
+            local car = getObj("PlayerCarTeam_vehicle_0")
+            car:PlaceToEndOfPath("PlayerCar_moveEndGame")
+            car:SetPosition(CVector(937.797, 255.898, 1111.942))
+            car:SetRotation(Quaternion(-0.004, 0.735, 0.009, 0.678))
+
+            CreateNewSgNodeObject(
+					"shell01", "DealerSoul2", -1, -1, 
+					getObj("PlayerCarTeam_vehicle_0"):GetPosition() + CVector(0,0,0), 
+					Quaternion(0,0,0,1), 
+					1
+				)
+
+            TActivate("EndGame_cutscene_fly_2_1_scaler")
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="EndGame_cutscene_fly_2_1_scaler" active="0">
+		<event timeout="0.005" eventid="GE_TIME_PERIOD" />
+		<script>
+			local dealer = getObj("DealerSoul2")
+			if dealer then 
+				dealer:SetScale(dealer:GetScale() + 0.01)
+				if (dealer:GetScale()) >= (50) then
+                    GL_tempNeedLoadShellsCount = 2
+                    CreateEffectTTLed( "ET_S_GRAB_GUN", getObj("PlayerCarTeam_vehicle_0"):GetPosition(), Quaternion(0,0,0,1), 2000)
+                    TActivate("GAME_loadNewBankShells_forcutscene")
+					trigger:Deactivate()
+				end
+			end
+		</script>
+	</trigger>
+    <trigger Name="GAME_loadNewBankShells_forcutscene" active="0">
+		<event timeout="0.5" eventid="GE_TIME_PERIOD" />
+		<script>
+			if GL_tempNeedLoadShellsCount>0 then
+				CreateEffectTTLed( "ET_S_GUN_LOADSHELL", getObj("PlayerCarTeam_vehicle_0"):GetPosition(), Quaternion(0,0,0,1), 1000)
+				GL_tempNeedLoadShellsCount=GL_tempNeedLoadShellsCount-1
+			else
+				CreateEffectTTLed( "ET_S_GUN_RELOAD", getObj("PlayerCarTeam_vehicle_0"):GetPosition(), Quaternion(0,0,0,1), 2000)
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+    <trigger Name="EndGame_cutsceneEnd" active="0">
+		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
+		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
+		<script>
+            --TActivate("EndGame_cutscene")
+
+            RuleConsole("cinematic_spring_coeff 0.7")
+           
+            println("thanks for playing!")
+
+            GetPlayerVehicle():AddModifier("hp", "= 0")
+            GetPlayerVehicle():AddModifier("fuel", "= 0")
+            GetPlayerVehicle():GetCabin():SetProperty("Durability", "0")
+            GetPlayerVehicle():GetBasket():SetProperty("Durability", "0")
+
+            CreateNewSgNodeObject("PixelBlack", "DeathScreen1", -1, -1, GetPlayerVehicle():GetPosition() + CVector(-2,0,0), EulerToQuaternion(0,0,-90), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen2", -1, -1, GetPlayerVehicle():GetPosition() + CVector(2,0,0), EulerToQuaternion(0,0,90), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen3", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,0,-2), EulerToQuaternion(90,0,0), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen4", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,0,2), EulerToQuaternion(-90,0,0), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen5", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,-2,0), EulerToQuaternion(0,0,0), 20)
+			CreateNewSgNodeObject("PixelBlack", "DeathScreen6", -1, -1, GetPlayerVehicle():GetPosition() + CVector(0,2,0), EulerToQuaternion(0,180,0), 20)
+            
+            TActivate("EndGame")
+            TActivate("EVENTWAITER_EndGame")
+					
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="EVENTWAITER_EndGame" active="0">
+		<event timeout="0.001" eventid="GE_TIME_PERIOD" />
+		<script>
+			if (getObj("EndGame"):IsActivated()==1) or 
+            (getObj("PLAYERDEAD"):IsActivated()==1) or
+            (getObj("PLAYERDEAD_exodus"):IsActivated()==1) then
+				SetCameraBehindPlayerVehicle()
+			else
+				trigger:Deactivate()
+			end
+		</script>
+	</trigger>
+
+    <trigger Name="EndGame" active="0">
+		<event timeout="9.8" eventid="GE_TIME_PERIOD" />
+		<script>
+            RuleConsole("snd_2dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("snd_3dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
+
+            CreateNewSgNodeObject(
+					"ET_PS_FLAG01_FIRE", "gunShoot", -1, -1, 
+					GetPlayerVehicle():GetPosition() + CVector(-20,0,0), 
+					GetPlayerVehicle():GetRotation() * EulerToQuaternion(-90,0,0), 
+					3
+				)
+
+            println("COMPLETE GAME")
+            LOG("COMPLETE GAME")
+
+            TActivate("PLAYERDEAD")
+			
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+
+
+
+
+
+
+
+    <trigger Name="DISKOTEKA" active="1">
+		<event timeout="2.0" eventid="GE_TIME_PERIOD" />
+		<script>
+            --music manager reload = 2.000
+			TActivate("DISKOTEKA_spawndespawn")
+            GL_tempShakeCameraPoint = 0.1
+            GL_tempLastAimCameraPoint = nil
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+    <trigger Name="DISKOTEKA_STOP" active="1">
+		<event timeout="0" eventid="GE_TIME_PERIOD" />
+		<script>
+            TDeactivate("DISKOTEKA_spawndespawn")
+            
+            local light0 = getObj("diskoteka_light_0")
+            local light1 = getObj("diskoteka_light_1")
+            local light2 = getObj("diskoteka_light_2")
+            local light3 = getObj("diskoteka_light_3")
+            local light4 = getObj("diskoteka_light_4")
+            local light5 = getObj("diskoteka_light_5")
+            local light6 = getObj("diskoteka_light_6")
+            local light7 = getObj("diskoteka_light_7")
+            local light8 = getObj("diskoteka_light_8")
+            local light9 = getObj("diskoteka_light_9")
+            local light10 = getObj("diskoteka_light_10")
+            local light11 = getObj("diskoteka_light_11")
+
+            local len0 = getObj("diskoteka_len0")
+            local len1 = getObj("diskoteka_len1")
+
+            if len0 then len0:Remove() end
+            if len1 then len1:Remove() end
+
+            if light0 then light0:Remove() end
+            if light1 then light1:Remove() end
+            if light2 then light2:Remove() end
+            if light3 then light3:Remove() end
+            if light4 then light4:Remove() end
+            if light5 then light5:Remove() end
+            if light6 then light6:Remove() end
+            if light7 then light7:Remove() end
+            if light8 then light8:Remove() end
+            if light9 then light9:Remove() end
+            if light10 then light10:Remove() end
+            if light11 then light11:Remove() end
+
+			trigger:Deactivate()
+		</script>
+	</trigger>
+
+    <trigger Name="DISKOTEKA_spawndespawn" active="0">
+		<event timeout="0.200" eventid="GE_TIME_PERIOD" />
+		<script>
+            --bearing timing = 0.200
+
+
+            --camera shake
+            -- local cinematic = GetCinematic()
+            -- local CamPos, CamRot, CamAim = GetCameraPos()
+            -- local CamRotX, CamRotY, CamRotZ = QuaternionToEuler(CamRot)
+            -- local CamAimX = ParseCVectorForX(CamAim)
+            -- local CamAimY = ParseCVectorForY(CamAim)
+            -- local CamAimZ = ParseCVectorForZ(CamAim)
+
+            -- if GL_tempLastAimCameraPoint==nil then
+            --     if CamRotY>0 then
+            --         GL_tempLastAimCameraPoint = CamPos + CVector(CamAimX-CamRotX, CamAimY-CamAimY, CamAimZ+CamRotZ)
+            --     else
+            --         GL_tempLastAimCameraPoint = CamPos - CVector(CamAimX-CamRotX, CamAimY-CamAimY, CamAimZ+CamRotZ)
+            --     end
+            -- else
+            --     -- if GL_tempShakeCameraPoint>0 then
+            --     if CamRotY>0 then
+            --         cinematic:SetAim(GL_tempLastAimCameraPoint + CVector(CamRotX*0.5, CamRotY*0.5-GL_tempShakeCameraPoint, CamRotZ*0.5))
+            --         cinematic:SetLookTo( true )
+            --     else
+            --         cinematic:SetRelativeRotations(0)
+            --         cinematic:SetLookTo( false )
+            --     end
+                    
+            --         GL_tempShakeCameraPoint = -GL_tempShakeCameraPoint
+            --     -- else
+            --         --cinematic:SetRelativeRotations(0)
+            --         --cinematic:SetLookTo( false )
+            --         -- GL_tempShakeCameraPoint = -GL_tempShakeCameraPoint
+            --     -- end
+            --     GL_tempLastAimCameraPoint = nil
+            -- end
+
+
+
+            local light0 = getObj("diskoteka_light_0")
+            local light1 = getObj("diskoteka_light_1")
+            local light2 = getObj("diskoteka_light_2")
+            local light3 = getObj("diskoteka_light_3")
+            local light4 = getObj("diskoteka_light_4")
+            local light5 = getObj("diskoteka_light_5")
+            local light6 = getObj("diskoteka_light_6")
+            local light7 = getObj("diskoteka_light_7")
+            local light8 = getObj("diskoteka_light_8")
+            local light9 = getObj("diskoteka_light_9")
+            local light10 = getObj("diskoteka_light_10")
+            local light11 = getObj("diskoteka_light_11")
+
+            local len0 = getObj("diskoteka_len0")
+            local len1 = getObj("diskoteka_len1")
+
+            if len0 then len0:Remove() end
+            if len1 then len1:Remove() end
+
+            if light0 then light0:Remove() end
+            if light1 then light1:Remove() end
+            if light2 then light2:Remove() end
+            if light3 then light3:Remove() end
+            if light4 then light4:Remove() end
+            if light5 then light5:Remove() end
+            if light6 then light6:Remove() end
+            if light7 then light7:Remove() end
+            if light8 then light8:Remove() end
+            if light9 then light9:Remove() end
+            if light10 then light10:Remove() end
+            if light11 then light11:Remove() return end
+
+            --CreateNewSgNodeObject("ET_LS_LIGHT_YELLOW_LENS", "diskoteka_len0", -1, -1, CVector(791.182, 265.233, 1206.792), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_LS_LIGHT_YELLOW_LENS", "diskoteka_len1", -1, -1, CVector(837.167, 264.045, 1235.417), Quaternion(0,0,0,1), 1)
+
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_0", -1, -1, CVector(813.435, 256.388, 1206.202), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_1", -1, -1, CVector(828.922, 262.042, 1222.626), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_2", -1, -1, CVector(828.614, 270.231, 1223.016), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_3", -1, -1, CVector(835.949, 267.817, 1225.846), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_4", -1, -1, CVector(835.289, 259.773, 1223.299), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_5", -1, -1, CVector(841.649, 259.600, 1223.564), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_6", -1, -1, CVector(827.145, 259.307, 1223.795), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_7", -1, -1, CVector(807.670, 259.063, 1198.346), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_8", -1, -1, CVector(806.149, 259.665, 1205.821), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_9", -1, -1, CVector(810.039, 264.319, 1198.402), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_10", -1, -1, CVector(810.977, 267.848, 1209.353), Quaternion(0,0,0,1), 1)
+            CreateNewSgNodeObject("ET_PS_LENS_D5", "diskoteka_light_11", -1, -1, CVector(809.025, 270.909, 1202.246), Quaternion(0,0,0,1), 1)
+		</script>
+	</trigger>
+
+</triggers>
