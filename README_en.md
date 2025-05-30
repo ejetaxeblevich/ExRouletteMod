@@ -10,7 +10,7 @@
 
 -----------------------------------------------------------------------------------------------
 
-ExRoulette presents you a new gameplay in the game Hard Truck Apocalypse: where there was no place for transport and cities, dialogues and plot. The mod almost completely copies the [Buckshot Roulette by Mike Klubnika](https://store.steampowered.com/app/2835570/Buckshot_Roulette/).
+**ExRoulette** presents you a new gameplay in the game Hard Truck Apocalypse: where there was no place for transport and cities, dialogues and plot. The mod almost completely copies the [Buckshot Roulette by Mike Klubnika](https://store.steampowered.com/app/2835570/Buckshot_Roulette/).
  
 > «You play as a traveler, in whose eyes life has lost all colors and the word "meaning" only reminds of the glorious past. Now the world is dead. Unknown entities live here, ready to play the most unfair games with the last surviving people.»
 
