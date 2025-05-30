@@ -63,6 +63,10 @@ prerequisites:
   - name: [community_remaster]
     versions: 
      - ">=1.14.1"
+    optional_content:
+     - hd_gun_models
+     - hd_vehicle_models
+     - ost_remaster
 
 incompatible:
   - name: community_patch
