@@ -10,20 +10,20 @@
 
 -----------------------------------------------------------------------------------------------
 
-**ExRoulette** представляет Вам новый геймплей в игре Ex Machina: где не нашлось места транспорту и городам, диалогам и сюжету. Мод почти полностью копирует игру [Buckshot Roulette от Mike Klubnika](https://store.steampowered.com/app/2835570/Buckshot_Roulette/).
+ExRoulette presents you a new gameplay in the game Hard Truck Apocalypse: where there was no place for transport and cities, dialogues and plot. The mod almost completely copies the [Buckshot Roulette by Mike Klubnika](https://store.steampowered.com/app/2835570/Buckshot_Roulette/).
  
-> «Вы играете за путника, в чьих глазах жизнь утратила все краски и слово "смысл" лишь напоминает о славном прошлом. Теперь мир мёртв. Здесь живут неизвестные сущности, готовые играть с последними выжившими людьми в самые несправедливые игры.»
+> «You play as a traveler, in whose eyes life has lost all colors and the word "meaning" only reminds of the glorious past. Now the world is dead. Unknown entities live here, ready to play the most unfair games with the last surviving people.»
 
-Действия разворачиваются в Мгновении, где властвуют свои правила.
-
------------------------------------------------------------------------------------------------
-
-### Требуемая версия игры: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG)
-### [Скачать ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
+The action unfolds in an Instant, where rules prevail.
 
 -----------------------------------------------------------------------------------------------
 
-### Скриншоты:
+### Required version of the game: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG)
+### [Download ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
+
+-----------------------------------------------------------------------------------------------
+
+### Screenshots:
 
 > ![screenshot1](https://github.com/user-attachments/assets/1c23bca7-17bf-4b04-95d7-1d6d8f84393e)
 > ![screenshot2](https://github.com/user-attachments/assets/96962d72-dfbc-4967-87b9-34aeb82e5faa)
@@ -33,38 +33,38 @@
 
 -----------------------------------------------------------------------------------------------
 
-### Список изменений:
+### Changelog:
 
-- **Новый геймплей**
-> Почти полностью копирует игру Buckshot Roulette.
+- **New gameplay**
+> It almost completely copies the Buckshot Roulette game.
 
-- **Новая карта**
-> "Мгновение" [*16х16*].
+- **New level**
+> "Instant" [*16х16*].
 
-- **Новые музыка и звуки**
+- **New music and sounds**
 > OST Buckshot Roulette.
 
-- **3D Модели**
-> **Новые модели**: *дробовик, два пикселя;*
+- **3D Models**
+> **New models**: *shotgun, two pixels;*
 
-> **Новые текстуры**: *картошке и гильзам.*
+> **New textures**: *potatoes and shell casings.*
 
-- **Изменённый интерфейс**
-> **Логотип игры** - *перерисован под логотип мода;*
+- **Changed interfaceйс**
+> **The game's logo** - *has been redrawn to match the mod's logo;*
 
-> **Картинки на загрузочный экран** - *несколько вариаций;*
+> **Pictures on the loading screen** - *several variations;*
 
-> **Радар** - *удалён;*
+> **Radar** - *deleted;*
 
-> **Спидометр** - *удалён;*
+> **Speedometer** - *deleted;*
 
-> **Прицел** - *упрощён под геймплей мода;*
+> **Sight** - *simplified mod gameplay;*
 
-> **Здоровье, броня и топливо** - *переделаны под геймплей мода.*
+> **Health, armor and fuel** - *redesigned for mod gameplay.*
 
 -----------------------------------------------------------------------------------------------
 
-## Выражение благодарности:
+## Expression of gratitude:
 
 - **[Deus Ex Machina](https://discord.gg/PVW57kr)**
 - **[stakan](https://github.com/stakanyash)**
