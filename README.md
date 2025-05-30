@@ -18,7 +18,10 @@
 
 -----------------------------------------------------------------------------------------------
 
-### Требуемая версия игры: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG)
+### Установка:
+- Установка производится через [Community Mod Manager](https://github.com/Zvetkov/ComMod) (RU/ENG)
+- Требуемая база: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG)
+
 ### [Скачать ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
 
 -----------------------------------------------------------------------------------------------
