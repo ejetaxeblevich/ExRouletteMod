@@ -20,7 +20,7 @@ The action unfolds in an Instant, where rules prevail.
 
 ### Installation:
 - The installation is done via [Community Mod Manager](https://github.com/Zvetkov/ComMod) (RU/ENG)
-- Required base: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG)
+- Required base: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG) with all optional content.
 
 ### [Download ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
 
