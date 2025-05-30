@@ -4,7 +4,7 @@
 
 <div align="center">
   
-![RU Readme](https://github.com/user-attachments/assets/3beb34dd-421d-4058-b8ac-8e087288dce1)(https://github.com/ejetaxeblevich/ExRouletteMod/blob/main/README.md)   [![EN Readme](https://github.com/user-attachments/assets/b5b6209d-141d-475e-92a1-fab2ca746169)](https://github.com/ejetaxeblevich/ExRouletteMod/blob/main/README_en.md)
+![RU Readme](https://github.com/user-attachments/assets/3beb34dd-421d-4058-b8ac-8e087288dce1)   [![EN Readme](https://github.com/user-attachments/assets/b5b6209d-141d-475e-92a1-fab2ca746169)](https://github.com/ejetaxeblevich/ExRouletteMod/blob/main/README_en.md)
 
 </div>
 
