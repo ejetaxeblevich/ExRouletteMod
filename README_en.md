@@ -18,7 +18,10 @@ The action unfolds in an Instant, where rules prevail.
 
 -----------------------------------------------------------------------------------------------
 
-### Required version of the game: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG)
+### Installation:
+- The installation is done via [Community Mod Manager](https://github.com/Zvetkov/ComMod) (RU/ENG)
+- Required base: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG)
+
 ### [Download ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
 
 -----------------------------------------------------------------------------------------------
