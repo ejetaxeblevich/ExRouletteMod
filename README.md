@@ -69,6 +69,11 @@
 
 ## Выражение благодарности:
 
-- **[Deus Ex Machina](https://discord.gg/PVW57kr)**
+- **[Игре Buckshot Roulette](https://store.steampowered.com/app/2835570/Buckshot_Roulette/)**
+- **[Короткометражному фильму по Buckshot Roulette](https://youtu.be/OCsJ4w1j8KA?si=1O9cjBgRlo7tWPAP)**
+- **[Сообществу Deus Ex Machina](https://discord.gg/PVW57kr)**
+
+### Отдельное спасибо
+
 - **[stakan](https://github.com/stakanyash)**
 - **Mr Kirov**

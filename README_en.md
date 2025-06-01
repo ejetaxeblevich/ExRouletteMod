@@ -69,6 +69,11 @@ The action unfolds in an Instant, where rules prevail.
 
 ## Expression of gratitude:
 
-- **[Deus Ex Machina](https://discord.gg/PVW57kr)**
+- **[Buckshot Roulette game](https://store.steampowered.com/app/2835570/Buckshot_Roulette/)**
+- **[A short film based on Buckshot Roulette](https://youtu.be/OCsJ4w1j8KA?si=1O9cjBgRlo7tWPAP)**
+- **[Deus Ex Machina community](https://discord.gg/PVW57kr)**
+
+### Special thanks
+
 - **[stakan](https://github.com/stakanyash)**
 - **Mr Kirov**
