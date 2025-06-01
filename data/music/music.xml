@@ -50,17 +50,17 @@
 
 	<model
 		id="blockroulette_driving"
-		file="data\music\blocks\rouletteblock\Mike Klubnika - Bearing.ogg"
+		file="data\music\blocks\rouletteblock\Mike Klubnika - Surrounded.ogg"
 		/>
 		
 	<model
 		id="blockroulette_alarm"
-		file="data\music\blocks\rouletteblock\Mike Klubnika - Bearing.ogg"
+		file="data\music\blocks\rouletteblock\Mike Klubnika - Surrounded.ogg"
 		/>
 		
 	<model
 		id="blockroulette_battle"
-		file="data\music\blocks\rouletteblock\Mike Klubnika - Bearing.ogg"
+		file="data\music\blocks\rouletteblock\Mike Klubnika - Surrounded.ogg"
 		/>
 		
 
@@ -199,11 +199,11 @@
 		id="70K"
 		file="data\music\roulette_action\Mike Klubnika - 70K.ogg" />
 	<model
-		id="Alarm"
-		file="data\music\roulette_action\Mike Klubnika - Alarm.ogg" />
+		id="Overdose Casino"
+		file="data\music\roulette_action\Mike Klubnika - Overdose Casino.ogg" />
 	<model
-		id="Bearing"
-		file="data\music\roulette_action\Mike Klubnika - Bearing.ogg" />
+		id="Surrounded"
+		file="data\music\roulette_action\Mike Klubnika - Surrounded.ogg" />
 	<model
 		id="Load"
 		file="data\music\roulette_action\Mike Klubnika - Before Every Load.ogg" />
@@ -214,32 +214,20 @@
 		id="Release"
 		file="data\music\roulette_action\Mike Klubnika - General Release.ogg" />
 	<model
-		id="Monochrome"
-		file="data\music\roulette_action\Mike Klubnika - Monochrome LCD.ogg" />
-	<model
 		id="Calibration"
 		file="data\music\roulette_action\Mike Klubnika - Socket Calibration.ogg" />
 	<model
 		id="Angel"
 		file="data\music\roulette_action\Mike Klubnika - You are an Angel.ogg" />
-	<!-- <model
-		id="Club"
-		file="data\music\roulette_action\Mike Klubnika - Club Music.ogg" /> -->
 	<model
 		id="ReleaseReverb"
-		file="data\music\roulette_action\Mike Klubnika - Club Music Reverb.ogg" />
-	<!-- <model
-		id="Error"
-		file="data\music\roulette_action\Mike Klubnika - Error.ogg" /> -->
+		file="data\music\roulette_action\Mike Klubnika - General Release Reverb.ogg" />
 	<model
 		id="Credits"
 		file="data\music\roulette_action\Mike Klubnika - Playtest Win.ogg" />
-	<!-- <model
-		id="Room"
-		file="data\music\roulette_action\Mike Klubnika - Room.ogg" /> -->
 	<model
 		id="LastChance"
-		file="data\music\roulette_action\Mike Klubnika - True Death.ogg" />
+		file="data\music\roulette_action\Mike Klubnika - True Death (Monochrome LCD edit).ogg" />
 
 	<model
 		id="Battle01"

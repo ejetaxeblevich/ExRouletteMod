@@ -16,7 +16,7 @@
 -- - E Jet
 -- 
 -- ----------------------------------------------------------------------------
---  $Id: exroulette.lua, v1.0 2025/05/27 20:28:00 axeble Exp $
+--  $Id: exroulette.lua, v1.0 2025/05/30 20:28:00 axeble Exp $
 -- ----------------------------------------------------------------------------
 
 
@@ -27,8 +27,8 @@ local function ModFileInit()
 	LOG("[I] ======================================")
 
 	local NAME = "ExRouletteMod"
-	local VERSION = "0.9 beta test"
-	local BUILD = "250527b"
+	local VERSION = "1.0"
+	local BUILD = "250530b"
 
 	println("[I] ")
 	println("[I] === "..NAME.." v"..VERSION.." ["..BUILD .."] ===")
@@ -43,6 +43,19 @@ ModFileInit()
 
 ER_MaxSoundVol = 80
 ER_MinSoundVol = 30
+
+
+ER_PlayerItemSlots = {
+	CVector(865.200, 266.800, 715.500),
+	CVector(865.200, 266.800, 728.500),
+	CVector(865.200, 266.800, 741.000)
+}
+
+ER_DealerItemSlots = {
+	CVector(840, 266.800, 715.500),
+	CVector(840, 266.800, 728.500),
+	CVector(840, 266.800, 741.000)
+}
 
 
 

@@ -5,8 +5,8 @@ installment: exmachina
 # required human readable info
 display_name: ExRoulette Mod
 
-version: "0.9"
-build: "250527b"
+version: "1.0"
+build: "250601b"
 
 description: |
   ExRoulette представляет Вам новый геймплей в игре Ex Machina: где не нашлось места транспорту и городам, диалогам и сюжету. Мод почти полностью копирует игру Buckshot Roulette от Mike Klubnika.
@@ -14,13 +14,10 @@ description: |
   «Вы играете за путника, в чьих глазах жизнь утратила все краски и слово "смысл" лишь напоминает о славном прошлом. Теперь мир мёртв. Здесь живут неизвестные сущности, готовые играть с последними выжившими людьми в самые несправедливые игры.»
   Действия разворачиваются в Мгновении, где властвуют свои правила.
 
-  Посвящается
-  Ex Machina, 20 лет.
-
 authors: E Jet
 
 # optional human readable info
-release_date: "XX.06.2025"
+release_date: "01.06.2025"
 language: ru
 
 link: https://github.com/ejetaxeblevich/ExRouletteMod

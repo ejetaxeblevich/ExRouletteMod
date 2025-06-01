@@ -22,7 +22,7 @@
     <trigger Name="IntroMapCutscene_music" active="0">
 		<event timeout="0.1" eventid="GE_TIME_PERIOD" />
 		<script>
-            PlayCustomMusic("Bearing")
+            PlayCustomMusic("Surrounded")
 
 			trigger:Deactivate()
 		</script>
@@ -92,6 +92,7 @@
             Fly("PlayerCamMove_DealerHelloDlg2", CINEMATIC_NO_AIM, 0, 0.5, 0, 0 )
 			StartCinematic()
 
+            PlayCustomMusic("Load")
             RuleConsole("mus_Volume "..tostring(ER_MinSoundVol))
 
             TActivate("CreateDealer")
@@ -471,8 +472,32 @@
                 TActivate("trPlayerCam_DealerLastRules")
             end
 
+            local DealerItems = {"rouletteDEALERITEM_cigarettes","rouletteDEALERITEM_beer","rouletteDEALERITEM_shkatulka","rouletteDEALERITEM_radio","rouletteDEALERITEM_electro"}
+            local n = 1
+            while DealerItems[n]~=nil do
+                local item = getObj(DealerItems[n])
+                if item then 
+                    CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", item:GetPosition(), Quaternion(0,0,0,1), 10000)
+                    item:Remove() 
+                    println("====removal from cutscene "..DealerItems[n])
+                end
+                n=n+1
+            end
+            local PlayerItems = {"rouletteITEM_cigarettes","rouletteITEM_cigarettes_static","rouletteITEM_beer","rouletteITEM_beer_static","rouletteITEM_shkatulka","rouletteITEM_shkatulka_static","rouletteITEM_radio","rouletteITEM_radio_static","rouletteITEM_electro","rouletteITEM_electro_static"}
+            local j = 1
+            while PlayerItems[j]~=nil do
+                local itemj = getObj(PlayerItems[j])
+                if itemj then 
+                    CreateEffectTTLed("ET_PS_DESPAWN_OBJECT", itemj:GetPosition(), Quaternion(0,0,0,1), 10000)
+                    itemj:Remove() 
+                    println("====removal from cutscene "..PlayerItems[j])
+                end
+                j=j+1
+            end
+
             if GameState>=4 then
-                GL_CurItemsCountForSpawn = 3
+                local rnd = math.random(3)
+                GL_CurItemsCountForSpawn = rnd
                 TActivate("GAME_spawnNewObjects")
             end
 					
@@ -971,7 +996,7 @@
     <trigger Name="DISKOTEKA_spawndespawn" active="0">
 		<event timeout="0.200" eventid="GE_TIME_PERIOD" />
 		<script>
-            --bearing timing = 0.200
+            --Surrounded timing = 0.200
 
 
             --camera shake

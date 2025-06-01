@@ -7,9 +7,9 @@
 		<script>
 			PlayCustomMusic("mainmenu")
 
-			RuleConsole("snd_2dVolume 80")
-			RuleConsole("snd_3dVolume 80")
-			RuleConsole("mus_Volume 80")
+			RuleConsole("snd_2dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("snd_3dVolume "..tostring(ER_MaxSoundVol))
+			RuleConsole("mus_Volume "..tostring(ER_MaxSoundVol))
 
 			CreateNewSgNodeObject("PixelBlack", "DeathScreen1", -1, -1, GetCameraPos() + CVector(-10,0,0), EulerToQuaternion(0,0,-90), 200)
 			CreateNewSgNodeObject("PixelBlack", "DeathScreen2", -1, -1, GetCameraPos() + CVector(10,0,0), EulerToQuaternion(0,0,90), 200)
@@ -60,7 +60,7 @@
 			for i=1, GL_MAINMENUSPAWNSHELLCOUNT do
 				local shell = getObj("shell"..i)
 				if shell then
-					if 249 > shell:GetPosition().y then
+					if 248.990 > shell:GetPosition().y then
 						shell:SetPosition(shell:GetPosition() + CVector(0,3.2,0))
 					else
 						shell:SetPosition(shell:GetPosition() + CVector(0,-0.005,0))

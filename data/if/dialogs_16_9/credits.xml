@@ -478,7 +478,7 @@
 
 		<Page
 			id="3"
-			text="Тестирование| |E Jet"
+			text="Тестирование| |E Jet|stakan"
 			modelName=""
 			modelSkin="0"
 			modelCfg="0"
@@ -505,7 +505,7 @@
 
 		<Page
 			id="5"
-			text="Выражение благодарности| |Сообществу|Deus Ex Machina"
+			text="Выражение благодарности| |Сообществу|Deus Ex Machina| |stakan"
 			modelName=""
 			modelSkin="0"
 			modelCfg="0"

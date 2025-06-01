@@ -5,8 +5,8 @@ installment: exmachina
 # required human readable info
 display_name: ExRoulette Mod
 
-version: "0.9"
-build: "250527b"
+version: "1.0"
+build: "250601b"
 
 description: |
   ExRoulette presents you a new gameplay in the game Hard Truck Apocalypse: where there was no place for transport and cities, dialogues and plot. The mod almost completely copies the Buckshot Roulette game by Mike Klubnika.
@@ -14,13 +14,10 @@ description: |
   «You play as a traveler, in whose eyes life has lost all colors and the word "meaning" only reminds of the glorious past. Now the world is dead. Unknown entities live here, ready to play the most unfair games with the last surviving people.»
   The action unfolds in an Instant, where rules prevail.
 
-  Dedicated to
-  Ex Machina, 20 years old.
-
 authors: E Jet
 
 # optional human readable info
-release_date: "XX.06.2025"
+release_date: "01.06.2025"
 language: eng
 
 link: https://github.com/ejetaxeblevich/ExRouletteMod
@@ -67,6 +64,7 @@ prerequisites:
      - hd_gun_models
      - hd_vehicle_models
      - ost_remaster
+     - english_localization
 
 incompatible:
   - name: community_patch
@@ -76,12 +74,10 @@ incompatible:
 options_base_dir: options
 
 optional_content:
-  - name: english_localization
+  - name: english_locale
     display_name: English Localization
     forced_option: True
     data_dirs: 
       - "eng_localization"
     description: |
       English localization for ExRoulette without English voiceover, via machine translation Google Translate.
-
-      Important! Install this option only on the English version of the game and the community remaster, otherwise there will be errors.
