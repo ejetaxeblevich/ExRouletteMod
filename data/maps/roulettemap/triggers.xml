@@ -68,7 +68,7 @@
 			SetVar("DealerShotSelf", 0)
 			SetVar("DealerTakedGUN", 0)
 
-			SetVar("GameState", 3)
+			SetVar("GameState", 0)
 			SetVar("GameRound", 0)
 
 			GL_tempDealerShotToPlayer = false
