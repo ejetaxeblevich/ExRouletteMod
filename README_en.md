@@ -1,6 +1,6 @@
 # ExRoulette Mod
 
-![release_logo_exroulette](https://github.com/user-attachments/assets/9b216be6-d745-41f2-a866-e886b41c29ea)
+![release_logo_exroulette_1 1](https://github.com/user-attachments/assets/5a2e81bb-f72c-4df7-acc7-47e5c090c1e5)
 
 <div align="center">
   
