@@ -1,10 +1,10 @@
 # ExRoulette Mod
 
-![release_logo_exroulette_1 1](https://github.com/user-attachments/assets/5a2e81bb-f72c-4df7-acc7-47e5c090c1e5)
+![release_logo_exroulette_1 1](git_assets/release_logo_exroulette_v1.1.png)
 
 <div align="center">
   
-![RU Readme](https://github.com/user-attachments/assets/591933f1-2f0a-40da-9968-315c64f95f50)   [![EN Readme](https://github.com/user-attachments/assets/4b485c8b-6bce-49cb-912e-2fc13b9a498e)](https://github.com/ejetaxeblevich/ExRouletteMod/blob/main/README.md)
+![RU Readme](git_assets/exroulette_git_button_en_p.png)   [![EN Readme](git_assets/exroulette_git_button_ru.png)](https://github.com/ejetaxeblevich/ExRouletteMod/blob/main/README_en.md)
 
 </div>
 
@@ -28,11 +28,11 @@ The action unfolds in an Instant, where rules prevail.
 
 ### Screenshots:
 
-> ![screenshot1](https://github.com/user-attachments/assets/1c23bca7-17bf-4b04-95d7-1d6d8f84393e)
-> ![screenshot2](https://github.com/user-attachments/assets/96962d72-dfbc-4967-87b9-34aeb82e5faa)
-> ![screenshot3](https://github.com/user-attachments/assets/0d1a94e6-ec8c-4c69-87e8-7397d4ca1a7f)
-> ![screenshot4](https://github.com/user-attachments/assets/43e3212a-d566-40a3-bd72-4cd034985372)
-> ![screenshot5](https://github.com/user-attachments/assets/449b3e76-2c2c-4697-a43b-f8a31e55a799)
+> ![screenshot1](git_assets/roulette_screens1.png)
+> ![screenshot2](git_assets/roulette_screens2.png)
+> ![screenshot3](git_assets/roulette_screens3.png)
+> ![screenshot4](git_assets/roulette_screens4.png)
+> ![screenshot5](git_assets/roulette_screens5.png)
 
 -----------------------------------------------------------------------------------------------
 
