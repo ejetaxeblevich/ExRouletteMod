@@ -16,6 +16,8 @@
 			g_ObjCont:SetGameTime( 0, 0, 32, 12, 2999 )
 			SetGameTime(0,0)
 
+			RuleConsole("cinematicFadePeriod 1")
+
 			AddBook("roulette_b_1")
 			AddHistory("roulette_h_1")
 			AddHistory("roulette_h_2")
@@ -85,6 +87,8 @@
 			GL_tempITEMSHKATULKAisUsed = nil
 			GL_tempITEMRADIOisUsed = nil
 			GL_tempITEMELECTROisUsed = nil
+
+			GL_PLAYERWASUSEDITEMS = false
 
 			trigger:Deactivate()
 		</script>
@@ -874,6 +878,8 @@
 				GL_tempITEMBEERisUsed = true
 				GL_tempNowPlayerPlayAnimationsForUseItems = true
 
+				GL_PLAYERWASUSEDITEMS = true
+
 				--beer take player
 				TActivate("CreateStaticGUN")
 				TActivate("GAME_keepITEMS_NOTbeUse")
@@ -968,6 +974,8 @@
 				GL_tempITEMCIGARETTESisUsed = true
 				GL_tempNowPlayerPlayAnimationsForUseItems = true
 
+				GL_PLAYERWASUSEDITEMS = true
+
 				--cigarettes take player
 				TActivate("CreateStaticGUN")
 				TActivate("GAME_keepITEMS_NOTbeUse")
@@ -1039,6 +1047,8 @@
 				SetTolerance(1100, 1083, RS_NEUTRAL)
 				GL_tempITEMSHKATULKAisUsed = true
 				GL_tempNowPlayerPlayAnimationsForUseItems = true
+
+				GL_PLAYERWASUSEDITEMS = true
 
 				--shkatulka take player
 				TActivate("CreateStaticGUN")
@@ -1152,6 +1162,8 @@
 				GL_tempITEMRADIOisUsed = true
 				GL_tempNowPlayerPlayAnimationsForUseItems = true
 
+				GL_PLAYERWASUSEDITEMS = true
+
 				GL_tempAimForItem = getObj("rouletteITEM_radio"):GetPosition()
 
 				--radio take player
@@ -1243,6 +1255,8 @@
 				GL_tempITEMELECTROisUsed = true
 				GL_tempNowPlayerPlayAnimationsForUseItems = true
 
+				GL_PLAYERWASUSEDITEMS = true
+
 				GL_tempAimForItem = getObj("rouletteITEM_electro"):GetPosition()
 
 				--electro take player
@@ -1293,8 +1307,11 @@
 			-- 	mover:SetObjAndPath( controlledObj:GetId(), "ITEM_changeShellForPlayer_release", 2)
 			-- end
 			
-			if ER_GENbank[getn(ER_GENbank)]==1 then ER_GENbank[getn(ER_GENbank)] = 0 end
-			if ER_GENbank[getn(ER_GENbank)]==0 then ER_GENbank[getn(ER_GENbank)] = 1 end
+			if (ER_GUNbank[getn(ER_GUNbank)]==1) then 
+				ER_GUNbank[getn(ER_GUNbank)] = 0
+			elseif (ER_GUNbank[getn(ER_GUNbank)]==0) then 
+				ER_GUNbank[getn(ER_GUNbank)] = 1 
+			end
 			
 			TActivate("EVENT_clickOn_ITEMelectro_release_timer")
 
@@ -1767,29 +1784,29 @@
 					--dealer use other items
 					for i, item in ipairs(HavedItems) do
 						if item then
-							--use beer
-							if (item=="beer") and (GL_LastLiveShell==true) and (math.random(2)==1) then
-								println("dealer choose beer")
-								GL_tempDealerUseItem = item
-								break
-							end
 							--use cigarettes
 							if (item=="cigarettes") and (GL_DealerLives>GetPlayerFuel()) and (GetPlayerFuel()~=100) then
 								println("dealer choose cigarettes")
 								GL_tempDealerUseItem = item
 								break
 							end
-							--use radio
-							if (item=="radio") and (math.random(2)==1) then
-								println("dealer choose radio")
-								--GL_tempDealerIsKnownFutureShell
+							--use invertor
+							if (item=="electro") and ((ER_GetAnyLiveRoundsInGUNbank()==false) or ((GL_LastLiveShell==true) and (ER_ChanceLiveShell()>50))) then
+								println("dealer choose electro")
+								GL_tempDealerShotToPlayer = true
 								GL_tempDealerUseItem = item
 								break
 							end
-							--use invertor
-							if (item=="electro") and (GL_LastLiveShell==true) then
-								println("dealer choose electro")
-								GL_tempDealerShotToPlayer = true
+							--use radio
+							if (item=="radio") and (GL_tempDealerIsKnownFutureShell==nil) and (ER_GetAnyLiveRoundsInGUNbank()==true) and (getn(ER_GUNbank)>=2) and (math.random(2)==1) then
+								println("dealer choose radio")
+								GL_tempDealerUseItem = item
+								break
+							end
+							--use beer
+							if (item=="beer") and (GL_LastLiveShell==true) and (50>ER_ChanceLiveShell()) and ((ER_GUNbank[GL_tempDealerIsKnownFutureShell])~=(getn(ER_GUNbank))) and (math.random(2)==1) then
+								println("dealer choose beer")
+								--println(GL_tempDealerIsKnownFutureShell)
 								GL_tempDealerUseItem = item
 								break
 							end
@@ -1829,10 +1846,6 @@
 					if AnyLiveRoundsInGUNbank==false then
 						GL_tempDealerShotToPlayer = false
 					else
-						if (GL_LastLiveShell==false) and (GL_LastDealerTurn==true) then
-							GL_tempDealerShotToPlayer = true
-						end
-
 						local LiveShellsInGun = ER_GetAmountLiveRoundsInGUNbank()
 						local RndChoose = math.random(0.0,LiveShellsInGun)
 						if RndChoose==0.0 then
@@ -1840,23 +1853,28 @@
 						end
 
 						local ChanceLiveShell = ER_ChanceLiveShell()
-						if ChanceLiveShell>50 then
+						if ChanceLiveShell>=50 then
 							GL_tempDealerShotToPlayer = true
 						else
 							GL_tempDealerShotToPlayer = false
+						end
+
+						if (GL_LastLiveShell==false) and (GL_LastDealerTurn==true) then
+							GL_tempDealerShotToPlayer = true
 						end
 
 						local futureShell = GL_tempDealerIsKnownFutureShell
 						if futureShell~=nil then
 							if (ER_GUNbank[getn(ER_GUNbank)]==1) and (ER_GUNbank[futureShell]==1) then
 								GL_tempDealerShotToPlayer = true
+								GL_tempDealerIsKnownFutureShell = nil
 							elseif (ER_GUNbank[getn(ER_GUNbank)]==0) and (ER_GUNbank[futureShell]==0) then
 								GL_tempDealerShotToPlayer = false
+								GL_tempDealerIsKnownFutureShell = nil
 							end
-							GL_tempDealerIsKnownFutureShell = nil
 						end
 						
-						if (getn(ER_GUNbank)==1) and (AnyLiveRoundsInGUNbank==true) then
+						if (getn(ER_GUNbank)==1) then
 							GL_tempDealerShotToPlayer = true
 						end
 					end
@@ -2213,8 +2231,11 @@
 				item:Remove()
 			end
 
-			if ER_GENbank[getn(ER_GENbank)]==1 then ER_GENbank[getn(ER_GENbank)] = 0 end
-			if ER_GENbank[getn(ER_GENbank)]==0 then ER_GENbank[getn(ER_GENbank)] = 1 end
+			if (ER_GUNbank[getn(ER_GUNbank)]==1) then 
+				ER_GUNbank[getn(ER_GUNbank)] = 0
+			elseif (ER_GUNbank[getn(ER_GUNbank)]==0) then 
+				ER_GUNbank[getn(ER_GUNbank)] = 1 
+			end
 
 			if getObj("GAME_ANALYZER"):IsActivated()==0 then
 				TActivate("GAME_ANALYZER")

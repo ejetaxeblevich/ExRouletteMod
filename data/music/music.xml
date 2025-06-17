@@ -199,6 +199,9 @@
 		id="70K"
 		file="data\music\roulette_action\Mike Klubnika - 70K.ogg" />
 	<model
+		id="70Klong"
+		file="data\music\roulette_action\Mike Klubnika - 70K (long).ogg" />
+	<model
 		id="Overdose Casino"
 		file="data\music\roulette_action\Mike Klubnika - Overdose Casino.ogg" />
 	<model

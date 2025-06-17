@@ -5,8 +5,8 @@ installment: exmachina
 # required human readable info
 display_name: ExRoulette Mod
 
-version: "1.0"
-build: "250601b"
+version: "1.1"
+build: "250617b"
 
 description: |
   ExRoulette presents you a new gameplay in the game Hard Truck Apocalypse: where there was no place for transport and cities, dialogues and plot. The mod almost completely copies the Buckshot Roulette game by Mike Klubnika.
@@ -31,20 +31,23 @@ tags: [gameplay, audio, ui]
 change_log: assets/exroulettemod_changelog_eng.md
 
 screenshots:
-  - img: assets/screenshot1.jpg
-  - img: assets/screenshot2.jpg
-  - img: assets/screenshot3.jpg
-  - img: assets/screenshot4.jpg
-  - img: assets/screenshot5.jpg
-  - img: assets/screenshot6.jpg
+  - img: assets/roulette_screens1.png
+  - img: assets/roulette_screens2.png
+  - img: assets/roulette_screens3.png
+  - img: assets/roulette_screens4.png
+  - img: assets/roulette_screens5.png
+  - img: assets/roulette_screens6.png
 #   text: |
 #      Sample text
 
 # installation configuration
 no_base_content: false
 strict_requirements: true
-compatible_minor_versions: false
-compatible_patch_versions: false
+compatible_minor_versions: true
+compatible_patch_versions: true
+
+patcher_options:
+  default_difficulty_is_lowest: true
 
 config_options:
   firstLevel: roulettemap

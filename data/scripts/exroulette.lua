@@ -16,7 +16,7 @@
 -- - E Jet
 -- 
 -- ----------------------------------------------------------------------------
---  $Id: exroulette.lua, v1.0 2025/05/30 20:28:00 axeble Exp $
+--  $Id: exroulette.lua, v1.1 2025/05/17 19:14:00 axeble Exp $
 -- ----------------------------------------------------------------------------
 
 
@@ -27,8 +27,8 @@ local function ModFileInit()
 	LOG("[I] ======================================")
 
 	local NAME = "ExRouletteMod"
-	local VERSION = "1.0"
-	local BUILD = "250530b"
+	local VERSION = "1.1"
+	local BUILD = "250617b"
 
 	println("[I] ")
 	println("[I] === "..NAME.." v"..VERSION.." ["..BUILD .."] ===")

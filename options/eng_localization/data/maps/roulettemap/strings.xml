@@ -43,12 +43,26 @@
 		value="|I was trying to win. I used items. All my actions have led me to... success."
 		sound=""
 		time="8" />
+	<string
+		id="10051"
+		modelName=""
+		modelSlot="1"
+		value="|I was able to win even by refusing help in the form of items... It was pure luck."
+		sound=""
+		time="8" />
 
 	<string
 		id="1006"
 		modelName=""
 		modelSlot="1"
 		value="|But I want to... Taste luck!"
+		sound=""
+		time="5" />
+	<string
+		id="10061"
+		modelName=""
+		modelSlot="1"
+		value="|But... What should I do now?"
 		sound=""
 		time="5" />
 	<string

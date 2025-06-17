@@ -1,5 +1,21 @@
 ------------------------------
 
+## Update 1.1
+
+### Gameplay:
+- **An alternative ending has been added**;
+- **Removed the appearance of items in the last round**;
+- **Fixed a script error when using the "Inverter" item**;
+- **Fixed dealer logic. He uses items more effectively now**;
+- **Fixed ***"unknown level: 1"*** in the game settings when creating a new profile**;
+### Images:
+- **Fixed an artifact in the mod's logo between "E" and "T"**;
+- **Fixed the resolution of screenshots, made a folder on github with the original images**;
+### Text:
+- **The wording of the shotgun description has been corrected (only for Russian localization)**.
+
+------------------------------
+
 # Release 1.0
 ***The mod has been adapted for Community Remaster 1.14.1***
 ### 1. New Gameplay:

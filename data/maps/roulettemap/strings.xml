@@ -66,12 +66,26 @@
 		value="|Я пытался выиграть. Я использовал предметы. Все мои действия привели меня к... успеху."
 		sound=""
 		time="8" />
+	<string
+		id="10051"
+		modelName=""
+		modelSlot="1"
+		value="|Я смог выиграть, даже отказавшись от помощи в виде предметов... Это и есть удача."
+		sound=""
+		time="8" />
 
 	<string
 		id="1006"
 		modelName=""
 		modelSlot="1"
 		value="|А я хотел... Испытать удачу!"
+		sound=""
+		time="5" />
+	<string
+		id="10061"
+		modelName=""
+		modelSlot="1"
+		value="|Но... Что мне делать теперь?"
 		sound=""
 		time="5" />
 	<string

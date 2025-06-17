@@ -661,6 +661,7 @@
 <!-- 		cinematics music		 -->
 
 		<Item id="70K" />
+		<Item id="70Klong" />
 		<Item id="Overdose Casino" />
 		<Item id="Surrounded" />
 		<Item id="Load" />

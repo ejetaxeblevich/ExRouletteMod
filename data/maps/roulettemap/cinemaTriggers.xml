@@ -495,11 +495,15 @@
                 j=j+1
             end
 
-            if GameState>=4 then
+            if (GameState>=4) and (3>GameRound) then
                 local rnd = math.random(3)
                 GL_CurItemsCountForSpawn = rnd
                 TActivate("GAME_spawnNewObjects")
+            else
+                GL_CurItemsCountForSpawn = 0
             end
+
+            GL_tempDealerIsKnownFutureShell = nil
 					
 			trigger:Deactivate()
 		</script>
@@ -678,13 +682,19 @@
     <trigger Name="EndGame_cutscene" active="0">
 		<event timeout="4" eventid="GE_TIME_PERIOD" />
 		<script>
+            --GL_PLAYERWASUSEDITEMS = true
+            --GL_PLAYERWASUSEDITEMS = false
             --TActivate("EndGame_cutscene")
 
             TActivate("CreateStaticGUN")
 			TActivate("GAME_keepITEMS_NOTbeUse_byCutscene")
 
 
-            PlayCustomMusic("70K")
+            if GL_PLAYERWASUSEDITEMS==true then
+                PlayCustomMusic("70K")
+            elseif (GL_PLAYERWASUSEDITEMS==nil) or (GL_PLAYERWASUSEDITEMS==false) then
+                PlayCustomMusic("70Klong")
+            end
 
             TActivate("DISKOTEKA_STOP")
 
@@ -762,7 +772,11 @@
                 car:setGodMode(1)
                 car:SetRotation(Quaternion(-0.006, 0.903, 0.012, -0.430) * EulerToQuaternion(0,-90,0))
                 car:SetGamePositionOnGround(CVector(483.050, 257.169, 1305.284))
-                car:SetExternalPathByName("PlayerCar_moveEndGame")
+                if GL_PLAYERWASUSEDITEMS==true then
+                    car:SetExternalPathByName("PlayerCar_moveEndGame")
+                elseif (GL_PLAYERWASUSEDITEMS==nil) or (GL_PLAYERWASUSEDITEMS==false) then
+                    car:SetExternalPathByName("PlayerCar_moveEndGame_1")
+                end
                 car:SetCruisingSpeed(9)
                 car:SetCustomLinearVelocity(5)
                 car:SetThrottle(1)
@@ -780,11 +794,17 @@
             AddCinematicMessage(1002, 2)
             AddCinematicMessage(1003, 3)
             AddCinematicMessage(1004, 2)
-            AddCinematicMessage(1005, 3)
-            AddCinematicMessage(1006, 4)
+            if GL_PLAYERWASUSEDITEMS==true then
+                AddCinematicMessage(1005, 3)
+                AddCinematicMessage(1006, 4)
+                TActivate("EndGame_cutscene_fly_1_music")
+            elseif (GL_PLAYERWASUSEDITEMS==nil) or (GL_PLAYERWASUSEDITEMS==false) then
+                AddCinematicMessage(10051, 3)
+                AddCinematicMessage(10061, 4)
+                TActivate("EndGame_cutscene_fly_1_music_1")
+            end
 
             TActivate("EndGame_cutscene_fly_1End")
-            TActivate("EndGame_cutscene_fly_1_music")
 					
 			trigger:Deactivate()
 		</script>
@@ -797,11 +817,30 @@
             trigger:Deactivate()
         </script>
     </trigger>
+    <trigger Name="EndGame_cutscene_fly_1_music_1" active="0">
+        <event msgid="1004" eventid="GE_START_CINEMATIC_MSG" ObjName="Player1" />
+        <script>
+            --PlayCustomMusic("70K")
+
+            local cinematic = GetCinematic()
+            SetCinematicFadeParams( 0, 1 )
+            RuleConsole("cinematicFadePeriod 3")
+            UpdateCinematic()
+                    
+            trigger:Deactivate()
+        </script>
+    </trigger>
     <trigger Name="EndGame_cutscene_fly_1End" active="0">
 		<event eventid="GE_END_CINEMATIC" ObjName="Player1" />
 		<event eventid="GE_SKIP_CINEMATIC" ObjName="Player1" />
 		<script>
-            TActivate("EndGame_cutscene_fly_2")
+            if GL_PLAYERWASUSEDITEMS==true then
+                TActivate("EndGame_cutscene_fly_2")
+            elseif (GL_PLAYERWASUSEDITEMS==nil) or (GL_PLAYERWASUSEDITEMS==false) then
+                StopPlayingCustomMusic()
+                RuleConsole("mus_Volume 0")
+                ShowDeathMenu()
+            end
 					
 			trigger:Deactivate()
 		</script>

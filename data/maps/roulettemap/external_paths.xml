@@ -44,4 +44,55 @@
 		<Point
 			coord="940.749 1111.698" />
 	</Path>
+
+	<Path
+		Name="PlayerCar_moveEndGame_1">
+		<Point
+			coord="499.426 1292.154" />
+
+		<Point
+			coord="526.171 1272.194" />
+
+		<Point
+			coord="567.624 1245.480" />
+
+		<Point
+			coord="614.369 1220.357" />
+
+		<Point
+			coord="636.723 1207.901" />
+
+		<Point
+			coord="658.897 1207.551" />
+
+		<Point
+			coord="675.728 1199.723" />
+
+		<Point
+			coord="687.472 1181.160" />
+
+		<Point
+			coord="709.980 1171.543" />
+
+		<Point
+			coord="748.922 1155.833" />
+
+		<Point
+			coord="797.810 1141.710" />
+
+		<Point
+			coord="851.901 1127.888" />
+
+		<Point
+			coord="908.959 1114.462" />
+
+		<Point
+			coord="940.749 1111.698" />
+
+		<Point
+			coord="950.749 1111.698" />
+
+		<Point
+			coord="970.749 1114.698" />
+	</Path>
 </Paths>
