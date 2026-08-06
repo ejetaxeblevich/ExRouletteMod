@@ -1,10 +1,11 @@
-# ExRoulette Mod
+<div align="center">
 
 ![release_logo_exroulette_1 1](git_assets/release_logo_exroulette_v1.1.png)
-
-<div align="center">
   
 ![RU Readme](git_assets/exroulette_git_button_en_p.png)   [![EN Readme](git_assets/exroulette_git_button_ru.png)](https://github.com/ejetaxeblevich/ExRouletteMod/blob/main/README_en.md)
+
+
+![ExRouletteModStatus](https://img.shields.io/badge/Status-Released-yellow?style=for-the-badge) ![ExRouletteModVersion](https://img.shields.io/badge/Latest%20version-1.1-blue?style=for-the-badge) ![ExRouletteModDownloads](https://img.shields.io/badge/Total%20downloads-76%2B-purple?style=for-the-badge)
 
 </div>
 
@@ -18,15 +19,7 @@ The action unfolds in an Instant, where rules prevail.
 
 -----------------------------------------------------------------------------------------------
 
-### Installation:
-- The installation is done via [Community Mod Manager](https://github.com/Zvetkov/ComMod) (RU/ENG)
-- Required base: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG) with all optional content.
-
-### [Download ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
-
------------------------------------------------------------------------------------------------
-
-### Screenshots:
+## Screenshots:
 
 > ![screenshot1](git_assets/roulette_screens1.png)
 > ![screenshot2](git_assets/roulette_screens2.png)
@@ -36,7 +29,7 @@ The action unfolds in an Instant, where rules prevail.
 
 -----------------------------------------------------------------------------------------------
 
-### Changelog:
+## Changelog:
 
 - **New gameplay**
 > It almost completely copies the Buckshot Roulette game.
@@ -67,6 +60,14 @@ The action unfolds in an Instant, where rules prevail.
 
 -----------------------------------------------------------------------------------------------
 
+## Installation:
+- The installation is done via [Community Mod Manager](https://github.com/Zvetkov/ComMod) (RU/ENG)
+- Required base: 1.14.1 [Community Remaster](https://github.com/DeusExMachinaTeam/EM-CommunityPatch) (RU/ENG) with all optional content.
+
+## [Download ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
+
+-----------------------------------------------------------------------------------------------
+
 ## Expression of gratitude:
 
 - **[Buckshot Roulette game](https://store.steampowered.com/app/2835570/Buckshot_Roulette/)**
@@ -75,5 +76,5 @@ The action unfolds in an Instant, where rules prevail.
 
 ### Special thanks
 
-- **[stakan](https://github.com/stakanyash)**
+- **[Stakanyash](https://github.com/stakanyash)**
 - **Mr Kirov**
