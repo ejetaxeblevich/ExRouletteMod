@@ -22,10 +22,19 @@ The action unfolds in an Instant, where rules prevail.
 ## Screenshots:
 
 > ![screenshot1](git_assets/roulette_screens1.png)
+> Pick it up and shoot
+
 > ![screenshot2](git_assets/roulette_screens2.png)
+> The main menu of the game
+
 > ![screenshot3](git_assets/roulette_screens3.png)
+> Night souls disco
+
 > ![screenshot4](git_assets/roulette_screens4.png)
+> An empty highway
+
 > ![screenshot5](git_assets/roulette_screens5.png)
+> A fateful room for choose
 
 -----------------------------------------------------------------------------------------------
 
