@@ -22,10 +22,19 @@
 ## Скриншоты:
 
 > ![screenshot1](git_assets/roulette_screens1.png)
+> Возьми его в руки и стреляй
+
 > ![screenshot2](git_assets/roulette_screens2.png)
+> Главное меню игры
+
 > ![screenshot3](git_assets/roulette_screens3.png)
+> Ночная дискотека душ
+
 > ![screenshot4](git_assets/roulette_screens4.png)
+> Пустое шоссе
+
 > ![screenshot5](git_assets/roulette_screens5.png)
+> Комната судьбоносных выборов
 
 -----------------------------------------------------------------------------------------------
 
