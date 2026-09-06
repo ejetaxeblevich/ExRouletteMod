@@ -5,7 +5,7 @@
 ![RU Readme](git_assets/exroulette_git_button_ru_p.png)   [![EN Readme](git_assets/exroulette_git_button_en.png)](https://github.com/ejetaxeblevich/ExRouletteMod/blob/main/README_en.md)
 
 
-![ExRouletteModStatus](https://img.shields.io/badge/Статус-Вышел-yellow?style=for-the-badge) ![ExRouletteModVersion](https://img.shields.io/badge/Последняя%20версия-1.1-blue?style=for-the-badge) ![ExRouletteModDownloads](https://img.shields.io/badge/Всего%20скачиваний-76%2B-purple?style=for-the-badge)
+![ExRouletteModStatus](https://img.shields.io/badge/Статус-Вышел-yellow?style=for-the-badge) ![ExRouletteModVersion](https://img.shields.io/badge/Последняя%20версия-1.1-blue?style=for-the-badge) ![ExRouletteModDownloads](https://img.shields.io/badge/Всего%20скачиваний-79%2B-purple?style=for-the-badge)
 
 </div>
 
