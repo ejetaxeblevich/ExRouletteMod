@@ -50,31 +50,25 @@ The action unfolds in an Instant, where rules prevail.
 ## Changelog
 
 - **New gameplay**
-> It almost completely copies the Buckshot Roulette game.
+  - It almost completely copies the Buckshot Roulette game.
 
 - **New level**
-> "Instant" [*16х16*].
+  - "Instant" [*16х16*].
 
 - **New music and sounds**
-> OST Buckshot Roulette.
+  - OST Buckshot Roulette.
 
 - **3D Models**
-> **New models**: *shotgun, two pixels;*
-
-> **New textures**: *potatoes and shell casings.*
+  - **New models**: *shotgun, two pixels;*
+  - **New textures**: *potatoes and shell casings.*
 
 - **Changed interfaceйс**
-> **The game's logo** - *has been redrawn to match the mod's logo;*
-
-> **Pictures on the loading screen** - *several variations;*
-
-> **Radar** - *deleted;*
-
-> **Speedometer** - *deleted;*
-
-> **Sight** - *simplified mod gameplay;*
-
-> **Health, armor and fuel** - *redesigned for mod gameplay.*
+  - **The game's logo** - *has been redrawn to match the mod's logo;*
+  - **Pictures on the loading screen** - *several variations;*
+  - **Radar** - *deleted;*
+  - **Speedometer** - *deleted;*
+  - **Sight** - *simplified mod gameplay;*
+  - **Health, armor and fuel** - *redesigned for mod gameplay.*
 
 -----------------------------------------------------------------------------------------------
 
