@@ -62,7 +62,7 @@ The action unfolds in an Instant, where rules prevail.
   - **New models**: *shotgun, two pixels;*
   - **New textures**: *potatoes and shell casings.*
 
-- **Changed interfaceйс**
+- **Changed interface**
   - **The game's logo** - *has been redrawn to match the mod's logo;*
   - **Pictures on the loading screen** - *several variations;*
   - **Radar** - *deleted;*
