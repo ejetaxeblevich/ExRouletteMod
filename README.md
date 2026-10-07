@@ -91,3 +91,5 @@
 
 - **[Stakanyash](https://github.com/stakanyash)**
 - **Mr Kirov**
+
+А также всем и каждому, кто поиграл в этот мод!❤️
