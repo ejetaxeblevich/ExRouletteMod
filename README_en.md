@@ -91,3 +91,5 @@ The action unfolds in an Instant, where rules prevail.
 
 - **[Stakanyash](https://github.com/stakanyash)**
 - **Mr Kirov**
+
+And also to everyone who has played this mod!❤️
