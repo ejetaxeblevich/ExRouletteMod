@@ -9,22 +9,22 @@
     <tr>
       <td>2025/06/02</td>
       <td>Stakanyash</td>
-      <td>https://www.youtube.com/watch?v=AInEArijwtY</td>
+      <td>Stream: https://www.youtube.com/watch?v=AInEArijwtY <br>Video: https://www.youtube.com/watch?v=t4M5Jh8Dzgc</td>
     </tr>
     <tr>
       <td>2025/06/03</td>
       <td>EmerEh</td>
-      <td>https://boosty.to/emereh/posts/916ef38c-58ee-43c9-974e-2a21e376bf1f</td>
+      <td>Stream: https://boosty.to/emereh/posts/916ef38c-58ee-43c9-974e-2a21e376bf1f</td>
     </tr>
     <tr>
       <td>2025/07/28</td>
       <td>JoomerVagrant</td>
-      <td>https://www.youtube.com/watch?v=tTVQYnf1p_c</td>
+      <td>Stream: https://www.youtube.com/watch?v=tTVQYnf1p_c</td>
     </tr>
     <tr>
       <td>2026/04/18</td>
       <td>Seel</td>
-      <td>https://www.youtube.com/watch?v=qXnk_p1ZFnY</td>
+      <td>Stream: https://www.youtube.com/watch?v=qXnk_p1ZFnY</td>
     </tr>
   </tbody>
 </table>
