@@ -14,7 +14,7 @@
     <tr>
       <td>2025/06/03</td>
       <td>EmerEh</td>
-      <td>Stream: https://boosty.to/emereh/posts/916ef38c-58ee-43c9-974e-2a21e376bf1f</td>
+      <td>Stream: https://boosty.to/emereh/posts/916ef38c-58ee-43c9-974e-2a21e376bf1f <br>Video: https://www.youtube.com/watch?v=cEkHdb1BL1U</td>
     </tr>
     <tr>
       <td>2025/07/28</td>
