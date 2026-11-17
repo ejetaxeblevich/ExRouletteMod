@@ -79,6 +79,14 @@ The action unfolds in an Instant, where rules prevail.
 
 ## [Download ExRoulette](https://github.com/ejetaxeblevich/ExRouletteMod/releases)
 
+## Licensing
+
+The project is distributed in its entirety only to Github.com. Distribution of files on other sites by unauthorized people is not allowed.
+
+The source code of the project is licensed under an MIT-like license (excluding commercial use) and can be freely used as a basis for creating your own mods. Please do not forget to save the license text and the link to the project if you use parts of it.
+
+For details, please read the full license text in the file `LICENSE`.
+
 -----------------------------------------------------------------------------------------------
 
 ## Expression of gratitude
